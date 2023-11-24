@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="resources/client/css/style.css" rel="stylesheet" />
+<link href="resources/product/css/style.css" rel="stylesheet" />
 <title>product_list.jsp</title>
 <style>
 
