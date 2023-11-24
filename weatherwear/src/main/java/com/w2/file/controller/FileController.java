@@ -32,13 +32,6 @@ public class FileController {
 	@Autowired
 	private Environment env;
 	
-	@RequestMapping("/dodo.do")
-	public void in() {
-		System.out.println(env.getProperty("aws.s3.accessKey"));
-		System.out.println(env.getProperty("aws.s3.secretKey"));
-		System.out.println(env.getProperty("aws.s3.bucket"));
-	}
-	
 	// 이미지 업로드 페이지 요청(테스트)
 	@RequestMapping("/insertImage.do")
 	public String insert() {

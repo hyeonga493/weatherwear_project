@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="ProductDAO">
+
+	<insert id="insertProduct">
+<!-- 		<selectKey keyProperty="proId" resultType="String" order="BEFORE">  -->
+<!-- 			SELECT FLOOR(RAND() * 1000) + 1  -->
+<!-- 		</selectKey> -->
+		INSERT INTO product(proId, proCate, proName, proContent, proSell, opColorList, opSizeList) VALUES(#{proId}, #{proCate}, #{proName}, #{proContent}, #{proSell}, #{opClist}, #{opSlist});
+		
+		INSERT INTO option_info(proId, opId, opColor, opSize) VALUES (#{proId}, #{opId}, #{opColor}, #{opSize});
+	
+		INSERT INTO product_price(proId, proPrimeCost) VALUES(#{proId}, #{proPrimeCost});
+	</insert>
+	
+	<insert id="insertOption">
+		INSERT INTO option_info(proId, opId, opColor, opSize) VALUES (#{proId}, #{opId}, #{opColor}, #{opSize})
+	</insert>
+	
+	<!-- ProductDAO -->
+	<!-- opt.setOpId(opt.getProId() + opt.getOpColor() + opt.getOpSize()); -->
+	
+	<!-- CREATE TABLE ~ GENERATED ALWAYS AS -->
+	<!-- proCost = proPrimeCost * (proMargin + 1) * (proTax + 1) -->
+	<!-- proPrice = proCost -->
+	<!-- proMargin = 1.5 / proTax = 0.1 고정 -->
+	
+<!-- 	<update id="updateProduct"> -->
+<!-- 		UPDATE product  -->
+<!-- 		JOIN option_info ON product.proId = option_info.proId  -->
+<!-- 		JOIN product_price ON product.proId = product_price.proId  -->
+<!-- 		SET product.proSell = #{proSell}, product.proName = #{proName}, product.proContent = #{proContent}, product.proCate = #{proCate},  -->
+<!-- 			option_info.opId = #{opId}, option_info.opColor = #{opColor}, option_info.opSize = #{opSize}, product_price.proPrimeCost = #{proPrimeCost}  -->
+<!-- 		WHERE product.proId = #{proId} -->
+<!-- 	</update> -->
+
+	<update id="updateProduct">
+		UPDATE product
+		JOIN product_price ON product.proId = product_price.proId
+		SET product.proSell = #{proSell}, product.proName = #{proName}, product.proContent = #{proContent}, 
+					product.proCate = #{proCate}, product_price.proPrimeCost = #{proPrimeCost}
+		WHERE product.proId = #{proId}
+	</update>
+	
+	<insert id="updateOption">
+		UPDATE option_info
+		SET opId = #{opId}, opColor = #{opColor}, opSize = #{opSize}
+		WHERE opId = #{opId}
+
+<!-- 		INSERT INTO option_info(proId, opId, opColor, opSize)  -->
+<!-- 		VALUES (#{proId}, #{opId}, #{opColor}, #{opSize}) -->
+<!-- 		ON DUPLICATE KEY  -->
+<!-- 		UPDATE -->
+<!-- 		opId = #{opId}, opColor = #{opColor}, opSize = #{opSize} -->
+	</insert>
+	
+    <!-- ON DELETE CASCADE : FK 포함된 table에서 데이터 모두 삭제 -->
+	<delete id="deleteProduct">
+		DELETE FROM product WHERE proId = #{proId}  
+	</delete>
+	
+	<select id="getProduct" resultType="product">
+		SELECT * FROM product
+		JOIN product_price ON product.proId = product_price.proId
+<!-- 		JOIN option_info ON product.proId = option_info.proId -->
+<!-- 		JOIN product_price ON option_info.proId = product_price.proId -->
+		WHERE product.proId = #{proId}
+	</select>        
+	
+	<select id="getOptionList" resultType="option">
+		SELECT  * FROM option_info
+		WHERE proId = #{proId}
+		GROUP BY proId
+	
+<!-- 		SELECT * FROM option_info -->
+<!-- 		WHERE proId = #{proId} -->
+	</select>
+	
+	<select id="getProductList" resultType="product">
+<!-- 		SELECT * FROM product -->
+<!-- 		JOIN option_info ON product.proId = option_info.proId  -->
+<!-- 		JOIN product_price ON option_info.proId = product_price.proId  -->
+<!-- 		GROUP BY product.proId -->
+<!--        WHERE proName LIKE '%'||#{searchKeyword}||'%' -->
+			<!-- WHERE proCate LIKE '%'||#{searchKeyword}||'%' -->	 
+  			<!--  WHERE proId LIKE '%'||#{searchKeyword}||'%'  -->	 
+<!-- 		ORDER BY product.proRegDate DESC -->
+
+		SELECT * FROM product
+		JOIN product_price ON product.proId = product_price.proId
+		WHERE proName LIKE '%'||#{searchKeyword}||'%' 
+		<!-- WHERE proCate LIKE '%'||#{searchKeyword}||'%' -->	 
+  		<!-- WHERE proId LIKE '%'||#{searchKeyword}||'%'  -->
+		ORDER BY product.proRegDate DESC;
+	</select>
+	
+</mapper>
