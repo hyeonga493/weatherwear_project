@@ -22,6 +22,9 @@
 	<!-- weather -->
 	<context:component-scan	base-package="com.w2.weather"/>
 	
+	<!-- productController -->
+	<context:component-scan base-package="com.w2.product" /> 
+	
 	<!--  <context:component-scan base-package="com.w2.web" /> -->
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />

@@ -72,7 +72,9 @@ $(document).ready(function () {
 		alert(selectedIndexes);
 	}
 </script>
+<style>
 
+</style>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
@@ -87,7 +89,7 @@ $(document).ready(function () {
 	<!-- <ul> -->
 	<ul class="navbar-nav ml-auto ml-md-0">
 		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
-			href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
+			href="#" aria-haspopup="true"
 			aria-expanded="false">
 				</div></li>
 	</ul>
@@ -104,7 +106,6 @@ $(document).ready(function () {
 		<div style="margin-bottom:30px;">
 			<h3>등록 상품 목록</h3>
 		</div>
-		
 		<div style="font-size:15px; padding:10px 0 10px 0">
 			<table style="margin-bottom:10px">
 				<tr>
@@ -125,8 +126,40 @@ $(document).ready(function () {
 				</table>
 				등록 상품 개수
 		</div>
-		<div id="myGrid" style="width:100%; height:300px;"></div>		
-		
+	<table>
+		<tr>
+			<th>판매상태</th>
+			<th>상품번호</th>
+			<th>카테고리</th>
+			<th>상품명</th>
+			<th>상품설명</th>
+			<th>공급가</th>
+			<th>소비자가</th>
+			<th>판매가</th>
+			<th>등록일</th>
+			<th>판매량</th>
+			<th>조회수</th>
+			<th>좋아요수</th>		
+		</tr>
+		<c:forEach var="product" items="${productList}">
+			<tr>
+				<td>${product.proSell}</td>
+				<td>${product.proId}</td>
+				<td>${product.proCate}</td>
+				<td><a href="getProduct.mdo?proId=${product.proId}">${product.proName}</a></td>
+				<td>${product.proContent}</td>
+				<td>${product.proPrimeCost}</td>
+				<td>${product.proCost}</td>
+				<td>${product.proPrice}</td>
+				<td fmt:formatDate pattern="yyyy-MM-dd">${product.proRegDate}</td>
+				<td>${product.proCnt}</td>
+				<td>${product.proView}</td>
+				<td>${product.proLike}</td>
+			</tr>
+		</c:forEach>
+	</table>
+	</form>
+	<br/>
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>
 </body>
 </html>

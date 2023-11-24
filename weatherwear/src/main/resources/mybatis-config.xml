@@ -17,6 +17,8 @@
         <typeAlias type="com.w2.client.notice.NoticeVO" alias="clientNotice" />
         <typeAlias type="com.w2.client.qna.QnaVO" alias="clientQna" />
         <typeAlias type="com.w2.weather.WeatherVO" alias="weather" />
+        <typeAlias type="com.w2.product.ProductVO" alias="product"/>
+        <typeAlias type="com.w2.product.OptionVO" alias="option"/>
     </typeAliases>
 
     <!-- SQL 작성문을 지정하여 mapper 파일 경로 알려주는 역할입니다. -->
@@ -28,5 +30,6 @@
         <mapper resource="mappings/clientNotice-mapping.xml"/>
         <mapper resource="mappings/clientQna-mapping.xml"/>
         <mapper resource="mappings/weather-mapping.xml"/>
+        <mapper resource="mappings/product-mapping.xml"/>
     </mappers>
 </configuration>

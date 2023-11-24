@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@page import="com.w2.product.ProductVO"%>
+<%@page import="com.w2.product.ProductDAO"%>
+<%
+	ProductVO product = (ProductVO)session.getAttribute("product");
+%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,8 +30,16 @@
 		  
 		  resultElement.innerText = number;
 		}
-	</script>
-	<style>
+	
+	function select(e) {
+		const text = e.options[e.selectedIndex].text;
+		
+		console.log(e.options);
+		
+		document.getElementById('selected').innerText = text;
+	}
+</script>
+<style>
 div.clearfixed::after {
 	display: block;
 	content: "";
@@ -125,7 +140,7 @@ input[type=button] {
 	<div id="product_content">
 	
 		<div style="padding: 10px 0 10px 0">
-			<a href="#">HOME</a> > 
+			<a href="/w2">HOME</a> > 
 			<span><a href="#">카테고리1</a></span> > 
 			<span><a href="productList.do">카테고리2</a></span>
 		</div>
@@ -140,26 +155,40 @@ input[type=button] {
 				<div class="clearfixed"></div>
 			</div>
 			<div class="info" style="width:350px">
-				<div style="height:50px; font-size:20px;">${ param.proId } : product_list에서 넘어온 값</div>
-				<div style="font-size:30px; text-align:right; border-bottom:solid 1px">00,000원</div>
-				<div style="margin-top:10px">
-					<label>색상</label> <select name="color">
+				<div style="height:50px; font-size:20px;">${product.proName}</div>
+				<div style="font-size:30px; text-align:right; border-bottom:solid 1px">${product.proPrice}원</div>
+				<div style="margin-top: 10px">
+					<label>색상</label><select name="opColor">
 						<option value="SELECT">선택</option>
-						<option value="WHITE">WHITE</option>
-						<option value="BLACK">BLACK</option>
-						<option value="GRAY">GRAY</option>
+						<c:forEach var="option" items="${optionList}">
+						<option value="${option.opColor}">${option.opColor}</option>
+						</c:forEach>
 					</select>
 				</div>
 				<div>
-					<label>사이즈</label> <select name="size">
+					<label>사이즈</label><select name="opSize" onchange="select(this)">
 						<option value="SELECT">선택</option>
-						<option value="XS">XS</option>
-						<option value="S">S</option>
-						<option value="M">M</option>
-						<option value="L">L</option>
-						<option value="XL">XL</option>
+						<c:forEach var="option" items="${optionList}">
+						<option value="${option.opSize}">${option.opSize}</option>
+						</c:forEach>
 					</select>
-				</div>
+					</div>
+<!-- 					<label>색상</label> <select name="opColor"> -->
+<!-- 						<option value="SELECT">선택</option> -->
+<!-- 						<option value="WHITE">WHITE</option> -->
+<!-- 						<option value="BLACK">BLACK</option> -->
+<!-- 						<option value="GRAY">GRAY</option> -->
+<!-- 					</select> -->
+<!-- 				</div> -->
+<!-- 				<div> -->
+<!-- 					<label>사이즈</label> <select name="opSize"> -->
+<!-- 						<option value="SELECT">선택</option> -->
+<!-- 						<option value="XS">XS</option> -->
+<!-- 						<option value="S">S</option> -->
+<!-- 						<option value="M">M</option> -->
+<!-- 						<option value="L">L</option> -->
+<!-- 						<option value="XL">XL</option> -->
+<!-- 					</select> -->		
 				<div>
 					<button onclick="count('minus')">-</button>
 					<span id="cnt" style="padding:0 20px 0 20px">1</span>
@@ -167,10 +196,8 @@ input[type=button] {
 					<input type="button" class="select" value="선택"><br>
 					<br>
 				</div>
-				<div style="overflow: auto; width: 300px; height: 50px;">
-					상품명&nbsp;<span> - 색 / 사이즈</span>&nbsp;<span>(0개)</span><button class="delete">x</button>
-					<br> 상품명&nbsp;<span> - 색 / 사이즈</span>&nbsp;<span>(0개)</span><button class="delete">x</button>
-					<br> 상품명&nbsp;<span> - 색 / 사이즈</span>&nbsp;<span>(0개)</span><button class="delete">x</button>
+				<div id="selected" style="overflow: auto; width: 300px; height: 50px;">
+					
 				</div>
 				<div style="padding:10px 0 10px 0">
 					배송비 0,000원<br> 00,000원 이상 무료배송
