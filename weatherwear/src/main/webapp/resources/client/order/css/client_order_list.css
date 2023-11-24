@@ -1,0 +1,24 @@
+@charset "UTF-8";
+
+table{
+	height : 8vh;
+	width : 90vw;
+	background-color: white;
+	align : center;
+	text-align: center;
+	margin-top:10%;
+	margin-left: 4%;
+	margin-right:5%;
+	font-size: 1em;
+}
+table.category{
+	height : 4vh;
+}
+.image{
+	width: 100px;
+	height: 100px;
+	background-color: rgb(222, 218, 218);
+}
+table td{
+	height: 50px;
+}

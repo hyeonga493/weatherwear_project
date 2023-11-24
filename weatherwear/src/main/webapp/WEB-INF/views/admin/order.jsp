@@ -7,53 +7,58 @@
 <head>
 <meta charset="utf-8" />
 <title>주문관리 페이지</title>
-<!-- <link rel="stylesheet" type="text/css" href="resources/admin/css/managerOrder.css"> -->
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
-<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
-
+<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css"/>
 </head>
 <body class="sb-nav-fixed">
-	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
+	<%@ include file="./base/header.jsp"%>
+	<div>
 	<!-- 전체화면 버튼 -->
 	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
 		<i class="fas fa-bars"></i>
 	</button>
-
-	<!-- Navbar-->
-	<div class="container-fluid">
-		<h1 class="mt-4"></h1>
-	</div>
-	</main>
-	<script src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>" crossorigin="anonymous"></script>
-		<hr><hr><hr><br>
-		<div class="select" style="margin-top:50px;">
-		<hr>
-		<label>조회기간</label> 
-		<input type="datetime-local" name="startDate"> ~ 
-		<input type="datetime-local" name="endDate"> 
-		<input type="submit">
-			<form method="get" action="SelectOrderStatusServlet">
-				<label for="orderStatusAll"></label> 
-				<select id="orderStatusAll" name="orderStatusAll" size="1">
-					<option value="선택하세요" selected>선택하세요.</option>
-					<option value="주문완료">주문완료</option>
-					<option value="상품준비중">상품준비중</option>
-					<option value="배송준비중">배송준비중</option>
-					<option value="배송보류">배송보류</option>
-					<option value="배송대기">배송대기</option>
-					<option value="배송중">배송중</option>
-					<option value="배송완료">배송완료</option>
-					<option value="교환중">교환중</option>
-					<option value="환불중">환불중</option>
-					<option value="교환완료">교환완료</option>
-					<option value="환불완료">환불완료</option>
-				</select>
-				<input class="btn1" type="button" value="변경사항 저장">
-			</form>
+	
+		<!-- Navbar-->
+		<div class="container-fluid">
+			<h1 class="mt-4"></h1>
 		</div>
+		<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+		<hr>
+		<hr>
+		<hr>
+		<br>
+	<div class="select" style="margin-top: 50px;">
+		<hr>
+		<label>조회기간</label>
+		<form action="/w2/adminOrder.mdo" method="post">
+			<input type="datetime-local" name="beginDate">
+			 ~ <input type="datetime-local" name="endDate"> 
+			<input type="submit">
+		</form>
 		
-		<div id="table-scroll" class="table-scroll">
+		
+		<form name="form_orderStatus_all" method="get">
+			<label for="orderStatusAll"></label> <select id="orderStatusAll"
+				name="orderStatusAll" size="1">
+				<option selected>선택하세요.</option>
+				<option value="주문완료">주문완료</option>
+				<option value="상품준비중">상품준비중</option>
+				<option value="배송준비중">배송준비중</option>
+				<option value="배송보류">배송보류</option>
+				<option value="배송대기">배송대기</option>
+				<option value="배송중">배송중</option>
+				<option value="배송완료">배송완료</option>
+				<option value="교환중">교환중</option>
+				<option value="환불중">환불중</option>
+				<option value="교환완료">교환완료</option>
+				<option value="환불완료">환불완료</option>
+			</select> <input class="btn1" type="button" value="변경사항 저장"
+				onClick="updateOrderStatus('${AdminOrderDAO.odid}','s_orderStatus${i.index }')">
+		</form>
+	</div>
+
+	<div id="table-scroll" class="table-scroll">
 		<div class="table-wrap">
 			<table class="table">
 				<thead>
@@ -70,241 +75,192 @@
 						<th>결제 수단</th>
 						<th>실 결제 금액</th>
 						<th>연락처</th>
-						
-						<!-- <th class="fixed-side">번호</th>
-						<th class="fixed-top">주문 번호</th>
-						<th class="fixed-top">회원 번호</th>
-						<th class="fixed-top">주문 날짜</th>
-						<th class="fixed-top">주문 상태</th>
-						<th class="fixed-top">주문 상품 및 수량</th>
-						<th class="fixed-top">총 금액</th>
-						<th class="fixed-top">적용된 쿠폰</th>
-						<th class="fixed-top">할인 금액</th>
-						<th class="fixed-top">결제 수단</th>
-						<th class="fixed-top">실 결제 금액</th>
-						<th class="fixed-top">연락처</th> -->
+
 					</tr>
 				</thead>
 
 				<tbody>
-					<tr>
-						<td class="fixed-side">
-							<form method="POST">
-		      					<label><input type="checkbox" name="checkProduct" value="check">1</label>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>
-							<form method="get" action="SelectOrderStatusServlet">
-								<label for="orderStatus"></label> <select id="orderStatus"
-									name="orderStatus" size="1">
-									<option value="">선택하세요.</option>
-									<option value="주문완료" selected>주문완료</option>
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송준비중">배송준비중</option>
-									<option value="배송보류">배송보류</option>
-									<option value="배송대기">배송대기</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-									<option value="교환중">교환중</option>
-									<option value="환불중">환불중</option>
-									<option value="교환완료">교환완료</option>
-									<option value="환불완료">환불완료</option>
-								</select> <br> <br>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>010-0000-0000</td>
-					<tr>
-						<td class="fixed-side">
-							<form method="POST">
-		      					<label><input type="checkbox" name="checkProduct" value="check">2</label>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>
-							<form method="get" action="SelectOrderStatusServlet">
-								<label for="orderStatus"></label> <select id="orderStatus"
-									name="orderStatus" size="1">
-									<option value="">선택하세요.</option>
-									<option value="주문완료" selected>주문완료</option>
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송준비중">배송준비중</option>
-									<option value="배송보류">배송보류</option>
-									<option value="배송대기">배송대기</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-									<option value="교환중">교환중</option>
-									<option value="환불중">환불중</option>
-									<option value="교환완료">교환완료</option>
-									<option value="환불완료">환불완료</option>
-								</select> <br> <br>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>010-0000-0000</td>
-					<tr>
-						<td class="fixed-side">
-							<form method="POST">
-		      					<label><input type="checkbox" name="checkProduct" value="check">3</label>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>
-							<form method="get" action="SelectOrderStatusServlet">
-								<label for="orderStatus"></label> <select id="orderStatus"
-									name="orderStatus" size="1">
-									<option value="">선택하세요.</option>
-									<option value="주문완료" selected>주문완료</option>
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송준비중">배송준비중</option>
-									<option value="배송보류">배송보류</option>
-									<option value="배송대기">배송대기</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-									<option value="교환중">교환중</option>
-									<option value="환불중">환불중</option>
-									<option value="교환완료">교환완료</option>
-									<option value="환불완료">환불완료</option>
-								</select> <br> <br>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>010-0000-0000</td>
-					</tr>
-					<tr>
-						<td class="fixed-side">
-							<form method="POST">
-		      					<label><input type="checkbox" name="checkProduct" value="check">4</label>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>
-							<form method="get" action="SelectOrderStatusServlet">
-								<label for="orderStatus"></label> 
-								<select id="orderStatus" name="orderStatus" size="1">
-									<option value="">선택하세요.</option>
-									<option value="주문완료" selected>주문완료</option>
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송준비중">배송준비중</option>
-									<option value="배송보류">배송보류</option>
-									<option value="배송대기">배송대기</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-									<option value="교환중">교환중</option>
-									<option value="환불중">환불중</option>
-									<option value="교환완료">교환완료</option>
-									<option value="환불완료">환불완료</option>
-								</select> <br> <br>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>010-0000-0000</td>
-					</tr>
-					<tr>
-						<td class="fixed-side">
-							<form method="POST">
-		      					<label><input type="checkbox" name="checkProduct" value="check">5</label>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>
-							<form method="get" action="SelectOrderStatusServlet">
-								<label for="orderStatus"></label> 
-								<select id="orderStatus" name="orderStatus" size="1">
-									<option value="">선택하세요.</option>
-									<option value="주문완료" selected>주문완료</option>
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송준비중">배송준비중</option>
-									<option value="배송보류">배송보류</option>
-									<option value="배송대기">배송대기</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-									<option value="교환중">교환중</option>
-									<option value="환불중">환불중</option>
-									<option value="교환완료">교환완료</option>
-									<option value="환불완료">환불완료</option>
-								</select> <br> <br>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>010-0000-0000</td>
-					</tr>
-					<tr>
-						<td class="fixed-side">
-							<form method="POST">
-		      					<label><input type="checkbox" name="checkProduct" value="check">6</label>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>
-							<form method="get" action="SelectOrderStatusServlet">
-								<label for="orderStatus"></label> 
-								<select id="orderStatus" name="orderStatus" size="1">
-									<option value="">선택하세요.</option>
-									<option value="주문완료" selected>주문완료</option>
-									<option value="상품준비중">상품준비중</option>
-									<option value="배송준비중">배송준비중</option>
-									<option value="배송보류">배송보류</option>
-									<option value="배송대기">배송대기</option>
-									<option value="배송중">배송중</option>
-									<option value="배송완료">배송완료</option>
-									<option value="교환중">교환중</option>
-									<option value="환불중">환불중</option>
-									<option value="교환완료">교환완료</option>
-									<option value="환불완료">환불완료</option>
-								</select> <br> <br>
-							</form>
-						</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>Text</td>
-						<td>010-0000-0000</td>
-					</tr>
+					<c:forEach var="AdminOrderDAO" items="${getAdminOrderList}"
+						varStatus="i">
+						<tr>
+							<td class="fixed-side">
+								<form method="POST">
+									<label><input type="checkbox" name="checkProduct"
+										value="check">${i.count}</label>
+								</form>
+							</td>
+							<td>${AdminOrderDAO.odid}</td>
+							<td>${AdminOrderDAO.clientId}</td>
+							<td>${AdminOrderDAO.odDate}</td>
+							<td>
+								<form method="get">
+									<label for="orderStatus"></label> <select
+										id="s_orderStatus${i.index }" name="s_orderStatus${i.index }"
+										size="1">
+										<c:choose>
+											<c:when test="${AdminOrderDAO.odStatus=='주문완료'}">
+												<option value="주문완료" selected>주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중'">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='상품준비중'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중" selected>상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='배송준비중'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중" selected>배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='배송보류'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류" selected>배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='배송대기'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기" selected>배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='배송중'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중" selected>배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='배송완료'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료" selected>배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='교환중'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중" selected>교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='환불중'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중" selected>환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='교환완료'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료" selected>교환완료</option>
+												<option value="환불완료">환불완료</option>
+											</c:when>
+											<c:when test="${AdminOrderDAO.odStatus=='환불완료'}">
+												<option value="주문완료">주문완료</option>
+												<option value="상품준비중">상품준비중</option>
+												<option value="배송준비중">배송준비중</option>
+												<option value="배송보류">배송보류</option>
+												<option value="배송대기">배송대기</option>
+												<option value="배송중">배송중</option>
+												<option value="배송완료">배송완료</option>
+												<option value="교환중">교환중</option>
+												<option value="환불중">환불중</option>
+												<option value="교환완료">교환완료</option>
+												<option value="환불완료" selected>환불완료</option>
+											</c:when>
+										</c:choose>
+
+
+									</select> <br> <br>
+								</form>
+							</td>
+							<td>${AdminOrderDAO.opIdList}</td>
+							<td>${AdminOrderDAO.odPrice}</td>
+							<td>적용된 쿠폰</td>
+							<td>할인금액</td>
+							<td>결제수단</td>
+							<td>실결제금액</td>
+							<td>${AdminOrderDAO.clientNum}</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 		</div>
 	</div>
-	<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>
+	<%@ include file="./base/footer.jsp"%>
+	</div>
 </body>
 </html>

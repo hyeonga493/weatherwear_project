@@ -22,7 +22,13 @@ public class AdminController {
 	public String index(Locale locale, Model model) {
 		return "/admin/main";
 	}
-	
+
+	@RequestMapping("/adminOrder.mdo")
+	public String getAdminOrderList(Locale locale, Model model) {
+		System.err.println("시작>>>>>>>>>>>>>>>>>>>>>>>>>");
+		return "/admin/order";
+	}
+
 	@RequestMapping(value = "/coupon.mdo")
 	@Description("쿠폰 등록페이지(관리자)")
 	public String coupon(Locale locale, Model model) {
@@ -33,12 +39,6 @@ public class AdminController {
 	@Description("물류 관리 페이지")
 	public String distribution(Locale locale, Model model) {
 		return "/admin/stoke";
-	}
-	
-	@RequestMapping(value = "/order.mdo")
-	@Description("주문 관리 페이지")
-	public String order(Locale locale, Model model) {
-		return "/admin/order";
 	}
 	
 	@RequestMapping(value = "/deliverInfo.mdo")
