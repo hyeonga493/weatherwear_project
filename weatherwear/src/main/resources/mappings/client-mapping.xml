@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- MyBatis 다운 파일 PDF 에서 붙여넣은 내용입니다. -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<mapper namespace="ClientDAO">
+	<!-- -->
+	<resultMap type="com.w2.client.ClientVO" id="client">
+		<id property="clientId" column="cId" />
+		<result property="clientPwd" column="cPwd" />
+		<result property="clientName" column="cName" />
+		<result property="clientNum" column="cNum" />
+		<result property="clientEmail" column="cEmail" />
+		<result property="clientEmailCheck" column="cEmailCheck" />
+		<result property="clientRecId" column="cRecId" />
+		<result property="clientBirth" column="cBirth" />
+		<result property="clientNickName" column="cNickName" />
+		<result property="gradeId" column="grId" />
+		<result property="clientPoint" column="cPoint" />
+	</resultMap>
+	 
+	<!-- 아이디 존재 여부 확인 (탈퇴한 회원 정보는 제외합니다.) -->
+	<select id="idCheck" resultType="int">
+		SELECT count(*) FROM client WHERE cId=#{ clientId } AND cId NOT IN (SELECT wcId FROM withdraw_info)
+	</select>
+	
+	<!-- 회원 확인 요청 (탈퇴한 회원 정보는 제외합니다.)  -->
+	<select id="getClient" resultMap="client" parameterType="client">
+		SELECT * FROM client
+		<where> 
+			<if test="clientId != null">
+				cId=#{ clientId } 
+			</if>
+			<if test="clientName != null">
+				AND cName=#{ clientName }
+			</if>
+			<if test="clientEmail != null">
+				AND cEmail=#{ clientEmail }
+			</if>
+		</where>
+		<if test="clientId != null">
+			AND cId NOT IN (SELECT wcId FROM withdraw_info)
+		</if>
+	</select>
+	
+	<!-- 회원 정보 수정 -->
+	<update id="updateClient" parameterType="client">
+		UPDATE client SET cNum=#{ clientNum }, cEmail=#{ clientEmail }, cEmailCheck=#{ clientEmailCheck } 
+		WHERE cId=#{ clientId }
+	</update>
+	
+	<!-- 회원 탈퇴 요청  -->
+	<insert id="withdrawClient">
+		INSERT INTO withdraw_info(wcId) VALUES(#{ clientId })
+	</insert>
+	
+	<!-- 비밀번호 변경 요청 -->
+	<update id="updatePassword">
+		UPDATE client SET cPwd=#{ clientPwd } WHERE cId=#{ clientId }
+	</update>
+	
+	<!-- 회원 가입 -->
+	<insert id="insertClient">
+		INSERT INTO client(cId, cPwd, cName, cNum, cEmail, cEmailCheck, cRecId, cBirth, cNickName, grId, cPoint)
+		VALUES(#{ clientId }, #{ clientPwd }, #{ clientName }, #{ clientNum }, #{ clientEmail }, #{ clientEmailCheck }, #{ clientRecId }, #{ clientBirth }, #{ clientNickName }, #{ gradeId }, #{ clientPoint })
+	</insert>
+</mapper>

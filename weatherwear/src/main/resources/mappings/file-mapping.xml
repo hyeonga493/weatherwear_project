@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<mapper namespace="ImageVO">
+	<resultMap id="imvo" type="imvo">
+		<id property="imageId" column="imageId" />
+		<result property="imageName" column="imageName" />
+		<result property="imageDir" column="imageDir" />
+		<result property="imageStatus" column="imageStatus" />		
+		<result property="imageBy" column="imageBy" />		
+	</resultMap>
+	
+	 
+	<select id="getImage" parameterType="imvo" resultType="imvo">
+		SELECT * FROM client_image WHERE cmId=#{ cmId }
+	</select>
+	
+	<insert id="insertImage" parameterType="imvo">
+		INSERT INTO 
+		<if test="who == 'client'">
+			client_image
+		</if> 
+		<if test="who == 'admin'">
+			admin_image
+		</if> 
+		<if test="who == 'product'">
+			product_image
+		</if> 
+		VALUES( #{ imageId }, #{ imageName }, #{ imageDir }, #{ imageStatus }, #{ imageBy })
+	</insert>
+</mapper>
