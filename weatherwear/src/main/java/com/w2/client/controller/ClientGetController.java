@@ -17,7 +17,7 @@ public class ClientGetController {
 	@RequestMapping("/clientMain.do")
 	public String clientMain() {
 		System.out.println("[ ClientGetController ] : clientMain");
-		log.debug(null);
+		//log.debug(null);
 		
 		return "client/client_main";
 	}

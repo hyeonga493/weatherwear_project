@@ -11,14 +11,19 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
-<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css"> 
+<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
+
+<script>
+
+</script>
+
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
 	<!-- 전체화면 버튼 -->
-	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
+	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle">
 		<i class="fas fa-bars"></i>
 	</button>
 
@@ -45,34 +50,33 @@
 										<ul>
 											<c:choose>
 												<c:when test="${param.gubun == 'notice' }">
-													<li class="active"><a href="notice.mdo?gubun=notice">공지사항</a></li>
-													<li><a href="notice.mdo?gubun=news">문의사항</a></li>
+													<li class="active"><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
+													<li><a href="noticeList.mdo?gubun=news">문의사항</a></li>
 												</c:when>
 												<c:when test="${param.gubun == 'news' }">
-													<li><a href="notice.mdo?gubun=notice">공지사항</a></li>
-													<li class="active"><a href="notice.mdo?gubun=news">문의사항</a></li>
+													<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
+													<li class="active"><a href="noticeList.mdo?gubun=news">문의사항</a></li>
 												</c:when>
 												<c:otherwise>
-													<li><a href="notice.mdo?gubun=notice">공지사항</a></li>
-													<li><a href="notice.mdo?gubun=news">문의사항</a></li>
+													<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
+													<li><a href="noticeList.mdo?gubun=news">문의사항</a></li>
 												</c:otherwise>
-											</c:choose>
-										</ul>
+												</c:choose>
+											</ul>
+										</div>
 									</div>
-								</div>
+									
 								<div class="notice-wrap">
-									<form id="searchForm" name="searchForm"
-										action="#" method="post">
+									<form id="searchForm" name="searchForm" action="qnaList.mdo" method="post">
 										<input type="hidden" id="type" name="type" value="N" /> 
 										<input type="hidden" id="pageNo" name="pageNo" value="1" />
 										<div class="select-type2" style="margin-top:20px; margin-left:250px;">
-											<select id="search" name="search" style="width:130px;">
+											<select id="search_noticeSelect" name="qnaSelectType" style="width:130px;">
 												<option value="subject">제목</option>
 												<option value="content">내용</option>
-												<option value="all">제목+내용</option>
 											</select>
-											<input type="text" id="conditionTemp" name="conditionTemp" style="width:400px;">
-											<button type="button" class="btn-search" style="border-radius: 8px; padding: 10px 24px;" onclick="gg();">검색</button>
+											<input type="text" id="search_noticeText" name="qnaKeyword" style="width:400px;"> 
+											<button type="submit" class="btn-search" style="border-radius: 8px; padding: 10px 24px;">검색</button>
 										</div>
 										<div class="table-type3" style = "position: relative; margin-top: 28px; padding-bottom: 15px; border-bottom: 2px solid #111;">
 											<p class="side">총 ${countNoticeBoard }건</p>
@@ -80,47 +84,35 @@
 											<table>
 												<caption>news</caption>
 												<colgroup>
-													<col style="width: 106px">
+													<col style="width: 220px">
 													<col>
-													<col style="width: 333px">
+													<col style="width: 130px">
+													<col style="width: 110px">
 													<col style="width: 110px">
 												</colgroup>
 												<thead>
 													<tr>
 														<th>번호</th>
 														<th>제목</th>
+														<th>작성자</th>
 														<th>등록일</th>
-														<th>조회</th>
+														<th>답변상태</th>
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach var="board" items="${noticeBoardList }">
+													<c:forEach var="qna" items="${qnaBoardList }">
 														<tr>
-															<td>${board.seq }</td>
-															<td><strong><a href="noticeDetail.do?seq=${board.seq}">[${board.flag }] ${board.title}</a></strong></td>
-															<td><fmt:formatDate value="${board.regDate }" pattern="yyyy-MM-dd" /></td>
-															<td>${board.cnt }</td>
+															<td>${qna.qnaId }</td>
+															<th><strong><a href="qnaDetail.mdo?qnaId=${ qna.qnaId }">${qna.qnaTitle}</a></strong></th>
+	 														<td>${qna.clientId}</td>
+	 														<td><fmt:formatDate value="${qna.qnaDate }" pattern="yyyy-MM-dd" /></td>
+	 														<td>${qna.qnaStatus}</td>
 														</tr>
 													</c:forEach>
 												</tbody>
 											</table>
 											
-												<c:choose>
-													<c:when test="${param.gubun == 'notice' }">
-														<a href="/w2/writeNotice.mdo">
-															<button type="button" id="noticeBtn" class="btn-write" style="margin-left:1000px; " onclick="">공지 글쓰기</button>
-															<button type="button" id="faqBtn" class="btn-write" style="margin-left:1000px; display : none;" onclick="">문의사항 글쓰기</button>
-														</a>	
-													</c:when>
-												
-													<c:when test="${param.gubun == 'news' }">
-														<a href="/w2/writeFaq.mdo"> 
-															<button type="button" id="noticeBtn" class="btn-write" style="margin-left:1000px; display : none;">공지 글쓰기</button>
-															<button type="button" id="faqBtn" class="btn-write" style="margin-left:1000px;" onclick="">문의사항 글쓰기</button>
-														</a>
-													</c:when>
-												</c:choose>
-											
+											<button type="button" id="qnaBtn" class="btn-write" style="margin-left:1000px;" onclick="location.href='writeQna.mdo'">문의사항 글쓰기</button>
 										</div>
 										<div class="pagination">
 											<ol>
@@ -138,11 +130,11 @@
 											</ol>
 										</div>
 									</form>
-								 </div> 
+								</div> 
 							</article> 
 						</div>
 					 </div> 
-				 </section> 
+				 </section>
 			 </div> 
 			<!-- //container -->
 		</div> 

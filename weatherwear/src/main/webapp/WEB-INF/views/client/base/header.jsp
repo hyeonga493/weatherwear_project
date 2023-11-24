@@ -38,6 +38,10 @@
 			<!-- product_pants -->
 			<li><a href="productList.do?page=skirts">Skirts</a></li>
 			<!-- product_skirts -->
+			<li><a href="clientNotice.do">Notice</a></li>
+			<!-- 공지사항 -->
+			<li><a href="clientQnaList.do">Qna</a></li>
+			<!-- 문의사항 -->
 		</ul>
 	</nav>
 </header>

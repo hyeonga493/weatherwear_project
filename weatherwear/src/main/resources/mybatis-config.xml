@@ -12,11 +12,19 @@
                 - SQL 문 실행 시 반환되는 레코드를 저장하는 용도로 사용하기 위한 빈을 생성합니다.-->
         <typeAlias type="com.w2.client.ClientVO" alias="client" />
         <typeAlias type="com.w2.file.ImageVO" alias="imvo" />
+        <typeAlias type="com.w2.admin.qna.QnaBoardVO" alias="qna" />
+        <typeAlias type="com.w2.admin.notice.NoticeBoardVO" alias="notice" />
+        <typeAlias type="com.w2.client.notice.NoticeVO" alias="clientNotice" />
+        <typeAlias type="com.w2.client.qna.QnaVO" alias="clientQna" />
     </typeAliases>
 
     <!-- SQL 작성문을 지정하여 mapper 파일 경로 알려주는 역할입니다. -->
     <mappers>
         <mapper resource="mappings/client-mapping.xml"/>
         <mapper resource="mappings/file-mapping.xml"/>
+        <mapper resource="mappings/qna-mapping.xml"/>
+        <mapper resource="mappings/notice-mapping.xml"/>
+        <mapper resource="mappings/clientNotice-mapping.xml"/>
+        <mapper resource="mappings/clientQna-mapping.xml"/>
     </mappers>
 </configuration>

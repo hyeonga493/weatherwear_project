@@ -10,7 +10,7 @@ import jdk.jfr.Description;
 
 @Controller
 public class AdminController {
-
+	
 	@RequestMapping(value = "/login.mdo")
 	@Description("DashBoard 페이지")
 	public String login(Locale locale, Model model) {
@@ -23,22 +23,8 @@ public class AdminController {
 		return "/admin/main";
 	}
 	
-	@RequestMapping(value = "/couponUser.mdo")
-	@Description("쿠폰 관리페이지(사용자)")
-	public String couponUser(Locale locale, Model model) {
-		/* return "/w2/coupon/coupon"; */
-		return "/admin/coupon/user/couponUser";
-	}
-	
-	@RequestMapping(value = "/newCouponDetail.mdo")
-	@Description("새 쿠폰 받기 페이지(사용자)")
-	public String newCouponDetail(Locale locale, Model model) {
-		/* return "/w2/coupon/coupon"; */
-		return "/admin/coupon/user/newCouponDetail";
-	}
-	
 	@RequestMapping(value = "/coupon.mdo")
-	@Description("쿠폰 관리페이지(관리자)")
+	@Description("쿠폰 등록페이지(관리자)")
 	public String coupon(Locale locale, Model model) {
 		 return "/admin/coupon/coupon"; 
 	}
@@ -79,40 +65,22 @@ public class AdminController {
 		return "/admin/client";
 	}
 	
-//	@RequestMapping(value = "/notice.mdo")
-//	@Description("공지사항 페이지")
-//	public String notice(Locale locale, Model model) {
-//		 return "/admin/board/notice"; 
-//	}
-	
-//	@RequestMapping(value = "/writeNotice.mdo")
-//	@Description("공지사항 글쓰기 페이지")
-//	public String writeNotice(Locale locale, Model model) {
-//		 return "/admin/board/writeNotice"; 
-//	}
-	
-	@RequestMapping(value = "/writeFaq.mdo")
+	@RequestMapping(value = "/writeQna.mdo")
 	@Description("문의사항 글쓰기 페이지")
 	public String writeFaq(Locale locale, Model model) {
-		 return "/admin/board/writeFaq"; 
-	}
-	
-	@RequestMapping(value = "/faq.mdo")
-	@Description("문의 페이지")
-	public String faq(Locale locale, Model model) {
-		return "/admin/board/faq";
+		 return "/admin/qna/qna_write"; 
 	}
 	
 	@RequestMapping(value = "/product.mdo")
 	@Description("상품 관리(상품 목록) 페이지")
 	public String product(Locale locale, Model model) {
-		return "/admin/product/product";
+		return "/admin/product/product_list";
 	}
 	
 	@RequestMapping(value = "/insertProduct.mdo")
 	@Description("상품 등록 페이지")
 	public String insertProduct(Locale locale, Model model) {
-		return "/admin/product/insertProduct";
+		return "/admin/product/product_regist";
 	}
 	
 	@RequestMapping(value = "/total.mdo")
@@ -120,4 +88,5 @@ public class AdminController {
 	public String stats(Locale locale, Model model) {
 		return "/admin/total";
 	}
+	
 }

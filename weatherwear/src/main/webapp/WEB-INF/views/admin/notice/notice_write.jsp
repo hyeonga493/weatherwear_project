@@ -25,7 +25,7 @@
 	<ul class="navbar-nav ml-auto ml-md-0">
 		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
 			href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false">
+			aria-expanded="false"></a>
 				</div></li>
 	</ul>
 		<main>
@@ -37,34 +37,34 @@
 		<hr><hr><hr><br>
 		
 		<!-- 메뉴관리 -> 메뉴 등록 페이지 -->
-				<div class="card mb-4">
-					<div class="card-header">
-						<i class="fas fa-table mr-1"></i> <strong>공지글 등록</strong>
-						<!--새로고침 버튼-->
+		<div class="card mb-4">
+			<div class="card-header">
+				<i class="fas fa-table mr-1"></i> <strong>공지글 등록</strong>
+				<!--새로고침 버튼-->
+			</div>
+			<div class="card-body">
+				<form action="writeNotice.mdo" method="post">
+					<div id="table-reponsive">
+						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+							<tr>
+								<th>제목</th>
+								<td><input type="text" name="noTitle" size="40" /></td>
+							</tr>
+							<tr>
+								<th>내용</th>
+								<td><textarea name="noContent" cols="80" rows="10"></textarea></td>
+							</tr>
+							<tr>
+								<td colspan="2" class="center-group">
+									<input type="submit" class="btn-write" value="공지글 등록">
+									<input type="button" class="btn btn-delete" value="취소" onclick="location.href='noticeList.mdo?gubun=notice'"/>
+								</td>
+							</tr>
+						</table>
 					</div>
-					<div class="card-body">
-						<form action="insertFaq.mdo" method="post">
-							<div id="table-reponsive">
-								<table class="table table-bordered" id="dataTable" width="100%"
-									cellspacing="0">
-									<tr>
-										<th>제목</th>
-										<td><input type="text" name="title" size="40" /></td>
-									</tr>
-									<tr>
-										<th>내용</th>
-										<td><textarea name="content" cols="80" rows="10"></textarea></td>
-									</tr>
-									<tr>
-										<td colspan="2" class="center-group"><input type="submit"
-											class="btn-write" value="공지글 등록" /> <input
-											type="button" class="btn btn-delete" value="취소" /></td>
-									</tr>
-								</table>
-							</div>
-						</form>
-					</div>
-				</div>
+				</form>
+			</div>
+		</div>
 		
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>
 </body>
