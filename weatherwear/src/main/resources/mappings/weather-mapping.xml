@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="WeatherDAO">
+
+	<resultMap type="com.w2.weather.WeatherVO" id="weather">
+		<id property="wdate" column="WDATE" />
+		<result property="province" column="PROVINCE" />
+		<result property="temp_min" column="TEMP_MIN" />
+		<result property="temp_max" column="TEMP_MAX" />
+		<result property="weather_id" column="WEATHER_ID" />
+	</resultMap>
+<!--  -->
+	<select id="checkDate" parameterType="weather" resultMap="weather">
+		SELECT * FROM weather
+		WHERE wdate = #{wdate}
+	</select>
+
+	<insert id="saveWeather" parameterType="weather">
+		INSERT INTO weather (wdate, province, temp_min, temp_max, weather_id) 
+		VALUES (#{ wdate }, #{ province }, #{ temp_min }, #{ temp_max }, #{weather_id } ) 
+		ON DUPLICATE KEY UPDATE 
+    	wdate=#{ wdate }, temp_min=#{ temp_min }, temp_max=#{ temp_max }, weather_id=#{weather_id };
+	</insert>
+ 
+	<select id="getWeather" resultType="weather" parameterType="weather">
+		SELECT * FROM weather
+		WHERE wdate = #{wdate}
+	</select>
+<!--
+	<select id="getWeatherList" resultMap="weatherInfo" parameterType="weather">
+		SELECT * FROM weather
+		ORDER BY wdate DESC
+	</select>
+	
+	<select id="getWList" resultMap="weatherInfo" parameterType="weather">
+		SELECT * FROM weather
+		WHERE wdate BETWEEN #{ wdate-2 } AND #{ wdate+2 }
+		ORDER BY wdate DESC
+	</select>
+ -->
+</mapper>

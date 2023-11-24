@@ -20,6 +20,7 @@
 		</script>
 	</c:if>
 	<div class="main_image">
+	<a href="/w2/getWeather.do">오늘 날짜</a>
 		<h1>날씨 GIF</h1>
 	</div>
 	<!-- -->
