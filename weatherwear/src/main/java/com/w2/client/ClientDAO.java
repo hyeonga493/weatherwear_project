@@ -85,10 +85,10 @@ public class ClientDAO {
 	}
 
 	// 회원 수 조회 (사용)
-	public int searchCount(SearchVO search) {
+	public int searchCount(ClientVO client) {
 		System.out.println("[ ClientDAO ] : searchCount");
-
-		return sqlSessionTemplate.selectOne("ClientDAO.getClientCount", search);
+		
+		return sqlSessionTemplate.selectOne("ClientDAO.getClientCount", client);
 	}
 
 	// 회원 리스트 조회

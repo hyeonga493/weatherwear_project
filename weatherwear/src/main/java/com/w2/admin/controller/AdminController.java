@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.w2.client.ClientService;
 import com.w2.client.ClientVO;
 import com.w2.paging.PagingService;
+import com.w2.paging.SearchVO;
 
 import jdk.jfr.Description;
 
@@ -74,9 +75,18 @@ public class AdminController {
 	@RequestMapping(value = "/client.mdo")
 	@Description("회원 관리 페이지")
 	public String getClientList(@RequestParam(value="page", required=false)Integer page, ClientVO client, Model model) {
-
-		if(client.getSearchtype() == null) client.setSearchtype("");
-		if(client.getKeyword() == null) client.setKeyword("");
+		
+		if(client.getSearchtype() == null) {
+			System.err.println("type 널이야");
+			client.setSearchtype("");
+		}
+		if(client.getKeyword() == null) {
+			System.err.println("keyword 널이야");
+			client.setKeyword("");
+		}
+		
+		System.err.println("[[[[[ Controller ]]]]] client : " + client.toString());
+		System.err.println("[[[[[ Controller ]]]]] page : " + page);
 		
 		List<ClientVO> clientList = pagingService.clientList(page, client, model);
 		

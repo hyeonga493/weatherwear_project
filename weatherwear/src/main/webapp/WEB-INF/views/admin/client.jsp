@@ -94,24 +94,32 @@
 						 			</table>	
 								</div>
 							</form>
-						<!-- 페이징 처리 -->
-							<!-- 이전 버튼 -->
-							<c:if test="${ paging.prev }">
-								<a href="client.mdo?page=${ startPage -1 }">Prev</a>
-							</c:if>
-							
-							<!-- 페이지 버튼 -->
-							<c:forEach var="pageNum" begin="${ paging.startPage }" end="${ paging.endPage }">
-								<a href="client.mdo?page=${ pageNum }&searchtype=${ param.searchtype }&keyword=${ param.keyword }"
-									style="${ (pageNum == paging.currentPage) ? 'color:red; font-style:italic;' : 'color:blue;'}"> 
-									${ pageNum } 
-								</a>		
-							</c:forEach>
-							
-							<!-- 다음 버튼 -->
-							<c:if test="${ paging.next }">
-								<a href="client.mdo?page=${ paging.endPage +1 }">Next</a>
-							</c:if>
+							<div class="paging">
+							<!-- 페이징 처리 -->
+								<!-- 이전 버튼 -->
+								<c:if test="${ paging.prev }">
+									<a href="client.mdo?page=${ startPage -1 }">처음페이지로</a>
+								</c:if>&nbsp;	&nbsp;						
+								<c:if test="${ paging.currentPage>1 }">
+									<a href="client.mdo?page=${ paging.currentPage -1 }">이전</a>
+								</c:if>&nbsp;&nbsp;
+								
+								<!-- 페이지 버튼 -->
+								<c:forEach var="pageNum" begin="${ paging.startPage }" end="${ paging.endPage }">
+									<a href="client.mdo?page=${ pageNum }&searchtype=${ param.searchtype }&keyword=${ param.keyword }"
+										style="${ (pageNum == paging.currentPage) ? 'color:red; font-style:italic;' : 'color:blue;'}"> 
+										${ pageNum } 
+									</a>&nbsp;&nbsp;		
+								</c:forEach>
+								
+								<c:if test="${ paging.currentPage < paging.endPage }">
+									<a href="client.mdo?page=${ paging.currentPage + 1 }">다음</a>&nbsp;&nbsp;
+								</c:if>
+								<!-- 다음 버튼 -->
+								<c:if test="${ paging.next }">
+									<a href="client.mdo?page=${ paging.endPage +1 }">마지막페이지로</a>
+								</c:if>
+							</div>
 						</div>	
 					</article> 
 				</div>

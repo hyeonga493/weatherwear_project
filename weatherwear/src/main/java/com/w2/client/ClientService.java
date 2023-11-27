@@ -41,7 +41,4 @@ public interface ClientService {
 	// 회원 리스트 조회
 	public List<ClientVO> getClientList(ClientVO client);
 
-	// 회원 수 조회
-	public int getClientCount(ClientVO client);
-
 }

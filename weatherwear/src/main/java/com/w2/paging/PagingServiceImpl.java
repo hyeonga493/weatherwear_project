@@ -27,10 +27,10 @@ public class PagingServiceImpl implements PagingService{
 		}
 		System.err.println("======= currentPage : " + currentPage);
 		
-		int totalCount = clientDAO.searchCount(client.getSearch());
+		int totalCount = clientDAO.searchCount(client);
 		System.err.println("======= totalCount : " + totalCount);
 		
-		Paging paging = new Paging(totalCount, currentPage, client.getSearch());
+		Paging paging = new Paging(totalCount, currentPage, client);
 		
 		int postStart = ((paging.getCurrentPage() -1) * 10) + 1;
 		/* 현재 페이지가 5라면 ((5-1)*10)+1 = 41번부터 게시글 번호가 시작됩니다.*/
@@ -39,11 +39,12 @@ public class PagingServiceImpl implements PagingService{
 		
 		System.err.println("======= st/end : " + postStart + "/" + postEnd);
 		
-		client.setStartPage(postStart);
-		client.setEndPage(postEnd);
-		client.setSearch(client.getSearch());
+		client.setStartPage(paging.getStartPage());
+		client.setEndPage(paging.getEndPage());
+		client.setPostStart(postStart);
+		client.setPostEnd(postEnd);
 
-		System.err.println("======= client : " + client.toString());
+		System.err.println("=======>>>>>> client : " + client.toString());
 		model.addAttribute("paging", paging);	// 바인딩
 		
 		List<ClientVO> clientList = clientDAO.clientList(client);

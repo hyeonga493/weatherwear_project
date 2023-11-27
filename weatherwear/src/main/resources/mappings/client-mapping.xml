@@ -73,9 +73,25 @@
 	<!-- 회원 수 조회 -->
 	<select id="getClientCount" resultType="int">
 		<choose>
-			<when test="searchWord == 'clientId' or searchWord=='clientName' or searchWord=='clientNickName' or searchWord=='clientNum' or searchWord=='clientEmail'">
+			<when test="searchtype== 'clientId'">
 				SELECT COUNT(*) FROM client
-				WHERE ${ searchWord } LIKE CONCAT('%', #{ keyword }, '%')
+				WHERE cId LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="searchtype=='clientName'">
+				SELECT COUNT(*) FROM client
+				WHERE cName LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="searchtype=='clientNickName'">
+				SELECT COUNT(*) FROM client
+				WHERE cNickName LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="searchtype=='clientNum'">
+				SELECT COUNT(*) FROM client
+				WHERE cNum LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="searchtype=='clientEmail'">
+				SELECT COUNT(*) FROM client
+				WHERE cEmail LIKE CONCAT('%', #{ keyword }, '%')
 			</when>
 			<otherwise>
 				SELECT COUNT(*) FROM client
@@ -103,6 +119,6 @@
 			AND cEmail LIKE CONCAT('%', #{ keyword }, '%')
 		</if>
 		ORDER BY cId DESC
-		LIMIT #{ startPage }, #{ endPage }
+		LIMIT #{ postStart }, #{ postEnd }
 	</select>
 </mapper>

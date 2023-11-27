@@ -35,17 +35,10 @@ public class ClientVO {
 	private String keyword;
 	private String searchtype;
 	
-	// 페이징 정보
+	// 페이징 정보(글 번호)
 	private int postStart;
 	private int postEnd;
 	
-	private int page;
-	private int pageNo;
-	private int currentPage;
-	private int pageSize;
 	private int startPage;
 	private int endPage;
-	
-	private SearchVO search;
-	
 }
