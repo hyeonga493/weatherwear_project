@@ -81,9 +81,6 @@ public class AdminController {
 			client.setKeyword("");
 		}
 		
-		System.err.println("[[[[[ Controller ]]]]] client : " + client.toString());
-		System.err.println("[[[[[ Controller ]]]]] page : " + page);
-		
 		List<ClientVO> clientList = pagingService.clientList(page, client, model);
 		
 		model.addAttribute("clientList", clientList);
