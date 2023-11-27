@@ -45,7 +45,27 @@ public class ClientPostController {
 		response.setContentType("applicaion/json");
 		response.getWriter().write(String.valueOf(check));
 	}
+	
+	// 닉네임 체크
+	@PostMapping("/checkNick.do")
+	public void checkNick(ClientVO client, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+		System.out.println("[ Controller ] : checkNick");
 
+		System.err.println("cNickname : " + client.getClientNickName());
+		
+		// test
+		int check = service.nickCheckService(client.getClientNickName());
+
+		if (check == 1) {
+			System.err.println("닉네임 있음");
+		} else {
+			System.err.println("닉네임 없음");
+		}
+
+		response.setContentType("applicaion/json");
+		response.getWriter().write(String.valueOf(check));
+	}
+	
 	// 회원 정보 가져오기
 	@PostMapping("/getClient.do")
 	public void getClient(ClientVO client) {

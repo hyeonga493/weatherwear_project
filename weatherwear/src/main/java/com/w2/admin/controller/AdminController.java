@@ -1,15 +1,28 @@
 package com.w2.admin.controller;
 
+import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.w2.client.ClientService;
+import com.w2.client.ClientVO;
+import com.w2.paging.PagingService;
 
 import jdk.jfr.Description;
 
 @Controller
 public class AdminController {
+	
+	@Autowired
+	private ClientService clientService;
+
+	@Autowired
+	private PagingService pagingService;
 	
 	@RequestMapping(value = "/login.mdo")
 	@Description("DashBoard 페이지")
@@ -25,7 +38,6 @@ public class AdminController {
 
 	@RequestMapping("/adminOrder.mdo")
 	public String getAdminOrderList(Locale locale, Model model) {
-		System.err.println("시작>>>>>>>>>>>>>>>>>>>>>>>>>");
 		return "/admin/order";
 	}
 
@@ -61,7 +73,15 @@ public class AdminController {
 	
 	@RequestMapping(value = "/client.mdo")
 	@Description("회원 관리 페이지")
-	public String client(Locale locale, Model model) {
+	public String getClientList(@RequestParam(value="page", required=false)Integer page, ClientVO client, Model model) {
+
+		if(client.getSearchtype() == null) client.setSearchtype("");
+		if(client.getKeyword() == null) client.setKeyword("");
+		
+		List<ClientVO> clientList = pagingService.clientList(page, client, model);
+		
+		model.addAttribute("clientList", clientList);
+		
 		return "/admin/client";
 	}
 	

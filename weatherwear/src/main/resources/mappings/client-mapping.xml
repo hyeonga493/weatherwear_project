@@ -25,6 +25,10 @@
 		SELECT count(*) FROM client WHERE cId=#{ clientId } AND cId NOT IN (SELECT wcId FROM withdraw_info)
 	</select>
 	
+	<select id="nickCheck" resultType="int">
+		SELECT count(*) FROM client WHERE cNickName=#{ clientNickName }
+	</select>
+	
 	<!-- 회원 확인 요청 (탈퇴한 회원 정보는 제외합니다.)  -->
 	<select id="getClient" resultMap="client" parameterType="client">
 		SELECT * FROM client
@@ -65,4 +69,40 @@
 		INSERT INTO client(cId, cPwd, cName, cNum, cEmail, cEmailCheck, cRecId, cBirth, cNickName, grId, cPoint)
 		VALUES(#{ clientId }, #{ clientPwd }, #{ clientName }, #{ clientNum }, #{ clientEmail }, #{ clientEmailCheck }, #{ clientRecId }, #{ clientBirth }, #{ clientNickName }, #{ gradeId }, #{ clientPoint })
 	</insert>
+	
+	<!-- 회원 수 조회 -->
+	<select id="getClientCount" resultType="int">
+		<choose>
+			<when test="searchWord == 'clientId' or searchWord=='clientName' or searchWord=='clientNickName' or searchWord=='clientNum' or searchWord=='clientEmail'">
+				SELECT COUNT(*) FROM client
+				WHERE ${ searchWord } LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<otherwise>
+				SELECT COUNT(*) FROM client
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 회원 리스트 조회 (페이징) -->
+	<select id="clientList" resultMap="client">
+		SELECT * FROM client
+		WHERE 1=1
+		<if test="searchtype=='clientId'">
+			AND cId LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		<if test="searchtype=='clientName'">
+			AND cName LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		<if test="searchtype=='clientNickName'">
+			AND cNickName LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		<if test="searchtype=='clientNum'">
+			AND cNum LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		<if test="searchtype=='clientEmail'">
+			AND cEmail LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		ORDER BY cId DESC
+		LIMIT #{ startPage }, #{ endPage }
+	</select>
 </mapper>

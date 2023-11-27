@@ -29,8 +29,7 @@
 				<tr>
 					<th class="client_join_title"><font color="red">*</font>아이디 : </th>
 					<td class="client_join_data">
-						<input type="text" name="clientId" id="clientId" required="required" placeholder="아이디를 입력해주세요" value="admin">
-						<input type="button" name="checkId" value="아이디 중복 확인" onClick="idCheck()" required="required"><br>
+						<input type="text" name="clientId" id="clientId" required="required" placeholder="아이디를 입력해주세요" value="admin" onchange="idCheck()">
 						<span id="checkId"></span>
 					</td>
 				</tr>
@@ -65,8 +64,7 @@
 				<tr>
 					<th class="client_join_title"><font color="red">*</font>이메일 : </th>
 					<td class="client_join_data">
-						<input type="text" name="clientEmail" placeholder="weatherwear@naver.com" required="required">
-						<input type="button" name="cEmailCheck" value="이메일인증"><br>
+						<input type="text" id="clientEmail" name="clientEmail" placeholder="weatherwear@naver.com" required="required">
 					</td>
 				</tr>
 				<tr>
@@ -76,8 +74,8 @@
 				<tr>
 					<th class="client_join_title"><font color="red">*</font>닉네임 : </th>
 					<td class="client_join_data">
-						<input type="text" name="clientNickName" placeholder="닉네임을 입력하세요" onchange="#" required="required">
-						<input type="button" name="닉네임 중복확인" value="중복확인">
+						<input type="text" id="clientNickName" name="clientNickName" placeholder="닉네임을 입력하세요" required="required" onchange="nickCheck()">
+						<span id="checkNickName"></span>
 					</td>
 				</tr>
 				<tr>

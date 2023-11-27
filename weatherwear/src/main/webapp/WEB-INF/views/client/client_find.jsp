@@ -36,7 +36,7 @@
 						<tr>
 							<th>이메일</th>
 							<td>
-								<input type="text" name="clientEmail" id="clientEmail" placeholder="이메일을 입력해주세요" value="1234@naver.com">
+								<input type="text" name="clientEmail" id="clientEmail" placeholder="이메일을 입력해주세요" value="hyeonga1004@naver.com">
 							</td>
 						</tr>
 					</table>
@@ -61,7 +61,7 @@
 						<tr>
 							<th>이메일</th>
 							<td>
-								<input type="text" name="clientEmail" id="clientEmail" placeholder="이메일을 입력해주세요" value="1234@naver.com">
+								<input type="text" name="clientEmail" id="clientEmail" placeholder="이메일을 입력해주세요" value="hyeonga1004@naver.com">
 							</td>
 						</tr>
 						<tr>

@@ -10,149 +10,115 @@
 
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
-
-<!-- 슬릭그리드 기본 CSS -->
-<link rel="stylesheet" href="resources/admin/css/slickGrid/slick.grid.css" type="text/css" />
-<!-- jquery-ui가 없으면 안예쁘게 나옴 -->
-<link rel="stylesheet" href="resources/admin/css/jquery/jquery-ui.css" type="text/css" />
-<!-- 필수 jquery library -->
-<script src="resources/admin/js/jquery/jquery-3.7.1.min.js"></script>
-<!-- 필수 슬릭그리드 library -->
-<script src="resources/admin/js/slickGrid/slick.core.js"></script>
-<!-- 필수 jquery library -->
-<script src="resources/admin/js/slickGrid/jquery.event.drag-2.3.0.js"></script>
-<script src="resources/admin/js/slickGrid/slick.interactions.js"></script>
-<!-- 필수 슬릭그리드 library -->
-<script src="resources/admin/js/slickGrid/slick.grid.js"></script>
-<script src="resources/admin/js/slickGrid/slick.checkboxselectcolumn.js"></script>
-<script src="resources/admin/js/slickGrid/slick.rowselectionmodel.js"></script>
-
-<script type="text/javascript" charset="UTF-8">
-$(document).ready(function() {
-	// 컬럼
-	var columns = [{
-		id : "name",			//내부 접근 아이디
-		name : "이름",		//Grid에 표시될 컬럼명
-		field : "name"},	//연동할 데이터상의 변수명
-		{id : "id", name : "아이디", field : "id", width : 300}, 
-		{id : "grade", name : "등급", field : "grade", width : 150, sortable: true}, 
-		{id : "birth", name : "생년월일", field : "birth"}, 
-		{id : "phone", name : "휴대전화", field : "phone", width : 150}, 
-		{id : "email", name : "이메일", field : "email", width : 150}, 
-		{id : "receive_sms", name : "SMS수신", field : "receive_sms", width : 150, sortable: true}, 
-		{id : "receive_email", name : "Email수신", field : "receive_email", width : 150, sortable: true}, 
-		{id : "receive_dm", name : "DM수신", field : "receive_dm", width : 150, sortable: true}, 
-		{id : "button", name : "삭제", field : "delete", width : 150, formatter: buttonFormatter}];
-
-	
-	var checkboxSelector = new Slick.CheckboxSelectColumn({
-           cssClass: "slick-cell-checkboxsel"
-    });
-	columns.splice(0, 0, checkboxSelector.getColumnDefinition())
-	
-	// 옵션
-	var options = {
-		enableColumnReorder : false
-	};
-	
-	function buttonFormatter(row, cell, value, columnDef, dataContext) {
-          return "<button>삭제</button>";
-    }
-	
-	// 데이터(json)
-	var data = [ {
-		name : "1",
-		id : "아이디1",
-		grade : "등급1",
-		birth : "121212",
-		phone : "01011112222",
-		email :	"id1@naver.com",
-		receive_sms : "Y",
-		receive_email : "Y",
-		receive_dm : "Y",
-	}, {
-		name : "2",
-		id : "아이디2",
-		grade : "등급2",
-		birth : "111111",
-		phone : "01033332222",
-		email :	"id2@naver.com",
-		receive_sms : "Y",
-		receive_email : "N",
-		receive_dm : "Y",
-	}, {
-		name : "3",
-		id : "아이디3",
-		grade : "등급3",
-		birth : "441212",
-		phone : "01033334444",
-		email :	"id3@naver.com",
-		receive_sms : "Y",
-		receive_email : "Y",
-		receive_dm : "N",
-	} ];
-
-	// SlickGrid 생성
-	var grid = new Slick.Grid("#myGrid", data, columns, options);
-	grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow: false}));
-    grid.registerPlugin(checkboxSelector);
-    
-});
-
-function getSelectedRow(){
-      var selectedIndexes = grid.getSelectedRows();
-      alert(selectedIndexes);
-}
-</script>
+<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
+<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css">
+<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
 
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-	<!-- 전체화면 버튼 -->
-	<button class="btn btn-link btn-sm order-1 order-lg-0"
-		id="sidebarToggle" href="#">
-		<i class="fas fa-bars"></i>
-	</button>
-
 	<!-- Navbar-->
 	<!-- <ul> -->
-	<ul class="navbar-nav ml-auto ml-md-0">
-		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
-			href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false">
-				</div></li>
-	</ul>
-		<main>
+	<main>
 		<div class="container-fluid">
 			<h1 class="mt-4"></h1>
 		</div>
-		</main>
-		<script
-			src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>"
-			crossorigin="anonymous"></script>
-		<hr><hr><hr><br>
-		<form action="#" method="post">
-		<div style="margin-bottom: 30px;">
-			<h3>회원관리 페이지</h3>
-		</div>
-		<div style="font-size: 15px; padding: 10px 0 10px 0">
-			<table style="margin-bottom: 10px">
-				<tr>
-					<td><select class="box" name="searchCondition">
-							<option value="select">선택</option>
-							<option value="name">회원이름</option>
-							<option value="grade">회원등급</option>
-					</select></td>
-					<td><input type="text" name="searchKeyword" /></td>
-					<td><input type="submit" value="검색" /></td>
-				</tr>
-			</table>
-			총 회원 수
-		</div>
-		<div id="myGrid" style="width:100%; height:300px;"></div>
-	</form>
-<br/>
+	</main>
+	<script	src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>" crossorigin="anonymous"></script>
+	
+	<hr>
+	<hr>
+	<hr>
+	<br>
+<div id="wrap">
+	<div id="container">
+		<section id="content">
+			<div class="sub-type notice">
+				<div class="inner-box"> 
+					<article class="notice-area"> 
+						<div class="menu-nav-wrap"> 
+							<form id="searchForm" name="searchForm" action="client.mdo?page=1" method="post">
+							
+								<input type="hidden" id="page" name="page" value="${ paging.currentPage }" />
+								
+								<div class="select-type2" style="margin-top:20px; margin-left:250px;">
+									<select id="searchtype" name="searchtype" style="width:130px;">
+										<option ${ param.searchtype == 'clientId' ? 'selected' : '' } value="clientId">아이디</option>
+										<option ${ param.searchtype == 'clientName' ? 'selected' : '' } value="clientName">이름</option>
+										<option ${ param.searchtype == 'clientNickName' ? 'selected' : '' } value="clientNickName">닉네임</option>
+										<option ${ param.searchtype == 'clientNum' ? 'selected' : '' } value="clientNum">전화번호</option>
+										<option ${ param.searchtype == 'clientEmail' ? 'selected' : '' } value="clientEmail">이메일</option>
+									</select>
+									<input type="text" id="keyword" name="keyword" style="width:400px;" value="${ param.keyword }"> 
+									<button type="submit" class="btn-search" style="border-radius: 8px; padding: 10px 24px;">검색</button>
+								</div>
+								<div class="table-type3" style = "position: relative; margin-top: 28px; padding-bottom: 15px; border-bottom: 2px solid #111;">
+									<table>
+										<thead>
+											<tr>
+												<th>ㅁ<input type="checkbox" name="checkProduct" value="checkAll"></th>
+												<th>아이디</th>
+												<th>닉네임</th>
+												<th>이름</th>
+												<th>전화번호</th>
+												<th>이메일</th>
+												<th>이메일수신동의여부</th>
+												<th>등급</th>
+												<th>포인트</th>
+												<th>구매누적</th>
+												<th>추천인</th>
+												<th>수정하기</th>
+											</tr>
+										</thead>
+										<tbody>
+											<c:forEach var="client" items="${ clientList }">
+												<tr>
+													<td>
+														ㅁ<input type="checkbox" name="checkProduct" value="check">
+													</td>
+													<td>${ client.clientId }</td>
+													<td>${ client.clientNickName }</td>
+													<td>${ client.clientName }</td>
+													<td>${ client.clientNum }</td>
+													<td>${ client.clientEmail }</td>
+													<td>${ client.clientEmailCheck }</td>
+													<td>${ client.gradeId }</td>
+													<td>${ client.clientPoint }</td>
+													<td>${ client.clientBuyCnt }</td>
+													<td>${ client.clientRecId }</td>
+													<td><button type="button" id="updateClient" onclick="location.href='updateClient.mdo?clientId=${ client.clientId }&page=${paging.currentPage}&searchType=${ param.keyword }'">수정하기</button></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+						 			</table>	
+								</div>
+							</form>
+						<!-- 페이징 처리 -->
+							<!-- 이전 버튼 -->
+							<c:if test="${ paging.prev }">
+								<a href="client.mdo?page=${ startPage -1 }">Prev</a>
+							</c:if>
+							
+							<!-- 페이지 버튼 -->
+							<c:forEach var="pageNum" begin="${ paging.startPage }" end="${ paging.endPage }">
+								<a href="client.mdo?page=${ pageNum }&searchtype=${ param.searchtype }&keyword=${ param.keyword }"
+									style="${ (pageNum == paging.currentPage) ? 'color:red; font-style:italic;' : 'color:blue;'}"> 
+									${ pageNum } 
+								</a>		
+							</c:forEach>
+							
+							<!-- 다음 버튼 -->
+							<c:if test="${ paging.next }">
+								<a href="client.mdo?page=${ paging.endPage +1 }">Next</a>
+							</c:if>
+						</div>	
+					</article> 
+				</div>
+			</div> 
+		</section>
+	</div> 
+</div> 
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>
 </body>
 </html>

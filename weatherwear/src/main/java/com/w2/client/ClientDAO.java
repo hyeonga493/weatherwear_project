@@ -1,8 +1,12 @@
 package com.w2.client;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.w2.paging.SearchVO;
 
 @Repository
 public class ClientDAO {
@@ -15,6 +19,13 @@ public class ClientDAO {
 		System.err.println("[ ClientDAO ] : idCheck");
 		
 		return sqlSessionTemplate.selectOne("ClientDAO.idCheck", clientId);
+	}
+
+	// 닉네임 체크
+	public int nickCheck(String clientNickName) {
+		System.err.println("[ ClientDAO ] : nickCheck");
+		
+		return sqlSessionTemplate.selectOne("ClientDAO.nickCheck", clientNickName);
 	}
 
 	// 회원 정보 요청
@@ -58,4 +69,33 @@ public class ClientDAO {
 	
 		return sqlSessionTemplate.insert("ClientDAO.insertClient", client);
 	}
+
+	// 회원 리스트
+	public List<ClientVO> getClientList(ClientVO client) {
+		System.out.println("[ ClientDAO ] : getClientList");
+
+		return sqlSessionTemplate.selectList("ClientDAO.getClientList", client);
+	}
+
+	// 회원 수 조회
+	public int getClientCount(ClientVO client) {
+		System.out.println("[ ClientDAO ] : getClientCount");
+		
+		return sqlSessionTemplate.selectOne("ClientDAO.getClientCount", client);
+	}
+
+	// 회원 수 조회 (사용)
+	public int searchCount(SearchVO search) {
+		System.out.println("[ ClientDAO ] : searchCount");
+
+		return sqlSessionTemplate.selectOne("ClientDAO.getClientCount", search);
+	}
+
+	// 회원 리스트 조회
+	public List<ClientVO> clientList(ClientVO client) {
+		System.out.println("[ ClientDAO ] : clientList");
+		
+		return sqlSessionTemplate.selectList("ClientDAO.clientList", client);
+	}
+
 }

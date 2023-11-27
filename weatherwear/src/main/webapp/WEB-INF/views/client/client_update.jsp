@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <link href="resources/client/css/style.css" rel="stylesheet" />
-<script src="resources/cleint/js/client_join.js"></script>
 <title>mainIndex.jsp</title>
 <!-- Style 태그는 head 태그 안에 있어야 합니다.-->
 <script type="text/javascript">
@@ -41,9 +40,7 @@ function madecNum(){
 						<tr>
 							<th class="client_update_title">아이디 : </th>
 							<td class="client_update_data">
-								<input type="text" name="clientId" id="clientId" required="required" value="${ client.clientId }">
-								<input type="button" name="checkId" value="아이디 중복 확인" onClick="idCheck()" required="required"><br>
-								<span id="checkId"></span>
+								${ client.clientId }
 							</td>
 						</tr>
 						<tr>
@@ -69,7 +66,6 @@ function madecNum(){
 							<th class="client_update_title">이메일 : </th>
 							<td class="client_update_data">
 								<input type="text" name="clientEmail" placeholder="weatherwear@naver.com" required="required" value="${ client.clientEmail }">
-								<input type="button" name="cEmailCheck" value="이메일인증"><br>
 							</td>
 						</tr>
 						<tr>
@@ -84,9 +80,16 @@ function madecNum(){
 							<span class="agree4">(선택)</span>
 						</span>
 						<div class="">
-							<input type="radio" id="cEmailCheck_Y" name="clientEmailCheck" value="Y" checked="checked"><label for="cEmailCheck_Y">이메일 수신을 동의합니다.</label><br>
-							<input type="radio" id="cEmailCheck_N" name="clientEmailCheck" value="N"><label for="cEmailCheck_N">이메일 수신을 동의하지 않습니다.</label>
-							<p>
+							<font color="red">${ client.clientEmailCheck }</font>
+							<c:if test="${ client.clientEmailCheck == Y }">
+								<input type="radio" id="cEmailCheck_Y" name="clientEmailCheck" value="Y" checked="checked"><label for="cEmailCheck_Y">이메일 수신을 동의합니다.</label><br>
+								<input type="radio" id="cEmailCheck_N" name="clientEmailCheck" value="N"><label for="cEmailCheck_N">이메일 수신을 동의하지 않습니다.</label>
+							</c:if>
+							<c:if test="${ client.clientEmailCheck == N }">
+								<input type="radio" id="cEmailCheck_Y" name="clientEmailCheck" value="Y"><label for="cEmailCheck_Y">이메일 수신을 동의합니다.</label><br>
+								<input type="radio" id="cEmailCheck_N" name="clientEmailCheck" value="N" checked="checked"><label for="cEmailCheck_N">이메일 수신을 동의하지 않습니다.</label>
+							</c:if>
+														<p>
 								※ 본 동의 사항은 선택사항으로 거부 할 수 있으며, 거부하시더라도 서비스 이용에 제한은 없습니다.<br>
 								단, 이벤트 정보, 신제품 출시 등 맞춤형 서비스를 제공 받으실 수 없습니다.
 							 </p>
