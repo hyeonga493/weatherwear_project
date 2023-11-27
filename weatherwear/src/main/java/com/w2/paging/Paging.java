@@ -35,13 +35,11 @@ public class Paging {
 	private boolean next;	
 	
 	public Paging(Integer totalPosts, Integer currentPage, Object object) {
-		System.err.println("____1______ paging()");
 		if( currentPage != null) {
 			this.currentPage = currentPage;
 		} else { 
 			this.currentPage = 1;
 		}
-		System.err.println("____2______ currentPage : " + currentPage);
 		
 		this.totalPosts = totalPosts;
 		
@@ -51,34 +49,25 @@ public class Paging {
 	
 	// 페이지 번호를 만들어주는 메소드
 	public void pagingMaker() {
-		System.err.println("____3______ pagingMaker()");
-		
-		System.err.println("___4_______ totalPosts : " + totalPosts);
-		
 		// 한 페이지당 보여줄 글의 개수로 총 페이지를 나누어 총 페이지 수를 지정합니다.
 		totalPage = (totalPosts-1) / VIEW_POST_NUM + 1;
-		System.err.println("____5______ totalPage : " + totalPage);
 		
 		if(currentPage < 1 || currentPage > totalPage) {
 			currentPage = 1;
 		}
 		
 		endPage = ((currentPage - 1) / VIEW_PAGE_NUM + 1) * VIEW_PAGE_NUM;
-		System.err.println("____6______ endPage : " + endPage);
 		
 		if(endPage >= totalPage) {
 			endPage = totalPage;
 		}
 		
 		startPage = ((currentPage-1) / VIEW_PAGE_NUM) * VIEW_PAGE_NUM + 1;
-		System.err.println("____7______ startPage : " + startPage);
 		
 		// 시작 페이지가 1과 같으면 이전 버튼을 비활성화하고 다르면 이전버튼을 활성화합니다.
 		prev = (startPage == 1) ? false : true;
-		System.err.println("____8______ prev : " + prev);
 	
 		// 끝 페이지가 총 페이지 수와 같다면 다음 버튼을 비활성화 하고 다르다면 다음 버튼을 활성화합니다.
 		next = (endPage == totalPage) ? false : true;
-		System.err.println("____9______ next : " + next);
 	}
 }

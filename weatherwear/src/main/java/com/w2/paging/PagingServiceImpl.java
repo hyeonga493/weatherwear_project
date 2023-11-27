@@ -25,10 +25,8 @@ public class PagingServiceImpl implements PagingService{
 		} else { 
 			currentPage = page;
 		}
-		System.err.println("======= currentPage : " + currentPage);
 		
 		int totalCount = clientDAO.searchCount(client);
-		System.err.println("======= totalCount : " + totalCount);
 		
 		Paging paging = new Paging(totalCount, currentPage, client);
 		
@@ -37,14 +35,11 @@ public class PagingServiceImpl implements PagingService{
 		
 		int postEnd = paging.getCurrentPage() * 10;
 		
-		System.err.println("======= st/end : " + postStart + "/" + postEnd);
-		
 		client.setStartPage(paging.getStartPage());
 		client.setEndPage(paging.getEndPage());
 		client.setPostStart(postStart);
 		client.setPostEnd(postEnd);
 
-		System.err.println("=======>>>>>> client : " + client.toString());
 		model.addAttribute("paging", paging);	// 바인딩
 		
 		List<ClientVO> clientList = clientDAO.clientList(client);

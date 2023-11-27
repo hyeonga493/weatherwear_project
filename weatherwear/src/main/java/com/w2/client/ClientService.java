@@ -40,5 +40,4 @@ public interface ClientService {
 
 	// 회원 리스트 조회
 	public List<ClientVO> getClientList(ClientVO client);
-
 }

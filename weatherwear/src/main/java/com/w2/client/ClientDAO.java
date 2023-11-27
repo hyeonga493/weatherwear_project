@@ -70,20 +70,6 @@ public class ClientDAO {
 		return sqlSessionTemplate.insert("ClientDAO.insertClient", client);
 	}
 
-	// 회원 리스트
-	public List<ClientVO> getClientList(ClientVO client) {
-		System.out.println("[ ClientDAO ] : getClientList");
-
-		return sqlSessionTemplate.selectList("ClientDAO.getClientList", client);
-	}
-
-	// 회원 수 조회
-	public int getClientCount(ClientVO client) {
-		System.out.println("[ ClientDAO ] : getClientCount");
-		
-		return sqlSessionTemplate.selectOne("ClientDAO.getClientCount", client);
-	}
-
 	// 회원 수 조회 (사용)
 	public int searchCount(ClientVO client) {
 		System.out.println("[ ClientDAO ] : searchCount");

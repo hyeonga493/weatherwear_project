@@ -195,11 +195,4 @@ public class ClientServiceImpl implements ClientService {
 
 		return dao.clientList(client);
 	}
-	
-	@Override
-	public int getClientCount(ClientVO client) {
-		System.out.println("[ Impl ] : getClientCount >" + client.getClientId());
-
-		return dao.searchCount(client.getSearch());
-	}
 }

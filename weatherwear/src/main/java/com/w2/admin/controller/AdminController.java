@@ -12,16 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.w2.client.ClientService;
 import com.w2.client.ClientVO;
 import com.w2.paging.PagingService;
-import com.w2.paging.SearchVO;
 
 import jdk.jfr.Description;
 
 @Controller
 public class AdminController {
 	
-	@Autowired
-	private ClientService clientService;
-
 	@Autowired
 	private PagingService pagingService;
 	
