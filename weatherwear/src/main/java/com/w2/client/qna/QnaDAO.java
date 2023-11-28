@@ -16,6 +16,10 @@ public class QnaDAO {
 	public List<QnaVO> getQnaList(QnaVO clientQna){
 		return sqlSessionTemplate.selectList("QnaDAO.getQnaList", clientQna);
 	}
+	
+	public List<QnaVO> getQnaMyPageList(QnaVO clientQna){
+		return sqlSessionTemplate.selectList("QnaDAO.getQnaMyPageList", clientQna);
+	}
 
 	public void writeQna(QnaVO clientQna) {
 		sqlSessionTemplate.insert("QnaDAO.writeQna", clientQna);
@@ -30,6 +34,15 @@ public class QnaDAO {
 	}
 	
 	public QnaVO qnaDetail(QnaVO clientQna) {
+
+		System.err.println("@@@@@ clientQna : " + clientQna.toString());
+		
+		QnaVO result = sqlSessionTemplate.selectOne("QnaDAO.qnaDetail", clientQna);
+		System.err.println("@@@@@ result : " + result);
+		return result;
+	}
+	
+	public QnaVO qnaMyPageDetail(QnaVO clientQna) {
 
 		System.err.println("@@@@@ clientQna : " + clientQna.toString());
 		

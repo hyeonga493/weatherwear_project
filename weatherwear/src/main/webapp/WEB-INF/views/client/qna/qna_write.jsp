@@ -47,11 +47,11 @@
 								<th>내용</th>
 								<td><textarea name="qnaContent" cols="80" rows="10"></textarea></td>
 							</tr>
+							<input type="hidden" name="clientId" value="${ client.clientId }">
 							<tr>
 								<td colspan="2" class="center-group">
-									<input type="submit" class="btn-write" value="공지글 등록">
-									<!-- <input type="button" class="btn-write" value="취소" onclick="location.href='noticeList.mdo?gubun=notice'"/> -->
-									<input type="button" class="btn-write" value="취소" onclick="location.href='clientQnaList.do'"/>
+									<input type="submit" class="btn-write" value="문의글 등록">
+									<input type="button" class="btn-write" value="취소" onclick="location.href='clientQnaMyPageList.do?clientId=${clientId.clinetId}'"/>
 								</td>
 							</tr>
 						</table>
@@ -59,7 +59,6 @@
 				</form>
 			</div>
 		</div>
-		
 		
 		<%@ include file="../../client/base/footer.jsp" %>
 	</div>

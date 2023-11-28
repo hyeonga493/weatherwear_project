@@ -24,10 +24,11 @@
 		<div class="client_mypage_cate">
 			<input type="button" name="cart" value="장바구니" onclick="location.href='clientCart.do'">
 			<input type="button" name="see" value="최근 본 상품" onclick="location.href='#'">
-			<input type="button" name="couponList" value="쿠폰함" onclick="locaion.href='#'">
+			<input type="button" name="couponList" value="쿠폰함" onclick="location.href='couponList.do?clientId=${ client.clientId }'">
 			<input type="button" name="paymentHistory" value="구매 내역" onclick="location.href='#'">
 			<input type="button" name="wishList" value="찜한 상품" onclick="location.href='#'">
 			<input type="button" name="update" value="회원정보 수정하기" onclick="location.href='passwordCheck.do'">
+			<input type="button" name="showMyQnaList" value="내가쓴 문의글 목록 보기" onclick="location.href='clientQnaMyPageList.do?clientId=${ client.clientId }'">
 			<br><br>
 			<br><br>
 			<br><br>

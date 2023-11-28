@@ -21,6 +21,11 @@ public class QnaServiceImpl implements QnaService {
 	}
 
 	@Override
+	public List<QnaVO> getQnaMyPageList(QnaVO clientQna) {
+		return dao.getQnaMyPageList(clientQna);
+	}
+	
+	@Override
 	public void writeQna(QnaVO clientQna) {
 		dao.writeQna(clientQna);
 	}
@@ -46,4 +51,15 @@ public class QnaServiceImpl implements QnaService {
 		return result;
 	}
 
+	@Override
+	public QnaVO qnaMyPageDetail(QnaVO clientQna) {
+		System.err.println(">>>>> clientQna : " + clientQna.toString());
+		
+		QnaVO result = dao.qnaDetail(clientQna);
+		
+		System.err.println("____________ result : " + result);
+		
+		return result;
+	}
+	
 }

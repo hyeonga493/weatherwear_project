@@ -6,8 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.w2.admin.notice.NoticeBoardDAO;
-import com.w2.admin.notice.NoticeBoardVO;
 import com.w2.admin.qna.QnaBoardDAO;
 import com.w2.admin.qna.QnaBoardService;
 import com.w2.admin.qna.QnaBoardVO;

@@ -47,6 +47,12 @@
 </script>
 </head>
 <body class="sb-nav-fixed">
+	<c:if test="${client == null}">
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/login.mdo";
+		</script>
+	</c:if>
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
 		<!-- 전체화면 버튼 -->

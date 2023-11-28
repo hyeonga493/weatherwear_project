@@ -61,23 +61,18 @@ $(document).ready(function(){
 </head>
 <body class="text-center">
    <main class="form-signin">
-      <form action="login.jsp" method="post">
+      <form action="adminLogin.mdo" method="post">
      	 <img class="mb-4" src="resources/image/admin/login_logo.png" alt="" width="300" height="300">
      	 
          <div class="form-floating">
-            <input type="text" class="form-control" id="id" onkeyup='print1()' placeholder="Id">
-            <input type="password" class="form-control" id="pwd" placeholder="Password">
+            <input type="text" class="form-control" id="clientId" name="clientId" onkeyup='print1()' placeholder="Id" value="admin">
+            <input type="password" class="form-control" id="clientPwd" name="clientPwd" placeholder="Password" value="admin123">
          </div>
          
          <div class="checkbox mb-3">
-            <label>
-               <input type="checkbox" value="remember-me"> 아이디 저장
-            </label>
          </div>
          <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
          <div id='result'></div>
-         <h3 style="text-align: center; margin-top:30px;"><a href="dashboard.mdo">대시보드</a></h3><br></br>
-         <h1></h1>
       </form>
    </main>
    

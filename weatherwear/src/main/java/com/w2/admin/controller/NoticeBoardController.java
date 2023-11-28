@@ -1,6 +1,8 @@
 package com.w2.admin.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +45,25 @@ public class NoticeBoardController {
 	@PostMapping("/writeNotice.mdo")
 	@Description("공지사항 글 등록")
 	public String writeNotice(NoticeBoardVO notice) throws IOException{
+		System.out.println("notice : " + notice);
 		
+		//공지사항 글번호 랜덤 생성
+		String NoticeIdName = "";
+
+		// 이름 형식 지정
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMDDHHss");
+		Calendar calendar = Calendar.getInstance();
+		NoticeIdName = "NO"+simpleDateFormat.format(calendar.getTime());
+		NoticeIdName += "_" ;
+		// 중복 방지
+		for(int i=0; i<10; i++) {
+			NoticeIdName += (char)((Math.random()*26)+97);
+		}
+		
+		System.out.println("NoticeFileName : " + NoticeIdName);
+		notice.setNoId(NoticeIdName);
+		
+		System.err.println("===============notice Id 넣은 후 notice vo값 : " + notice);
 		noticeBoardService.writeNotice(notice);
 		return "redirect: noticeList.mdo?gubun=notice";
 	}
