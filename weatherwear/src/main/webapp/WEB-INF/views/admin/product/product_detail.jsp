@@ -15,7 +15,7 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <style>
-div.clearfixed::after {
+div.clearfixed{
 	display: block;
 	content: "";
 	clear: both
@@ -60,59 +60,207 @@ textarea {
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
-//옵션 적용하기
-	$(document)
-		.ready(
-			function() {
-				$("#applyOption")
-					.click(
-						function() {
-							var opColor = $(
-									"input[name='opColor']")
-									.val();
-							var opSize = $(
-									"input[name='opSize']")
-									.val();
-							var opColorList = [];
-							var opSizeList = [];
-
-							if (opColor) {
-								opColor
-										.split(",")
-										.forEach(
-												function(item) {
-													opColorList
-															.push(item);
-													$(
-															"input[name='opColorList']")
-															.val(
-																	opColorList);
-												});
-							}
-
-							if (opSize) {
-								opSize
-										.split(",")
-										.forEach(
-												function(item) {
-													opSizeList
-															.push(item);
-													$(
-															"input[name='opSizeList']")
-															.val(
-																	opSizeList);
-												});
-							}
-							$("#optionResult")
-									.html(
-											"<font color='green' size='1'><b><b>적용되었습니다.</b></font>");
-
-							console.log("opColorList : "
-									+ opColorList);
-							console.log("opSizeList : "
-									+ opSizeList);
-						});
+$(document).ready(function() {
+	
+	// 상품 아이디 조회
+	var proId = "${ product.proId }";
+	
+	// 색상 옵션 조회
+	var opColorList = "${ opColorList }";
+	var opColor = opColorList.substring(1,opColorList.length-1).replace(/\s/g, '');
+	$("input[name='opColor']").val(opColor);
+	
+	// 사이즈 옵션 조회
+	var opSizeList = "${ opSizeList }";
+	var opSize = opSizeList.substring(1,opSizeList.length-1).replace(/\s/g, '');
+	$("input[name='opSize']").val(opSize);
+	
+	// 옵션별 재고 조회
+	var stCntList = "${ stCntList }";
+	var stCnt = stCntList.substring(1,stCntList.length-1).replace(/\s/g, '');
+	
+	// 옵션값
+	stCnt = stCnt.split(",").map(function(num) {
+	  return parseInt(num);
 	});
+	
+	// 재고 입력 위치 지정 
+	var su=0;
+	
+	// 수정 값 읽어오기
+	opColorList = [];
+	opSizeList = [];
+	
+	if (opColor) {
+		opColor.split(",").forEach(function(item) {
+			opColorList.push(item);
+			$("input[name='opColorList']").val(opColorList);
+		});
+	}
+
+	if (opSize) {
+		opSize.split(",").forEach(function(item) {
+			opSizeList.push(item);
+			$("input[name='opSizeList']").val(opSizeList);
+		});
+	}
+
+	
+	$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+	$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
+							+ "<table style='text-align:center;'>" 
+							+ "<thead>" 
+							+ "<tr style='border-bottom:1px solid grey;'>" 
+							+ "<th style='width:80px'>색상</th><th style='width:80px'>사이즈</th><th style='width:80px'>재고</th>" 
+							+ "</tr>" 
+							+ "</thead>" 
+							+ "<tbody></tbody>" 
+							+ "</table>" 
+							+ "</form>"
+							+ "<input type='number' name='changeall'><button type='button' class='btn-write' id='changeStockAll'>재고 일괄 적용하기</button><br>"
+							+ "<button type='button' class='btn-write' id='applyStock'>재고 적용하기</button>" 
+							+ "<input type='hidden' name='stCntList' value='${ stCntList }'>"
+							+ "<span id='stockResult'></span>");
+	
+	for(var i=0; i<opColorList.length; i++){
+		for(var j=0; j<opSizeList.length; j++){
+			$("#optionStock table tbody:last").append("<tr style='border-bottom:1px solid grey;'><td>" + opColorList[i] + "</td><td>" + opSizeList[j] + "</td><td>" 
+					+ "<input type='number' name='stCnt' id='stCnt" + opColorList[i] + opSizeList[j] + "' value='" + stCnt[su] + "'min='0' style='width:40px; text-alin:center; border:none;'></td></tr>");	
+			su++;
+		}
+	}
+	
+	$("#applyStock").click(function() {
+		var stCntList = [];
+		for(var i=0; i<opColorList.length; i++){
+			for(var j=0; j<opSizeList.length; j++){
+				var cnt = $("#stCnt"+ opColorList[i] + opSizeList[j] + "").val();
+				
+				if(cnt<0){
+					alert("재고는 0개 이상이어야 합니다.");
+					$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val('0');
+					return;
+				}
+				stCntList.push(cnt);
+			}
+		}
+		console.log("stCntList : " + stCntList);
+		$("input[name='stCntList']").val(stCntList);
+
+		if(stCntList!=null){
+			$("#stockResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+		}
+	});
+	
+	$("#changeStockAll").click(function() {
+		var stCntList = [];
+		for(var i=0; i<opColorList.length; i++){
+			for(var j=0; j<opSizeList.length; j++){
+				var cnt = $("input[name='changeall']").val();
+
+				stCntList.push(cnt);
+				$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
+			}
+		}
+		console.log("stCntList : " + stCntList);
+		$("input[name='stCntList']").val(stCntList);
+		
+		if(stCntList!=null){
+			$("#stockResult").html("<font color='blue' size='3'>일괄 적용되었습니다.</font>");
+		}
+	});
+	
+	$("#applyOption").click(function() {
+		proId = $("input[name='proId']").val();
+		opColor = $("input[name='opColor']").val().replace(/\s/g, '');
+		opSize = $("input[name='opSize']").val().replace(/\s/g, '');
+		$("input[name='opColorList']").val('');
+		$("input[name='opSizeList']").val('');
+		
+		opColorList = [];
+		opSizeList = [];
+		
+		if (opColor) {
+			opColor.split(",").forEach(function(item) {
+				opColorList.push(item);
+				$("input[name='opColorList']").val(opColorList);
+			});
+		}
+	
+		if (opSize) {
+			opSize.split(",").forEach(function(item) {
+				opSizeList.push(item);
+				$("input[name='opSizeList']").val(opSizeList);
+			});
+		}
+		$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+
+		$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
+								+ "<table style='text-align:center;'>" 
+								+ "<thead>" 
+								+ "<tr style='border-bottom:1px solid grey;'>" 
+								+ "<th style='width:80px'>색상</th><th style='width:80px'>사이즈</th><th style='width:80px'>재고</th>" 
+								+ "</tr>" 
+								+ "</thead>" 
+								+ "<tbody></tbody>" 
+								+ "</table>" 
+								+ "</form>"
+								+ "<input type='number' name='changeall'><button type='button' class='btn-write' id='changeStockAll'>일괄적용하기</button><br>"
+								+ "<button type='button' class='btn-write' id='applyStock'>재고 저장하기</button>" 
+								+ "<input type='hidden' name='stCntList' value='${ stCntList }'>"
+								+ "<span id='stockResult'></span>");
+		for(var i=0; i<opColorList.length; i++){
+			for(var j=0; j<opSizeList.length; j++){
+				$("#optionStock table tbody:last").append("<tr style='border-bottom:1px solid grey;'><td>" + opColorList[i] + "</td><td>" + opSizeList[j] + "</td><td>" 
+						+ "<input type='number' name='stCnt' id='stCnt" + opColorList[i] + opSizeList[j] + "' value='0' min='0' style='width:40px; text-alin:center; border:none;'></td></tr>");	
+			}
+		}
+		
+		console.log("change opColorList : " + opColorList);
+		console.log("change opSizeList : " + opSizeList);
+
+		$("#applyStock").click(function() {
+			var stCntList = [];
+			for(var i=0; i<opColorList.length; i++){
+				for(var j=0; j<opSizeList.length; j++){
+					var cnt = $("#stCnt"+ opColorList[i] + opSizeList[j] + "").val();
+					
+					if(cnt<0){
+						alert("재고는 0개 이상이어야 합니다.");
+						$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val('0');
+						return;
+					}
+					stCntList.push(cnt);
+				}
+			}
+			console.log("stCntList : " + stCntList);
+			$("input[name='stCntList']").val(stCntList);
+
+			if(stCntList!=null){
+				$("#stockResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+			}
+		});
+		
+		$("#changeStockAll").click(function() {
+			var stCntList = [];
+			for(var i=0; i<opColorList.length; i++){
+				for(var j=0; j<opSizeList.length; j++){
+					var cnt = $("input[name='changeall']").val();
+
+					stCntList.push(cnt);
+					$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
+				}
+			}
+			console.log("stCntList : " + stCntList);
+			$("input[name='stCntList']").val(stCntList);
+			
+			if(stCntList!=null){
+				$("#stockResult").html("<font color='blue' size='3'>일괄 적용되었습니다.</font>");
+			}
+		});
+	});
+});
+
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -127,20 +275,18 @@ textarea {
 	<!-- Navbar-->
 	<!-- <ul> -->
 	<ul class="navbar-nav ml-auto ml-md-0">
-		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
-			href="#" aria-haspopup="true"
-			aria-expanded="false">
-				</div></li>
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" aria-haspopup="true" aria-expanded="false"></a>
+		</li>
 	</ul>
 		<main>
 		<div class="container-fluid">
 			<h1 class="mt-4"></h1>
 		</div>
 		</main>
-		<script
-			src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>"
-			crossorigin="anonymous"></script>
+		<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 		<hr><hr><hr><br>
+		
 		<section>
 			<div>
 				<h3>상품 상세</h3>
@@ -159,12 +305,11 @@ textarea {
 			</tr>
 			<tr>
 				<td style="width:100px; text-align:center">상품 번호</td>
-				<td><input type="text" name="proId" value="${product.proId}" style="border:none; width:50%;"/></td>
+				<td><input type="text" name="proId" value="${product.proId}"/></td>
 			</tr>
 				<tr>
 				<td style="text-align:center">카테고리</td>
 				<td>
-<%-- 					<input type="text" name="proCate" value="${product.proCate}"> --%>
 					<select name="proCate" id="category">
 						<option>SELECT</option>
 						<optgroup label="OUTER">
@@ -193,69 +338,37 @@ textarea {
 							<option value="153" <c:if test="${product.proCate eq '153'}">selected</c:if>>(D)LONG</option>
 						</optgroup>
 					</select>
-<!-- 					<table class="option"> -->
-<!-- 							<tr> -->
-<!-- 								<td>카테고리1 <select onchange="category1(this)"> -->
-<!-- 										<option value="SELECT">선택</option> -->
-<!-- 										<option value="OUTER">OUTER</option> -->
-<!-- 										<option value="TOP">TOP</option> -->
-<!-- 										<option value="PANTS">PANTS</option> -->
-<!-- 										<option value="SKIRTS">SKIRTS</option> -->
-<!-- 										<option value="DRESS">DRESS</option> -->
-<!-- 								</select></td> -->
-<!-- 							</tr> -->
-<!-- 							<tr> -->
-<!-- 								<td>카테고리2 <select id="category2"> -->
-<!-- 										<option value="SELECT">선택</option> -->
-<!-- 								</select> -->
-<!-- 								</td> -->
-<!-- 							</tr> -->
-<!-- 						</table> -->
 				</td>
 			<tr>
 				<td style="text-align:center"><label>상품명</label></td>
-				<td><input type="text" name="proName" value="${product.proName}" style="border:none; width:100%;"/></td>
+				<td><input type="text" name="proName" value="${product.proName}"/></td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>공급가</label></td>
-				<td><input type="text" name="proPrimeCost" value="${product.proPrimeCost}" style="border:none; width:10%; text-align:right"/>&nbsp;원</td>
+				<td><input type="text" name="proPrimeCost" value="${product.proPrimeCost}"/>&nbsp;원</td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>옵션</label></td>
 				<td>
 				<div id="option">
-					
-<%-- 					<c:forEach var="option" items="${optionList}"> --%>
-<%-- 						<input type="text" name="opId" value="${option.opColor}${option.opSize}"> --%>
-<%-- 					</c:forEach> --%>
-						<table>
-								<c:forEach var="option" items="${optionList}">
-									<tr>
-										<td>색상</td>
-										<td><input type="text" name="opId"
-											value="${option.opColor}"></td>
-									</tr>
-									<tr>
-										<td>사이즈</td>
-										<td><input type="text" name="opSize"
-											value="${option.opSize}"></td>
-									</tr>
-								</c:forEach>
-						<!-- 	<tr> -->
-<%-- 								<td>색상</td><td><input type="text" name="opColor" placeholder="색상1, 색상2.." value="${opColorList}"> --%>
-<!-- 							</tr> -->
-<!-- 							<tr> -->
-<%-- 								<td>사이즈</td><td><input type="text" name="opSize" placeholder="사이즈1, 사이즈2.." value="${opSizeList}"> --%>
-<!-- 							</tr> -->
-							<tr>
-								<td colspan="2">
-									<button type="button" id="applyOption">옵션 적용하기</button><span id="optionResult"></span>
-									<input type="hidden" name="opColorList" value="${opClist}">
-									<input type="hidden" name="opSizeList" value="${opSlist}">
-								</td>
-							</tr>
-						</table>
-					</div>
+					<table>
+						<tr>
+							<td>색상</td><td><input type="text" name="opColor" placeholder="색상1, 색상2..">
+						</tr>
+						<tr>
+							<td>사이즈</td><td><input type="text" name="opSize" placeholder="사이즈1, 사이즈2..">
+						</tr>
+						<tr>
+							<td colspan="2">
+								<button type="button" class="btn-write" id="applyOption">옵션 적용하기</button><span id="optionResult"></span>
+								<input type="hidden" name="opColorList" value="${opColorList}">
+								<input type="hidden" name="opSizeList" value="${opSizeList}">
+								<span id="optionStock">
+								</span>
+							</td>
+						</tr>
+					</table>
+				</div>
 				</td>
 			</tr>
 			<tr>
@@ -277,11 +390,12 @@ textarea {
 			</table>
 			</div>
 			<div style="margin-left:450px;">
-				<a href="updateProduct.mdo?proId=${product.proId}"><input type="submit" value="수정" style="padding:10px"/></a>
+				<input type="submit" value="수정" style="padding:10px"/>
+				<a href="deleteProduct.mdo?proId=${product.proId}">삭제</a>
 				
 			</div>
 			</form>
-			<a href="deleteProduct.mdo?proId=${product.proId}"><input type="submit" value="삭제" style="padding:10px"/></a>
+			
 		</section>
 		
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>

@@ -9,15 +9,13 @@ public interface ProductService {
 	
 	void insertOption(OptionVO opt);
 	
-	void updateProduct(ProductVO pro);
-	
-	void updateOption(OptionVO opt);
+	int updateProduct(ProductVO pro);
 	
 	void deleteProduct(ProductVO pro);
 	
 	ProductVO getProduct(ProductVO pro);
 	
-	List<OptionVO> getOptionList(OptionVO opt);
+	ProductVO getOptionList(ProductVO pro);
 	
 	List<ProductVO> getProductList(ProductVO pro);
 

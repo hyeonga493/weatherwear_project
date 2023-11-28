@@ -17,8 +17,8 @@
 			<nav id="gnb">
 				<ul>
 					<li><a class="dp1" href="/w2/stoke.mdo">물류관리</a></li>
+					<li><a class="dp1" href="/w2/productList.mdo">상품관리</a></li>
 					<li><a class="dp1" href="/w2/adminOrder.mdo">주문관리</a></li>
-					<li><a class="dp1" href="/w2/deliverInfo.mdo">배송관리</a></li>
 					<li><a class="dp1" href="/w2/swap.mdo">교환/환불</a></li>
 					<!-- <li><a class="dp1" href="/w2/balance.mdo">정산관리</a></li> -->
 					<li><a class="dp1" href="/w2/reviewList.do">결제내역(리뷰)</a></li>

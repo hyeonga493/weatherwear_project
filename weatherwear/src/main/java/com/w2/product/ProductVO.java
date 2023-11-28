@@ -34,15 +34,9 @@ public class ProductVO {
 	private Double proMargin;  // 마진율
 	private int proAddCost;  // 추가금액
 	
-	// option_info
-	private String opId;
-	private String opColor;
-	private String opSize;
-	private List<ProductVO> optionList;
 	private List<String> opColorList;
 	private List<String> opSizeList;
-	private String opClist;
-	private String opSlist;
+	private List<Integer> stCntList;
 	
 	private String searchCondition;
 	private String searchKeyword;

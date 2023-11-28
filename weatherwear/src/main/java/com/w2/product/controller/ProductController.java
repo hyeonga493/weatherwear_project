@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.w2.product.OptionVO;
 import com.w2.product.ProductService;
@@ -49,10 +50,28 @@ public class ProductController {
 	
 	// 상품 상세 정보(관리자)
 	@RequestMapping(value = "/getProduct.mdo")
-	public String getProduct(ProductVO pro, Model model) {
-		model.addAttribute("product", productService.getProduct(pro));
+	public ModelAndView getProduct(ProductVO pro, Model model, OptionVO opt) {
 		
-		return "/admin/product/product_detail";
+		opt.setProId(pro.getProId());
+		
+		pro = productService.getProduct(pro);
+		
+		// 옵션 정보 저장
+		pro = productService.getOptionList(pro);
+		System.err.println("pro : " + pro.toString());
+		
+		model.addAttribute("product", pro);
+		model.addAttribute("opColorList", pro.getOpColorList());
+		model.addAttribute("opSizeList", pro.getOpSizeList());
+		model.addAttribute("stCntList", pro.getStCntList());
+	
+		ModelAndView mv = new ModelAndView("admin/product/product_detail");
+		mv.addObject("product", pro);
+		mv.addObject("opColorList", pro.getOpColorList());
+		mv.addObject("opSizeList", pro.getOpSizeList());
+		mv.addObject("stCntList", pro.getStCntList());
+		
+		return mv;
 	}
 	
 	// 상품 삭제(관리자)
@@ -66,7 +85,8 @@ public class ProductController {
 	// 상품 정보 수정(관리자)
 	@RequestMapping(value = "/updateProduct.mdo")
 	public String updateProduct(ProductVO pro) {
-		productService.updateProduct(pro);
+		
+		int result = productService.updateProduct(pro);
 		
 		return "redirect:productList.mdo";
 	}
@@ -87,7 +107,7 @@ public class ProductController {
 		System.out.println("[ ClientController ] : product_info");
 		
 		model.addAttribute("product", productService.getProduct(pro));
-		model.addAttribute("optionList", productService.getOptionList(opt));
+		//model.addAttribute("optionList", productService.getOptionList(opt));
 		
 		return "client/product/product_info";
 	}

@@ -56,31 +56,93 @@ textarea {
 <script type="text/javascript">
 //옵션 적용하기
 $(document).ready(function() {
-$("#applyOption").click(function() {
-	var opColor = $("input[name='opColor']").val();
-	var opSize = $("input[name='opSize']").val();
-	var opColorList = [];
-	var opSizeList = [];
-
-	if (opColor) {
-		opColor.split(",").forEach(function(item) {
-			opColorList.push(item);
-			$("input[name='opColorList']").val(opColorList);
-		});
-	}
-
-	if (opSize) {
-		opSize.split(",").forEach(function(item) {
-			opSizeList.push(item);
-			$("input[name='opSizeList']").val(opSizeList);
-		});
-	}
-	$("#optionResult").html("<font color='green' size='1'><b><b>적용되었습니다.</b></font>");
+	$("#applyOption").click(function() {
+		var proId = $("input[name='proId']").val();
+		var opColor = $("input[name='opColor']").val().replace(/\s/g, '');
+		var opSize = $("input[name='opSize']").val().replace(/\s/g, '');
+		var opColorList = [];
+		var opSizeList = [];
+		
+		if (opColor) {
+			opColor.split(",").forEach(function(item) {
+				opColorList.push(item);
+				$("input[name='opColorList']").val(opColorList);
+			});
+		}
 	
-	
-	console.log("opColorList : " + opColorList);
-	console.log("opSizeList : " + opSizeList);
-});
+		if (opSize) {
+			opSize.split(",").forEach(function(item) {
+				opSizeList.push(item);
+				$("input[name='opSizeList']").val(opSizeList);
+			});
+		}
+		$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+
+		$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
+								+ "<table style='text-align:center;'>" 
+								+ "<thead>" 
+								+ "<tr style='border-bottom:1px solid grey;'>" 
+								+ "<th style='width:80px'>색상</th><th style='width:80px'>사이즈</th><th style='width:80px'>재고</th>" 
+								+ "</tr>" 
+								+ "</thead>" 
+								+ "<tbody></tbody>" 
+								+ "</table>" 
+								+ "</form>"
+								+ "<input type='number' name='changeall'><button type='button' class='btn-write' id='changeStockAll'>일괄적용하기</button><br>"
+								+ "<button type='button' class='btn-write' id='applyStock'>재고 저장하기</button>" 
+								+ "<input type='hidden' name='stCntList' value='${ stCntList }'>"
+								+ "<span id='stockResult'></span>");
+		for(var i=0; i<opColorList.length; i++){
+			
+			for(var j=0; j<opSizeList.length; j++){
+				$("#optionStock table tbody:last").append("<tr style='border-bottom:1px solid grey;'><td>" + opColorList[i] + "</td><td>" + opSizeList[j] + "</td><td>" 
+						+ "<input type='number' name='stCnt' id='stCnt" + opColorList[i] + opSizeList[j] + "' value='0' min='0' style='width:40px; text-alin:center; border:none;'></td></tr>");	
+			}
+		}
+		
+		console.log("opColorList : " + opColorList);
+		console.log("opSizeList : " + opSizeList);
+		
+		$("#applyStock").click(function() {
+			var stCntList = [];
+			for(var i=0; i<opColorList.length; i++){
+				for(var j=0; j<opSizeList.length; j++){
+					var cnt = $("#stCnt"+ opColorList[i] + opSizeList[j] + "").val();
+					
+					if(cnt<0){
+						alert("재고는 0개 이상이어야 합니다.");
+						$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val('0');
+						return;
+					}
+					stCntList.push(cnt);
+				}
+			}
+			console.log("stCntList : " + stCntList);
+			$("input[name='stCntList']").val(stCntList);
+
+			if(stCntList!=null){
+				$("#stockResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+			}
+		});
+		
+		$("#changeStockAll").click(function() {
+			var stCntList = [];
+			for(var i=0; i<opColorList.length; i++){
+				for(var j=0; j<opSizeList.length; j++){
+					var cnt = $("input[name='changeall']").val();
+
+					stCntList.push(cnt);
+					$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
+				}
+			}
+			console.log("stCntList : " + stCntList);
+			$("input[name='stCntList']").val(stCntList);
+			
+			if(stCntList!=null){
+				$("#stockResult").html("<font color='blue' size='3'>일괄 적용되었습니다.</font>");
+			}
+		});
+	});
 });
 </script>
 </head>
@@ -96,10 +158,9 @@ $("#applyOption").click(function() {
 	<!-- Navbar -->
 	<!-- <ul> -->
 	<ul class="navbar-nav ml-auto ml-md-0">
-		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
-			href="#" aria-haspopup="true"
-			aria-expanded="false">
-				</div></li>
+		<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle"	href="#" aria-haspopup="true" aria-expanded="false"></a>
+		</li>
 	</ul>
 		<main>
 		<div class="container-fluid">
@@ -110,7 +171,7 @@ $("#applyOption").click(function() {
 			src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>"
 			crossorigin="anonymous"></script>
 		<hr><hr><hr><br>
-		<section>
+		<section style="margin:0 auto;">
 			<div>
 				<h3>상품 등록</h3>
 			</div>
@@ -119,25 +180,25 @@ $("#applyOption").click(function() {
 			<table class="form" border="1">
 			<tr>
 <!-- 					<input type="hidden" name="proSell" value="Y"> -->
-				<td style="text-align:center">판매 상태</td>
+				<td style="text-align:center;">판매 상태</td>
 				<td>
- 					<label><input type="radio" name="proSell" value="Y" for="proSell" checked="checked">판매 중</label>
-					<label><input type="radio" name="proSell" for="proSell" value="O">일시 품절</label>
-					<label><input type="radio" name="proSell" for="proSell" value="N" >판매 종료</label>
+ 					<input type="radio" name="proSell" id="판매중" value="Y" checked="checked"><label for="판매중" >판매 중</label>
+					<input type="radio" name="proSell" id="일시품절" value="O"><label for="일시품절">일시 품절</label>
+					<input type="radio" name="proSell" id="판매종료" value="N" ><label for="판매종료">판매 종료</label>
 				</td>
 			</tr>
 			<tr>
 				<td style="width:100px; text-align:center">상품 번호</td>
-				<td><input type="text" name="proId" style="border:none; width:50%;"/></td>
+				<td><input type="text" name="proId" value="1234567"/></td>
 			</tr>
 				<tr>
-				<td style="text-align:center">카테고리</td>
+				<td style="text-align:center" >카테고리</td>
 				<td>
 <!-- 				<input type="text" name="proCate"> -->
 					<select name="proCate" id="category">
 						<option>SELECT</option>
 						<optgroup label="OUTER">
-							<option value="111">PADDING</option>
+							<option value="111" selected="selected">PADDING</option>
 							<option value="112">COAT</option>
 							<option value="113">CARDIGAN</option>
 						</optgroup>
@@ -165,11 +226,11 @@ $("#applyOption").click(function() {
 				</td>
 			<tr>
 				<td style="text-align:center"><label>상품명</label></td>
-				<td><input type="text" name="proName" style="border:none; width:100%;"/></td>
+				<td><input type="text" name="proName" value="상품이름"/></td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>공급가</label></td>
-				<td><input type="text" name="proPrimeCost" style="border:none; width:10%; text-align:right"/>&nbsp;원</td>
+				<td><input type="text" name="proPrimeCost" value="10000"/>&nbsp;원</td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>옵션</label></td>
@@ -184,9 +245,11 @@ $("#applyOption").click(function() {
 							</tr>
 							<tr>
 								<td colspan="2">
-									<button type="button" id="applyOption">옵션 적용하기</button><span id="optionResult"></span>
+									<button type="button" class="btn-write" id="applyOption">옵션 적용하기</button><span id="optionResult"></span>
 									<input type="hidden" name="opColorList" value="${opColorList}">
 									<input type="hidden" name="opSizeList" value="${opSizeList}">
+									<span id="optionStock">
+									</span>
 								</td>
 							</tr>
 						</table>
@@ -195,11 +258,11 @@ $("#applyOption").click(function() {
 			</tr>
 			<tr>
 				<td style="text-align:center">상품 설명</td>
-				<td><textarea name="proContent" style="width:1000px; rows:10"></textarea></td>
+				<td><textarea name="proContent" style="width:1000px; rows:10">상품 설명</textarea></td>
 			</tr>
 			<tr>
-				<td style="text-align:center"><label>상품 사진</label></td>
-				<td><input type="file"/></td>
+				<td style="text-align:center"><label>메인 사진</label></td>
+				<td><input type="file" name="main_img"/></td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>부가 사진</label></td>
@@ -207,7 +270,7 @@ $("#applyOption").click(function() {
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>상세 사진</label></td>
-				<td><input type="file"/></td>
+				<td><input type="file" name="detail_img"/></td>
 			</tr>
 			</table>
 			</div>
