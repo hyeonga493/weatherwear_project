@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,17 +24,17 @@
 				<!--새로고침 버튼-->
 			</div>
 			<div class="card-body">
-				<form action="updateQna.do" method="post">
+				<form action="updateMyPageQna.do" method="post"> 
 					<div id="table-reponsive">
 						<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 							<tr>
-								<th>글번호</th>
+								<th>글번호 </th>
 								<td>${ clientQna.qnaId }</td>
-								<input type="hidden" name="qnaId" value="${clientQna.qnaId }">
+								<input type="hidden" name="qnaId" value="${ clientQna.qnaId }">
 								</tr>
 							<tr>
 								<th>제목</th>
-								<td>${clientQna.qnaTitle}</td>
+								<td><input type="text" name="qnaTitle" value="${clientQna.qnaTitle}" size="40" /></td>
 							</tr>
 							<tr>
 								<th>질문분류</th>
@@ -41,15 +42,18 @@
 							</tr>
 							<tr>
 								<th>내용</th>
-								<td>${ clientQna.qnaContent }</td>
+								<td><textarea type="text" name="qnaContent" cols="80" rows="10" >${ clientQna.qnaContent }</textarea></td>
 							</tr>
+							<input type="hidden" name="clientId" value="${ clientQna.clientId }">
 							<tr>
 								<th>답변</th>
 								<td>${ clientQna.qnaAnswer }</td>
 							</tr>
 							<tr>
 								<td colspan="2" class="center-group">
-									<input type="button" class="btn-write" value="취소" onclick="location.href='clientQnaList.do'"/>
+									<input type="submit" class="btn-write" value="문의글 수정" />
+									<input type="button" class="btn-write" value="삭제" onclick="location.href='deleteMyPageQna.do?qnaId=${ clientQna.qnaId }&clientId=${ clientQna.clientId }'"/>
+									<input type="button" class="btn-write" value="취소" onclick="location.href='clientQnaMyPageList.do?clientId=${ clientQna.clientId }'"/>
 								</td>
 							</tr>
 						</table>

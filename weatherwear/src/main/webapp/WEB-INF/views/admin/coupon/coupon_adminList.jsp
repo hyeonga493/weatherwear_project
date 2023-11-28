@@ -6,14 +6,14 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>공지 / 문의사항 페이지</title>
+<title>쿠폰관리 페이지</title>
 
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css"> 
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
-
+ 
 <script>
 
 </script>
@@ -36,7 +36,6 @@
 		<script src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>"
 			crossorigin="anonymous"></script>
 		<hr><hr><hr><br> 
-		<h2>공지 / 문의사항 페이지</h2>
 		
 		<div id="wrap">
 			<!-- container -->
@@ -45,70 +44,51 @@
 					<div class="sub-type notice">
 						 <div class="inner-box"> 
 							<article class="notice-area"> 
-								 <div class="menu-nav-wrap"> 
-									<div class="menu-nav">
-										<ul>
-											<c:choose>
-												<c:when test="${param.gubun == 'notice' }">
-													<li class="active"><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-													<li><a href="noticeList.mdo?gubun=news">문의사항</a></li>
-												</c:when>
-												<c:when test="${param.gubun == 'news' }">
-													<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-													<li class="active"><a href="noticeList.mdo?gubun=news">문의사항</a></li>
-												</c:when>
-												<c:otherwise>
-													<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-													<li><a href="noticeList.mdo?gubun=news">문의사항</a></li>
-												</c:otherwise>
-												</c:choose>
-											</ul>
-										</div>
+								 <div class="menu-nav-wrap">
+								 	<h2>쿠폰관리페이지</h2> 
 									</div>
-									
 								<div class="notice-wrap">
-									<form id="searchForm" name="searchForm" action="qnaList.mdo" method="post">
+									<form id="searchForm" name="searchForm" action="couponList.mdo" method="post">
 										<input type="hidden" id="type" name="type" value="N" /> 
 										<input type="hidden" id="pageNo" name="pageNo" value="1" />
-										<div class="select-type2" style="margin-top:20px; margin-left:250px;">
-											<select id="search_noticeSelect" name="qnaSelectType" style="width:130px;">
-												<option value="subject">제목</option>
-												<option value="content">내용</option>
-											</select>
-											<input type="text" id="search_noticeText" name="qnaKeyword" style="width:400px;"> 
-											<button type="submit" class="btn-search" style="border-radius: 8px; padding: 10px 24px;">검색</button>
-										</div>
 										<div class="table-type3" style = "position: relative; margin-top: 28px; padding-bottom: 15px; border-bottom: 2px solid #111;">
 											<p class="side">총 ${countNoticeBoard }건</p>
 											
 											<table>
-												<caption>news</caption>
 												<colgroup>
-													<col style="width: 220px">
-													<col>
-													<col style="width: 120px">
-													<col style="width: 110px">
+													<col style="width: 230px">
+													<col style="width: 350px">
+													<col style="width: 100px">
+													<col style="width: 150px">
+													<col style="width: 150px">
+													<col style="width: 100px">
+													<col style="width: 100px">
 												</colgroup>
 												<thead>
 													<tr>
-														<th>번호</th>
-														<th>제목</th>
-														<th>작성자</th>
-														<th>등록일</th>
+														<th>쿠폰아이디</th>
+														<th>쿠폰이름</th>
+														<th>쿠폰할인금액</th>
+														<th>최소주문금액</th>
+														<th>쿠폰시작일</th>
+														<th>쿠폰만료일</th>
 													</tr>
 												</thead>
 												<tbody>
-													<c:forEach var="qna" items="${qnaBoardList }">
+													<c:forEach var="couponAdmin" items="${couponAdminList }">
 														<tr>
-															<td>${qna.qnaId }</td>
-															<th><strong><a href="qnaDetail.mdo?qnaId=${ qna.qnaId }">${qna.qnaTitle}</a></strong></th>
-	 														<td>${qna.clientId}</td>
-	 														<td><fmt:formatDate value="${qna.qnaDate }" pattern="yyyy-MM-dd" /></td>
+															<td>${couponAdmin.cpId }</td>
+	 														<td>${couponAdmin.cpName}</td>
+	 														<td>${couponAdmin.cpPrice}</td>
+	 														<td>${couponAdmin.minPrice}</td>
+	 														<td><fmt:formatDate value="${couponAdmin.cpStDate }" pattern="yyyy-MM-dd" /></td>
+	 														<td><fmt:formatDate value="${couponAdmin.cpEndDate }" pattern="yyyy-MM-dd" /></td>
 														</tr>
 													</c:forEach>
 												</tbody>
 											</table>
-											
+											<input type="button" class="btn-write" style="width:150px; height:40px; margin-left:950px;"value="쿠폰 등록" onclick="location.href='coupon.mdo'">
+										</div>
 										<div class="pagination">
 											<ol>
 											 	<c:if test="${noticePageMaker.prev}">

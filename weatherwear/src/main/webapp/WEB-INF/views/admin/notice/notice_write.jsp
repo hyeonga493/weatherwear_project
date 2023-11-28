@@ -35,7 +35,6 @@
 		</main>
 		<script src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>" crossorigin="anonymous"></script>
 		<hr><hr><hr><br>
-		
 		<!-- 메뉴관리 -> 메뉴 등록 페이지 -->
 		<div class="card mb-4">
 			<div class="card-header">
@@ -54,6 +53,7 @@
 								<th>내용</th>
 								<td><textarea name="noContent" cols="80" rows="10"></textarea></td>
 							</tr>
+							<input type="hidden" name="noWriter" value="${ client.clientName }">
 							<tr>
 								<td colspan="2" class="center-group">
 									<input type="submit" class="btn-write" value="공지글 등록">
