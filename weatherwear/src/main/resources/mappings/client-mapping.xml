@@ -119,6 +119,6 @@
 			AND cEmail LIKE CONCAT('%', #{ keyword }, '%')
 		</if>
 		ORDER BY cId DESC
-		LIMIT #{ postStart }, #{ postEnd }
+		LIMIT #{ postStart }, 10
 	</select>
 </mapper>
