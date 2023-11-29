@@ -12,14 +12,12 @@
 
 /******************************** 헤더 영역 *********************************/
 /* header */
-#header{border-top:5px solid #009223;height:165px; position:absolute; left:0; width:100%; top:0; z-index:99; background-color:#fff; overflow:hidden; min-width:1280px;}
-#header.open:before{content:''; height:11px; position:absolute; left:0; width:100%; bottom:-11px}
-#header:after{content:''; position:absolute; top:164px; background-color:#e5e5e5; left:0; width:100%; height:1px;}
-#header .logo{position:absolute; left:50%; top:35px; margin-left:-101px;  transition-duration:0.3s}
-#header .logo a{display:block; background:url(../images/logo_w.png) round; width:202px; height:40px; overflow:hidden; font-size:0px; line-height:0px; text-indent:-9999px;}
+div#container{ border : 3px solid gray; padding : 1%;}
+
+#header{width: 95%; padding: 1%; margin-bottom: 5px; clear: both;}
 
 /* 메인 메뉴 */
-#gnb{text-align:center; position:absolute; left:0; width:100%; top:98px; text-align:center;}
+#gnb{text-align:center; position:absolute; left:0; width:100%; top:130px; text-align:center;}
 #gnb >ul{display:inline-block;}
 #gnb >ul >li{float:left; width:165px; position:relative;}
 #gnb >ul >li a.dp1{font-size:18px; color:#292929; font-weight:bold; letter-spacing:-0.04em; position:relative; z-index:3; padding-top:20px; display:block;}

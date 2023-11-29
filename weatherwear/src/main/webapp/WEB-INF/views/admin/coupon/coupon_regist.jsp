@@ -16,26 +16,6 @@
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-	<!-- 전체화면 버튼 -->
-	<button class="btn btn-link btn-sm order-1 order-lg-0">
-		<i class="fas fa-bars"></i>
-	</button>
-
-	<!-- Navbar-->
-	<!-- <ul> -->
-	<ul class="navbar-nav ml-auto ml-md-0">
- 		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
-			href="#" aria-haspopup="true"
-			aria-expanded="false">
-				</div></li> 
-	</ul>
-		<main>
-		<div class="container-fluid">
-			<h1 class="mt-4"></h1>
-		</div>
-		</main>
-		<hr><hr><hr><br>
-		
 		<h2>쿠폰등록&emsp;&emsp;</h2>
 		<hr style="border:solid gray; border-radius:1px;">
 		<form action="couponRegist.mdo?chClientType=${ coupon.chClientType }" method="POST">
@@ -74,7 +54,7 @@
 			</div>
 			<hr style="border:solid gray; border-radius:1px;">
 			<button type="submit" id="couponBtn" class="btn-write" style="margin-left:100px;">쿠폰 등록</button>
-			<button type="submit" class="btn-write" style="margin-left:100px;" onClick="location.href='/w2/couponList.mdo'">취소</button>
+			<button type="submit" class="btn-write" style="margin-left:100px;" onClick="location.href='/w2/couponAdminList.mdo'">취소</button>
 		</form>
 
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>

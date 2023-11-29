@@ -6,13 +6,21 @@
 <html>
 <head>
 <meta charset='utf-8'>
-<title>w2</title>
 <link rel="stylesheet" type="text/css" href="resources/admin/css/style.css">
+<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 </head>
-
+<div id="container">
 <body>
 	<div id="header" style="overflow: hidden; height: 165px;">
+	
 		<div class="headercontent">
+			<a href="/w2/dashboard.mdo"><img src="resources/image/admin/logo2.png" width="300px"></a>
+				<div style="float:right;">
+					<span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자 계정</span>
+				<img class="img-profile rounded-circle" src="resources/image/admin/person_icon.png" width="20px">
+				&emsp;&emsp;<a href="#" >정보수정</a> | <a href="adminLogout.mdo">로그아웃</a>
+				</div>
+				
 			<!-- gnb -->
 			<nav id="gnb">
 				<ul>
@@ -30,30 +38,8 @@
 				</ul>
 			</nav>
 			<!-- gnb 끝 -->
-
-			<!-- Topbar Navbar -->
-			<ul class="navbar-nav ml-auto">
-				<!-- Nav Item - User Information -->
-				<li class="nav-item dropdown no-arrow">
-				<a href="/w2/dashboard.mdo">
-					<img src="resources/image/admin/logo2.png" width="150px" style="margin: 50px 80px 10px 45px;"/>
-				</a>
-				<a class="nav-link dropdown-toggle" href="#" id="userDropdown"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false" style="float:right; margin: 25px 100px 75px 20px;"> 
-					<span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자 계정</span>
-						<img class="img-profile rounded-circle"
-						src="resources/image/admin/person_icon.png" width="20px">
-				</a> 
-				
-				<!-- Dropdown - User Information -->
-					<div class="dropdown-menu" aria-labelledby="userDropdown">
-						<a class="dropdown-item" href="#">정보수정</a>
-						<a class="dropdown-item" href="adminLogout.mdo">로그아웃</a>
-					</div></li>
-			</ul>
-
 		</div>
 	</div>
 </body>
+</div>
 </html>
