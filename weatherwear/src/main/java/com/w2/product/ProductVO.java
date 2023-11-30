@@ -11,7 +11,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class ProductVO {
 	
 	// product
@@ -34,13 +33,31 @@ public class ProductVO {
 	private Double proMargin;  // 마진율
 	private int proAddCost;  // 추가금액
 	
+	// category
+	private String cateName;
+	
 	private List<String> opColorList;
 	private List<String> opSizeList;
 	private List<Integer> stCntList;
 	
-	private String searchCondition;
-	private String searchKeyword;
+	private String searchtype;
+	private String keyword;
+	private String ordertype;
+	private String viewtype;
+	
+	private int postStart;
+	private int postEnd;
+	private int startPage;
+	private int endPage; 
 	
 	private MultipartFile uploadFile;
 
+	@Override
+	public String toString() {
+		return "ProductVO [proSell=" + proSell + ", proId=" + proId + ", proCate=" + proCate + ", proName=" + proName
+				+ ", proContent=" + proContent + ", proRegDate=" + proRegDate + ", proPrimeCost=" + proPrimeCost
+				+ ", cateName=" + cateName + ", opColorList=" + opColorList + ", opSizeList=" + opSizeList
+				+ ", stCntList=" + stCntList + "]";
+	}
+	
 }
