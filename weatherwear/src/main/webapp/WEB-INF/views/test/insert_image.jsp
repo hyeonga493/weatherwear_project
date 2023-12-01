@@ -6,12 +6,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js" ></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	
 	<!-- 파일 업로드시 필요합니다. -->
 	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.809.0.min.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js" ></script>
 	<script src="resources/product/js/file_insert.js"></script>
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 	
 </head>
 <body>

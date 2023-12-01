@@ -29,4 +29,16 @@
 		</if> 
 		VALUES( #{ imageId }, #{ imageName }, #{ imageDir }, #{ imageStatus }, #{ imageBy })
 	</insert>
+	
+	<select id="getMainImage" parameterType="imvo" resultMap="imvo">
+		SELECT * FROM product_image WHERE imageBy = #{ imageBy } AND imageStatus = '대표'
+	</select>
+
+	<select id="getDetailImage" parameterType="imvo" resultMap="imvo">
+		SELECT * FROM product_image WHERE imageBy = #{ imageBy } AND imageStatus = '상세'
+	</select>
+
+	<delete id="deleteImage" parameterType="String">
+		DELETE FROM product_image WHERE imageName = #{ imageName }
+	</delete>
 </mapper>

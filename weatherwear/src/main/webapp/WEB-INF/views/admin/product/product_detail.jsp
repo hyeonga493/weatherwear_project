@@ -10,74 +10,74 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="utf-8" />
-<title>상품 등록 정보 / 수정</title>
-<script src="resources/admin/js/jquery/jquery.min.js"></script>
-<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
-<style>
-div.clearfixed{
-	display: block;
-	content: "";
-	clear: both
-}
-a {
-	text-decoration: none;
-	color:black;
-}
-li {
-	list-style:none;
-}
+	<meta charset="utf-8" />
+	<title>상품 등록 정보 / 수정</title>
+	<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
+	<link rel="stylesheet" href="resources/product/css/product_style.css" />
+	
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="resources/admin/js/jquery/jquery.min.js"></script>
+	
+	<!-- 스마트에디터 적용 -->
+	<script type="text/javascript" src="resources/static/smarteditor/js/HuskyEZCreator.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="resources/product/js/usingEditor.js" charset="UTF-8"></script>
 
-.form {
-	width:80%;
-	height:50%;
-	border-collapse:collapse;
-	margin:30px 0 30px 0;
-}
-td {
-	padding:5px;
-}
-button {
-background-color:#FFFFFF;
-border-width:thin;
-border-color:black;
-}
-input[type=button] {
-	border:none;
-}
-input[type=submit] {
-	border:none;
-}
-input[type=reset] {
-	border:none;
-}
-textarea {
-	padding:10px;
-	width:350px;
-	height:100px;
-	border:0;
-}
-</style>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
+	<!-- 파일 업로드시 필요합니다. -->
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.809.0.min.js"></script>
+	<script type="text/javascript" src="resources/product/js/product_detail.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="resources/product/js/checkbox.js" charset="UTF-8"></script>
+<script>
+/**
+ * 
+ */
 $(document).ready(function() {
+
+	$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+	$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
+							+ "<table style='text-align:center;'>" 
+							+ "<thead>" 
+							+ "<tr style='border-bottom:1px solid grey;'>" 
+							+ "<th style='width:80px'>색상</th><th style='width:80px'>사이즈</th><th style='width:80px'>재고</th>" 
+							+ "</tr>" 
+							+ "</thead>" 
+							+ "<tbody></tbody>" 
+							+ "</table>" 
+							+ "</form>"
+							+ "<input type='number' name='changeall'><button type='button' class='btn-write' id='changeStockAll'>재고 일괄 적용하기</button><br>"
+							+ "<button type='button' class='btn-write' id='applyStock'>재고 적용하기</button>" 
+							+ "<input type='text' name='stCntList' value='${ stCntList }'>"
+							+ "<span id='stockResult'></span>");
 	
 	// 상품 아이디 조회
 	var proId = "${ product.proId }";
+	// console.log("proId : " + proId);
 	
 	// 색상 옵션 조회
 	var opColorList = "${ opColorList }";
+	// console.log("opColorList : " + opColorList);
+	
 	var opColor = opColorList.substring(1,opColorList.length-1).replace(/\s/g, '');
+	// console.log("opColor : " + opColor);
+	
 	$("input[name='opColor']").val(opColor);
 	
 	// 사이즈 옵션 조회
 	var opSizeList = "${ opSizeList }";
+	// console.log("opSizeList : " + opSizeList);
+	
 	var opSize = opSizeList.substring(1,opSizeList.length-1).replace(/\s/g, '');
+	// console.log("opSize : " + opSize);
+	
 	$("input[name='opSize']").val(opSize);
+	
 	
 	// 옵션별 재고 조회
 	var stCntList = "${ stCntList }";
 	var stCnt = stCntList.substring(1,stCntList.length-1).replace(/\s/g, '');
+	// console.log("stCntList : " + stCntList);
+	// console.log("stCnt : " + stCnt);
+
+	$("input[name='stCntList']").val(stCnt);
 	
 	// 옵션값
 	stCnt = stCnt.split(",").map(function(num) {
@@ -106,21 +106,6 @@ $(document).ready(function() {
 	}
 
 	
-	$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
-	$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
-							+ "<table style='text-align:center;'>" 
-							+ "<thead>" 
-							+ "<tr style='border-bottom:1px solid grey;'>" 
-							+ "<th style='width:80px'>색상</th><th style='width:80px'>사이즈</th><th style='width:80px'>재고</th>" 
-							+ "</tr>" 
-							+ "</thead>" 
-							+ "<tbody></tbody>" 
-							+ "</table>" 
-							+ "</form>"
-							+ "<input type='number' name='changeall'><button type='button' class='btn-write' id='changeStockAll'>재고 일괄 적용하기</button><br>"
-							+ "<button type='button' class='btn-write' id='applyStock'>재고 적용하기</button>" 
-							+ "<input type='hidden' name='stCntList' value='${ stCntList }'>"
-							+ "<span id='stockResult'></span>");
 	
 	for(var i=0; i<opColorList.length; i++){
 		for(var j=0; j<opSizeList.length; j++){
@@ -144,7 +129,7 @@ $(document).ready(function() {
 				stCntList.push(cnt);
 			}
 		}
-		console.log("stCntList : " + stCntList);
+		console.log("stCntList : " + $("input[name='stCntList']").val());
 		$("input[name='stCntList']").val(stCntList);
 
 		if(stCntList!=null){
@@ -162,7 +147,7 @@ $(document).ready(function() {
 				$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
 			}
 		}
-		console.log("stCntList : " + stCntList);
+		// console.log("stCntList : " + stCntList);
 		$("input[name='stCntList']").val(stCntList);
 		
 		if(stCntList!=null){
@@ -216,8 +201,8 @@ $(document).ready(function() {
 			}
 		}
 		
-		console.log("change opColorList : " + opColorList);
-		console.log("change opSizeList : " + opSizeList);
+		// console.log("change opColorList : " + opColorList);
+		// console.log("change opSizeList : " + opSizeList);
 
 		$("#applyStock").click(function() {
 			var stCntList = [];
@@ -233,7 +218,7 @@ $(document).ready(function() {
 					stCntList.push(cnt);
 				}
 			}
-			console.log("stCntList : " + stCntList);
+			// console.log("stCntList : " + stCntList);
 			$("input[name='stCntList']").val(stCntList);
 
 			if(stCntList!=null){
@@ -251,7 +236,7 @@ $(document).ready(function() {
 					$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
 				}
 			}
-			console.log("stCntList : " + stCntList);
+			// console.log("stCntList : " + stCntList);
 			$("input[name='stCntList']").val(stCntList);
 			
 			if(stCntList!=null){
@@ -260,7 +245,6 @@ $(document).ready(function() {
 		});
 	});
 });
-
 </script>
 </head>
 <body class="sb-nav-fixed">
@@ -291,7 +275,7 @@ $(document).ready(function() {
 			<div>
 				<h3>상품 상세</h3>
 			</div>
-			<form action="updateProduct.mdo"  method="post">
+			<form action="updateProduct.mdo"  method="post" enctype="multipart/form-data">
 			<div>
 			<table class="form" border="1">
 			<tr>
@@ -361,8 +345,8 @@ $(document).ready(function() {
 						<tr>
 							<td colspan="2">
 								<button type="button" class="btn-write" id="applyOption">옵션 적용하기</button><span id="optionResult"></span>
-								<input type="hidden" name="opColorList" value="${opColorList}">
-								<input type="hidden" name="opSizeList" value="${opSizeList}">
+								<input type="hidden" name="opColorList" value="${ product.opColorList}">
+								<input type="hidden" name="opSizeList" value="${ product.opSizeList}">
 								<span id="optionStock">
 								</span>
 							</td>
@@ -373,24 +357,59 @@ $(document).ready(function() {
 			</tr>
 			<tr>
 				<td style="text-align:center">상품 설명</td>
-				<td><textarea name="proContent" style="width:1000px; rows:10">${product.proContent}</textarea></td>
+				<td>
+					<div id="smarteditor">
+						<textarea name="proContent" id="proContent" rows="20" cols="10" placeholder="내용 입력해주세요" style="width:500px; border: 2px solid black">${ product.proContent }</textarea>
+					</div>
+				</td>
 			</tr>
 			<tr>
-				<td style="text-align:center"><label>상품 사진</label></td>
-				<td><input type="file"/></td>
-			</tr>
-			<tr>
-				<td style="text-align:center"><label>부가 사진</label></td>
-				<td><input type="file"/></td>
+				<td style="text-align:center"><label>메인 사진</label></td>
+				<td>
+					<input type="file" id="mainImageUpload" name="main_Changeimg[]"/>
+			        <ul id="mainfileList"></ul>
+			        <ul id="mainimageList"></ul>
+			        <input type="hidden" id="main_imageList" name="main_imageList" >
+				</td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>상세 사진</label></td>
-				<td><input type="file"/></td>
+				<td>
+					<input type="file" id="detailImageUpload" name="detail_Changeimg[]" multiple/>
+			        <ul id="detailfileList"></ul>
+			        <ul id="detailimageList"></ul>
+			        <input type="hidden" name="detail_imageList" id="detail_imageList">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					이미지
+				</td>
+				<td>
+			        <ul id="mainimageList_ori">
+			        <c:if test="${ mainImage != null }">
+			        	<img src="${ mainImage.imageDir }${ mainImage.imageName }" style="width:auto; height:150px;">
+			        </c:if>
+			        </ul>
+			        <ul id="detailimageList_ori">
+			        <c:if test="${ detailImageList != null }">
+			        	<c:forEach var="detail" items="${ detailImageList }">
+			        		<label for="${ detail.imageName }">
+			        			<input type="checkbox" id="${ detail.imageName }" class="checkClass" value="${ detail.imageName }" name="DetailImage">
+				        		<img id="${ detail.imageName }" src="${ detail.imageDir }${ detail.imageName }" style="width:auto; height:150px;">
+				        	</label>
+			        	</c:forEach>
+			        	<br><br><br>
+			        	<input type="button" value="기존 이미지 삭제" style="padding:10px" onclick="deleteFunction()">
+			        	<input type="hidden" name="deleteList">
+			        </c:if>
+			        </ul>
+				</td> 
 			</tr>
 			</table>
 			</div>
 			<div style="margin-left:450px;">
-				<input type="submit" value="수정" style="padding:10px"/>
+				<input type="submit" value="수정" onClick="submitPost()" style="padding:10px"/>
 				<a href="deleteProduct.mdo?proId=${product.proId}">삭제</a>
 				
 			</div>

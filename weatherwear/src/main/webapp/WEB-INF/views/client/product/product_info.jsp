@@ -2,41 +2,87 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@page import="com.w2.product.ProductVO"%>
-<%@page import="com.w2.product.ProductDAO"%>
-<%
-	ProductVO product = (ProductVO)session.getAttribute("product");
-%> 
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>product_info.jsp</title>
-<script src="../js/jquery-3.7.1.min.js"></script>
-	<script type="text/javascript">
-	function count(type) {
-		  const resultElement = document.getElementById('cnt');
-		  let number = resultElement.innerText;
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+	document.getElementById("deli").innerHTML = "배송비 3,000원";
+})
+	function count(num) {
+		var cnt = parseInt($("input[name='cnt']").val());
+		var odTotal = parseInt($("input[name='odTotal']").val());
 		
-		  if (type === 'plus') {
-		    number = parseInt(number) + 1;
-		  } else if (type === 'minus') {
-		    number = parseInt(number) - 1;
-		  }
-		  
-		  if (number < 1) {
-		    number = 1;
-		  }
-		  
-		  resultElement.innerText = number;
+		console.log("odTotal : " + odTotal);
+		console.log("cnt : " + cnt);
+		
+		if (num == 1) {
+			odTotal += ${ product.proPrice };
+			cnt++;
+		} else {
+			odTotal -= ${ product.proPrice };
+			cnt--;
 		}
-	
-	function select(e) {
-		const text = e.options[e.selectedIndex].text;
+
+		if (cnt < 1) {
+			cnt = 1;
+		}
 		
-		console.log(e.options);
+		if(odTotal > 50000){
+			document.getElementById("deli").innerHTML = "배송비 무료";
+			$("input[name='deliPrice']").val(0);
+		} else { 
+			document.getElementById("deli").innerHTML = "배송비 3,000원";
+			$("input[name='deliPrice']").val(3000);
+		}
 		
-		document.getElementById('selected').innerText = text;
+		$("input[name='cnt']").val(cnt);
+		$("input[name='odTotal']").val(odTotal);
+	}
+</script>
+<script>
+	function select(selectElement) {
+		var color = document.getElementById("opColor").value;
+		//console.log(color);
+		var size = document.getElementById("opSize").value;
+		//console.log(size);
+		
+		if(color === "SELECT" || size === "SELECT"){
+			return;
+		}
+		var name= color+size;
+		
+		//if($("#"+name).length){
+		//	alert("이미 있다");
+			
+		var select = "";
+		select += "<div name='" + color + size + "' style='border:1px dotted green; padding:30px;'>"
+				+ "${ product.proName }&nbsp;/&nbsp;" + color + "&nbsp;/&nbsp;" + size + "&nbsp;&nbsp;&nbsp;<br>"
+				+ "<button type='button' onclick='count(2)'>-</button>"
+				+ "<input name='cnt' style='padding:0 20px 0 20px; width:30px;' value='1'>"
+				+ "<button type='button' onclick='count(1)'>+</button>"
+				+ "<input type='hidden' name='opId' value='${ produce.proName }" + name + "'>"
+				+ "<span style='float:right;'>&nbsp;&nbsp;&nbsp;&nbsp;</span>"
+				+ "<button id='id' name='name' onclick='deleteSelected(this)' style='float:right;'>X</button>"
+				+ "</div>";
+
+		$("#selectOption").append(select);
+		$("input[name='odTotal']").val(${ product.proPrice });
+		
+		// 초기화
+		document.getElementById("opColor").value = "SELECT";
+		document.getElementById("opSize").value = "SELECT";
+	}
+
+
+	function deleteSelected(element){
+		$(element).parent().remove();
 	}
 </script>
 <style>
@@ -138,72 +184,54 @@ input[type=button] {
 <body>
 	<%@ include file="../../client/base/header.jsp" %>
 	<div id="product_content">
-	
 		<div style="padding: 10px 0 10px 0">
-			<a href="/w2">HOME</a> > 
-			<span><a href="#">카테고리1</a></span> > 
-			<span><a href="productList.do">카테고리2</a></span>
+			<c:forEach var="cate" items="${ category }">
+				<c:if test="${ cate == 'ALL' }">
+					<span><a href="/w2/clientMain.do">${ cate }</a></span>&nbsp;> 
+				</c:if>
+				<c:if test="${ cate != 'ALL' }">
+					<span>&nbsp;${ cate }</span>&nbsp;>
+				</c:if>
+			</c:forEach>
+			&nbsp;${ product.proName }
 		</div>
 		<div class="product">
 			<div class="image">
-				<img src="https://via.placeholder.com/400x480" alt="상품이미지">
-				<ul style="list-style-type: none">
-					<li><a href="#a"><img src="https://via.placeholder.com/100x100" alt="상품이미지"></a></li>
-					<li><a href="#a"><img src="https://via.placeholder.com/100x100" alt="상품이미지"></a></li>
-					<li><a href="#a"><img src="https://via.placeholder.com/100x100" alt="상품이미지"></a></li>
-				</ul>
+			
+				<img src="${ mainImage.imageDir }${ mainImage.imageName }" alt="${ producr.proName }" style="width:400px; height:480px;">
+				
 				<div class="clearfixed"></div>
 			</div>
 			<div class="info" style="width:350px">
 				<div style="height:50px; font-size:20px;">${product.proName}</div>
 				<div style="font-size:30px; text-align:right; border-bottom:solid 1px">${product.proPrice}원</div>
 				<div style="margin-top: 10px">
-					<label>색상</label><select name="opColor">
+					<label>색상</label><select name="opColor" id="opColor">
 						<option value="SELECT">선택</option>
-						<c:forEach var="option" items="${optionList}">
-						<option value="${option.opColor}">${option.opColor}</option>
+						<c:forEach var="option" items="${opColorList}">
+							<option value="${option}">${option}</option>
 						</c:forEach>
 					</select>
 				</div>
 				<div>
-					<label>사이즈</label><select name="opSize" onchange="select(this)">
+					<label>사이즈</label><select name="opSize" id="opSize" onchange="select(this)">
 						<option value="SELECT">선택</option>
-						<c:forEach var="option" items="${optionList}">
-						<option value="${option.opSize}">${option.opSize}</option>
+						<c:forEach var="option" items="${opSizeList}">
+							<option value="${option}">${option}</option>
 						</c:forEach>
 					</select>
-					</div>
-<!-- 					<label>색상</label> <select name="opColor"> -->
-<!-- 						<option value="SELECT">선택</option> -->
-<!-- 						<option value="WHITE">WHITE</option> -->
-<!-- 						<option value="BLACK">BLACK</option> -->
-<!-- 						<option value="GRAY">GRAY</option> -->
-<!-- 					</select> -->
-<!-- 				</div> -->
-<!-- 				<div> -->
-<!-- 					<label>사이즈</label> <select name="opSize"> -->
-<!-- 						<option value="SELECT">선택</option> -->
-<!-- 						<option value="XS">XS</option> -->
-<!-- 						<option value="S">S</option> -->
-<!-- 						<option value="M">M</option> -->
-<!-- 						<option value="L">L</option> -->
-<!-- 						<option value="XL">XL</option> -->
-<!-- 					</select> -->		
-				<div>
-					<button onclick="count('minus')">-</button>
-					<span id="cnt" style="padding:0 20px 0 20px">1</span>
-					<button onclick="count('plus')">+</button>
-					<input type="button" class="select" value="선택"><br>
-					<br>
 				</div>
-				<div id="selected" style="overflow: auto; width: 300px; height: 50px;">
-					
-				</div>
+				<section id="selectOption" style="border:3px solid blue; padding:10px;">
+				
+				</section>
+				
+					<input type="text" name="deliPrice" value="3000">
 				<div style="padding:10px 0 10px 0">
-					배송비 0,000원<br> 00,000원 이상 무료배송
+					<span id="deli"></span>
+					<br> 00,000원 이상 무료배송
 				</div>
 				<div style="font-size:20px; text-align:right; padding:10px 0 10px 0">
-					총 상품금액&nbsp;<span>00,000원</span>&nbsp;<span>(0개)</span>
+					총 상품금액&nbsp;<input type="text" name="odTotal" value="0" style="border:none; text-align:center;" disabled="disabled">
 				</div>
 				<div style="padding:10px 0 10px 0">
 					<a href="#">배송 안내</a><br> <a href="#">반품/교환 안내</a>
@@ -221,9 +249,9 @@ input[type=button] {
 			<a href="#">상세정보</a> <a href="#">리뷰</a> <a href="#">문의</a>
 		</div>
 		<div class="detail">
-			<img src="https://via.placeholder.com/800x400" alt="상세페이지1"><br>
-			<img src="https://via.placeholder.com/800x400" alt="상세페이지2"><br>
-			<img src="https://via.placeholder.com/800x400" alt="상세페이지3">
+			<c:forEach var="detail" items="${ detailImageList }">
+			<img src="${ detail.imageDir }${ detail.imageName }" style="witdh:800px; height:400px;" alt="${ product.proName }"><br>
+			</c:forEach>
 		</div>	
 
 	</div>

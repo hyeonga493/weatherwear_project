@@ -1,5 +1,8 @@
 package com.w2.client.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.w2.client.ClientService;
 import com.w2.client.ClientVO;
@@ -24,6 +28,30 @@ public class ClientPostController {
 
 	@Autowired
 	private BCryptPasswordEncoder pwden;
+	
+	@RequestMapping("/do.do")
+	public String dodo() {
+		return "test/prac";
+	}
+	
+	@PostMapping("getCheckbox.do")
+	public String getCheck(HttpServletRequest request) {
+		String[] deleteCode = request.getParameter("deleteList").split(",");
+		String[] selectCode = request.getParameter("selectList").split(",");
+
+		List<String> deleteList = new ArrayList<String>();
+		List<String> selectList = new ArrayList<String>();
+		
+		for(int i=0; i<deleteCode.length; i++) {
+			deleteList.add(deleteCode[i].toString());
+			selectList.add(selectCode[i].toString());
+		}
+
+		System.err.println("deleteList : " + deleteList);
+		System.err.println("selectList : " + selectList);
+		
+		return "redirect:/do.do";
+	}
 	
 	// 아이디 체크
 	@PostMapping("/checkId.do")

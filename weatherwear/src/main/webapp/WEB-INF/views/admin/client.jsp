@@ -18,19 +18,13 @@
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-	<!-- Navbar-->
-	<!-- <ul> -->
 	<main>
 		<div class="container-fluid">
 			<h1 class="mt-4"></h1>
 		</div>
 	</main>
 	<script	src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>" crossorigin="anonymous"></script>
-	
-	<hr>
-	<hr>
-	<hr>
-	<br>
+	<hr><hr><hr><br>
 <div id="wrap">
 	<div id="container">
 		<section id="content">

@@ -1,7 +1,10 @@
 package com.w2.product.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +14,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.w2.file.ImageVO;
+import com.w2.file.controller.FileController;
 import com.w2.paging.PagingService;
 import com.w2.product.OptionVO;
 import com.w2.product.ProductService;
@@ -23,9 +30,13 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
 	@Autowired
 	private PagingService pagingService;
 	
+	@Autowired
+	private FileController fileController;
+
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	// 상품 등록 화면(관리자)
@@ -37,9 +48,29 @@ public class ProductController {
 	}
 	
 	// 상품 등록(관리자)
-	@PostMapping("insertProduct.mdo")
-	public String insertProduct(ProductVO pro) throws IOException {
+	@PostMapping("/insertProduct.mdo")
+	public String insertProduct(ProductVO pro, MultipartHttpServletRequest request) throws IOException {
+		System.out.println("[ Controller ] : insertProduct");
+		System.err.println("@@@ pro : " + pro.toString());
+
+		List<MultipartFile> mainList = request.getFiles("main_img[]");
+		System.err.println(">>mainList : " + mainList.toString());
+		List<MultipartFile> detailList = request.getFiles("detail_img[]");
+		System.err.println(">>detailList : " + detailList.toString());
+		String oriFilePath = request.getServletContext().getRealPath("/");
+		
+		ImageVO productvo = new ImageVO();
+		productvo.setImageBy(pro.getProId());
+		productvo.setWho("product");
+		System.err.println("[ Controller ] productvo : " + productvo.toString());
+		
+		fileController.insertProductImage(mainList, detailList, oriFilePath, productvo);
+		System.err.println("[ Controller ] 이미지 삽입 성공");
+		
 		int result = productService.insertProduct(pro);
+		
+		System.err.println("[ Controller ] result : " + result);
+
 		
 		logger.info("[admin] product insert proc");
 		logger.info("insert : " + pro.toString());
@@ -77,11 +108,20 @@ public class ProductController {
 		pro = productService.getOptionList(pro);
 		System.err.println("pro : " + pro.toString());
 		
+		// 이미지 불러오기
+		ImageVO mainvo = new ImageVO();
+		mainvo.setImageBy(pro.getProId());
+		
+		mainvo = productService.getMainImage(mainvo.getImageBy());
+		List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
+	
 		model.addAttribute("product", pro);
 		model.addAttribute("opColorList", pro.getOpColorList());
 		model.addAttribute("opSizeList", pro.getOpSizeList());
 		model.addAttribute("stCntList", pro.getStCntList());
-	
+		model.addAttribute("mainImage", mainvo);
+		model.addAttribute("detailImageList", detailImageList);
+
 		ModelAndView mv = new ModelAndView("admin/product/product_detail");
 		mv.addObject("product", pro);
 		mv.addObject("opColorList", pro.getOpColorList());
@@ -89,6 +129,74 @@ public class ProductController {
 		mv.addObject("stCntList", pro.getStCntList());
 		
 		return mv;
+	}
+	
+	// 상품 정보 수정(관리자)
+	@PostMapping("/updateProduct.mdo")
+	public String updateProduct(ProductVO pro, MultipartHttpServletRequest request, HttpServletRequest httpre) throws IllegalStateException, IOException {
+		System.out.println("[ Controller ] : updateProduct");
+
+		if(httpre.getParameter("deleteList")!= null) {
+			System.err.println("상세 이미지 삭제한다.");
+			System.err.println("삭제할 이미지 : " + httpre.getParameter("deleteList"));
+			
+			// 삭제할 이미지 리스트
+			String[] deletelist = httpre.getParameter("deleteList").split(",");
+			System.err.println(">>deletelist : " + deletelist);
+			
+			for(int i=0; i<deletelist.length; i++) {
+				productService.deleteImage(deletelist[i]);
+				System.err.println("삭제 : " + deletelist[i]);
+			}
+		}
+		
+		List<MultipartFile> mainList = request.getFiles("main_Changeimg[]");
+		List<MultipartFile> detailList = request.getFiles("detail_Changeimg[]");
+		String oriFilePath = request.getServletContext().getRealPath("/");
+			
+		for(MultipartFile main : mainList) {
+			if(main.getOriginalFilename()== null &&  main.getOriginalFilename() == "" ) {
+			    System.out.println("mainList 파일이 업로드되지 않았습니다.");
+				System.err.println("추가 메인 이미지 없다");
+				break;
+			}
+			
+			System.err.println("main.name : " + main.getOriginalFilename());
+			// 메인 이미지 새로 업로드 시 기존 이미지 삭제
+			ImageVO mainvo = new ImageVO();
+			mainvo.setImageBy(pro.getProId());
+			mainvo.setWho("product");
+			mainvo.setImageStatus("대표");
+			mainvo = productService.getMainImage(mainvo.getImageBy());
+			
+			productService.deleteImage(mainvo.getImageName());
+			System.err.println("기존 메인 이미지 삭제");
+			
+			fileController.updateProductImage(mainList, oriFilePath, mainvo);
+			System.err.println("메인 이미지 수정");
+		}
+
+		for(MultipartFile detail : detailList) {
+			if(detail.getOriginalFilename()== null &&  detail.getOriginalFilename() == "" ) {
+			    System.out.println("detailList 파일이 업로드되지 않았습니다.");
+				System.err.println("추가 상세 이미지 없다");
+				break;
+			}
+			ImageVO detailvo = new ImageVO();
+			detailvo.setImageBy(pro.getProId());
+			detailvo.setWho("product");
+			detailvo.setImageStatus("상세");
+			
+			fileController.updateProductImage(detailList, oriFilePath, detailvo);
+			System.err.println("상세 이미지 수정");
+			break;
+		}
+		
+		int result = productService.updateProduct(pro);
+		
+		System.err.println("[ Controller ] result : " + result);
+		
+		return "redirect:productList.mdo";
 	}
 	
 	// 상품 삭제(관리자)
@@ -126,13 +234,53 @@ public class ProductController {
 	
 	// 상품 상세 조회(사용자)
 	@RequestMapping("/productInfo.do")
-	public String productInfo(ProductVO pro, OptionVO opt, Model model) {
+	public ModelAndView productInfo(ProductVO pro, OptionVO opt, Model model) {
 		System.out.println("[ ClientController ] : product_info");
 		
-		model.addAttribute("product", productService.getProduct(pro));
-//		model.addAttribute("optionList", productService.getOptionList(opt));
+
+		opt.setProId(pro.getProId());
 		
-		return "client/product/product_info";
+		pro = productService.getProduct(pro);
+		
+		// 옵션 정보 저장
+		pro = productService.getOptionList(pro);
+		System.err.println("pro : " + pro.toString());
+		
+		// 이미지 불러오기
+		ImageVO mainvo = new ImageVO();
+		mainvo.setImageBy(pro.getProId());
+		
+		System.err.println(">>>>>>> cate : " +productService.getCategory(pro.getProCate()));
+		
+		// 카테고리 불러오기
+		String[] cate = productService.getCategory(pro.getProCate()).split(",");
+		System.err.println(">>>>>>> cate : " +cate.toString());
+		
+		List<String> category = new ArrayList<String>();
+		for(int i=0; i<cate.length; i++) {
+			System.err.println(i + " : " +cate[i]);
+			category.add(cate[i]);
+		}
+		
+		mainvo = productService.getMainImage(mainvo.getImageBy());
+		List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
+		
+		model.addAttribute("product", pro);
+		model.addAttribute("opColorList", pro.getOpColorList());
+		model.addAttribute("opSizeList", pro.getOpSizeList());
+		model.addAttribute("stCntList", pro.getStCntList());
+		model.addAttribute("category", category);
+		
+		model.addAttribute("mainImage", mainvo);
+		model.addAttribute("detailImageList", detailImageList);
+		
+		ModelAndView mv = new ModelAndView("client/product/product_info");
+		mv.addObject("product", pro);
+		mv.addObject("opColorList", pro.getOpColorList());
+		mv.addObject("opSizeList", pro.getOpSizeList());
+		mv.addObject("stCntList", pro.getStCntList());
+		
+		return mv;
 	}
 	
 }

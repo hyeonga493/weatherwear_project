@@ -5,146 +5,34 @@
 <%@page import="com.w2.product.ProductVO"%>
 <%@page import="com.w2.product.ProductDAO"%>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8" />
-<title>상품 등록 페이지</title>
-<script src="resources/admin/js/jquery/jquery.min.js"></script>
-<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <style>
-div.clearfixed::after {
-	display: block;
-	content: "";
-	clear: both
-}
-a {
-	text-decoration: none;
-	color:black;
-}
-li {
-	list-style:none;
+.delBtn {
+    color: blue;
+    cursor: pointer;
 }
 
-.form {
-	width:80%;
-	height:50%;
-	border-collapse:collapse;
-	margin:30px 0 30px 0;
-}
-td {
-	padding:5px;
-}
-button {
-background-color:#FFFFFF;
-border-width:thin;
-border-color:black;
-}
-input[type=button],
-input[type=submit],
-input[type=reset] {
-	border:none;
-}
-
-textarea {
-	padding:10px;
-	width:350px;
-	height:100px;
-	border:0;
+.delBtn:hover {
+    color: red;
 }
 </style>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript">
-//옵션 적용하기
-$(document).ready(function() {
-	$("#applyOption").click(function() {
-		var proId = $("input[name='proId']").val();
-		var opColor = $("input[name='opColor']").val().replace(/\s/g, '');
-		var opSize = $("input[name='opSize']").val().replace(/\s/g, '');
-		var opColorList = [];
-		var opSizeList = [];
-		
-		if (opColor) {
-			opColor.split(",").forEach(function(item) {
-				opColorList.push(item);
-				$("input[name='opColorList']").val(opColorList);
-			});
-		}
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>상품 등록 페이지</title>
+	<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
+	<link rel="stylesheet" href="resources/product/css/product_style.css" />
 	
-		if (opSize) {
-			opSize.split(",").forEach(function(item) {
-				opSizeList.push(item);
-				$("input[name='opSizeList']").val(opSizeList);
-			});
-		}
-		$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="resources/admin/js/jquery/jquery.min.js"></script>
+	
+	<!-- 스마트에디터 적용 -->
+	<script type="text/javascript" src="resources/static/smarteditor/js/HuskyEZCreator.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="resources/product/js/usingEditor.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="resources/product/js/product_register.js" charset="UTF-8"></script>
 
-		$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
-								+ "<table style='text-align:center;'>" 
-								+ "<thead>" 
-								+ "<tr style='border-bottom:1px solid grey;'>" 
-								+ "<th style='width:80px'>색상</th><th style='width:80px'>사이즈</th><th style='width:80px'>재고</th>" 
-								+ "</tr>" 
-								+ "</thead>" 
-								+ "<tbody></tbody>" 
-								+ "</table>" 
-								+ "</form>"
-								+ "<input type='number' name='changeall'><button type='button' class='btn-write' id='changeStockAll'>일괄적용하기</button><br>"
-								+ "<button type='button' class='btn-write' id='applyStock'>재고 저장하기</button>" 
-								+ "<input type='hidden' name='stCntList' value='${ stCntList }'>"
-								+ "<span id='stockResult'></span>");
-		for(var i=0; i<opColorList.length; i++){
-			
-			for(var j=0; j<opSizeList.length; j++){
-				$("#optionStock table tbody:last").append("<tr style='border-bottom:1px solid grey;'><td>" + opColorList[i] + "</td><td>" + opSizeList[j] + "</td><td>" 
-						+ "<input type='number' name='stCnt' id='stCnt" + opColorList[i] + opSizeList[j] + "' value='0' min='0' style='width:40px; text-alin:center; border:none;'></td></tr>");	
-			}
-		}
-		
-		console.log("opColorList : " + opColorList);
-		console.log("opSizeList : " + opSizeList);
-		
-		$("#applyStock").click(function() {
-			var stCntList = [];
-			for(var i=0; i<opColorList.length; i++){
-				for(var j=0; j<opSizeList.length; j++){
-					var cnt = $("#stCnt"+ opColorList[i] + opSizeList[j] + "").val();
-					
-					if(cnt<0){
-						alert("재고는 0개 이상이어야 합니다.");
-						$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val('0');
-						return;
-					}
-					stCntList.push(cnt);
-				}
-			}
-			console.log("stCntList : " + stCntList);
-			$("input[name='stCntList']").val(stCntList);
-
-			if(stCntList!=null){
-				$("#stockResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
-			}
-		});
-		
-		$("#changeStockAll").click(function() {
-			var stCntList = [];
-			for(var i=0; i<opColorList.length; i++){
-				for(var j=0; j<opSizeList.length; j++){
-					var cnt = $("input[name='changeall']").val();
-
-					stCntList.push(cnt);
-					$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
-				}
-			}
-			console.log("stCntList : " + stCntList);
-			$("input[name='stCntList']").val(stCntList);
-			
-			if(stCntList!=null){
-				$("#stockResult").html("<font color='blue' size='3'>일괄 적용되었습니다.</font>");
-			}
-		});
-	});
-});
-</script>
+	<!-- 파일 업로드시 필요합니다. -->
+	<script src="https://sdk.amazonaws.com/js/aws-sdk-2.809.0.min.js"></script>
+	<script src="resources/product/js/productImage_insert.js"></script>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
@@ -175,7 +63,7 @@ $(document).ready(function() {
 			<div>
 				<h3>상품 등록</h3>
 			</div>
-			<form action="insertProduct.mdo" method="post">
+			<form action="insertProduct.mdo" method="post" enctype="multipart/form-data">
 			<div>
 			<table class="form" border="1">
 			<tr>
@@ -258,29 +146,43 @@ $(document).ready(function() {
 			</tr>
 			<tr>
 				<td style="text-align:center">상품 설명</td>
-				<td><textarea name="proContent" style="width:1000px; rows:10">상품 설명</textarea></td>
+				<td>
+					<div id="smarteditor">
+						<textarea name="proContent" id="proContent" rows="20" cols="10" placeholder="내용 입력해주세요" style="width:500px; border: 2px solid black"></textarea>
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>메인 사진</label></td>
-				<td><input type="file" name="main_img"/></td>
-			</tr>
-			<tr>
-				<td style="text-align:center"><label>부가 사진</label></td>
-				<td><input type="file"/></td>
+				<td>
+					<input type="file" id="mainImageUpload" name="main_img[]"/>
+			        <ul id="mainfileList"></ul>
+			        <ul id="mainimageList"></ul>
+			        <input type="hidden" id="main_imageList" name="main_imageList" >
+				</td>
 			</tr>
 			<tr>
 				<td style="text-align:center"><label>상세 사진</label></td>
-				<td><input type="file" name="detail_img"/></td>
+				<td>
+					<input type="file" id="detailImageUpload" name="detail_img[]" multiple/>
+			        <ul id="detailfileList"></ul>
+			        <ul id="detailimageList"></ul>
+			        <input type="hidden" name="detail_imageList" id="detail_imageList">
+				</td>
 			</tr>
 			</table>
 			</div>
 			<div style="margin-left:450px;">
-				<input type="submit" class="btn-write" value="등록" style="padding:10px"/>
+				<input type="submit" class="btn-write" value="등록" onclick="submitPost()" style="padding:10px"/>
 				<input type="reset" value="취소" style="padding:10px"/>  
 			</div>
 			</form>
 		</section>
-		
+		<section>
+			<h3>Naver Smart Editor</h3>
+
+			<span id="content"></span>
+		</section>
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>
 </body>
 </html>

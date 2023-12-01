@@ -1,11 +1,16 @@
 package com.w2.product.impl;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.w2.file.ImageVO;
 import com.w2.product.OptionVO;
 import com.w2.product.ProductDAO;
 import com.w2.product.ProductService;
@@ -17,6 +22,7 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductDAO productDAO;
 	
+	// 상품 등록(관리자)
 	@Override
 	public int insertProduct(ProductVO pro) {
 		System.out.println("[ Impl ] : insertProduct");
@@ -68,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
 		productDAO.insertOption(opt);
 	}
 	
+	// 상품 수정(관리자)
 	@Override
 	public int updateProduct(ProductVO pro) {
 		
@@ -87,10 +94,6 @@ public class ProductServiceImpl implements ProductService {
 				
 				for(int color = 0; color < pro.getOpColorList().size(); color++) {
 					for(int size = 0; size < pro.getOpSizeList().size(); size++) {
-						System.err.println(">>>>>> proId : " + pro.getProId());
-						System.err.println(">>>>>> color : " + pro.getOpColorList().get(color));
-						System.err.println(">>>>>> size : " + pro.getOpSizeList().get(size));
-						System.err.println(">>>>>> cnt : " + pro.getStCntList().get(su));
 						
 						opt.setProId(pro.getProId());
 						opt.setOpColor(pro.getOpColorList().get(color));
@@ -113,11 +116,13 @@ public class ProductServiceImpl implements ProductService {
 		return result;
 	}
 	
+	// 상품 삭제(관리자)
 	@Override
 	public void deleteProduct(ProductVO pro) {
 		productDAO.deleteProduct(pro);
 	}
 	
+	// 상품 조회(사용자)
 	@Override
 	public ProductVO getProduct(ProductVO pro) {
 		return productDAO.getProduct(pro);
@@ -129,9 +134,38 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getOptionList(pro);
 	}
 	
+	// 상품 목록 조회(사용자)
 	@Override
 	public List<ProductVO> getProductList(ProductVO pro) {
 		return productDAO.getProductList(pro);
 	}
 
+	// 메인 이미지 조회
+	@Override
+	public ImageVO getMainImage(String imageBy) {
+		return productDAO.getMainImage(imageBy);
+	}
+
+	// 상세 이미지 조회
+	@Override
+	public List<ImageVO> getDetailImage(String imageBy) {
+		return productDAO.getDetailImage(imageBy);
+	}
+
+	// 이미지 삭제
+	@Override
+	public void deleteImage(String ImageName) {
+		productDAO.deleteImage(ImageName);
+		System.err.println("[ Service ] : delete");
+	}
+	
+	// 카테고리 조회(사용자)
+	@Override
+	public String getCategory(String proCate) {
+		String result = productDAO.getCategory(proCate);
+		System.err.println("[ Service ] : getCategory");
+		
+		return result;
+	}
+	
 }

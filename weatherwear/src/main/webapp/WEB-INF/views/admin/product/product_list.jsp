@@ -120,7 +120,7 @@ $(document).ready(function () {
 					<td><input type="text" name="searchKeyword"/></td>
 					<td>
 						<input type="submit" value="검색"/>
-						<button type="button" id="btn_prodcutRegist" class="btn-write" style="margin-left:100px; padding:8px 8px;" onClick="location.href='/w2/insertProduct.mdo'">상품 등록하기</button>
+						<button type="button" id="btn_prodcutRegist" class="btn-write" style="margin-left:100px; padding:8px 8px;" onClick="location.href='/w2/registerProduct.mdo'">상품 등록하기</button>
 					</td>
 				</tr>
 				</table>

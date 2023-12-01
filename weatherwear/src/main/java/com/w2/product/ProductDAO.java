@@ -1,11 +1,12 @@
 package com.w2.product;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.w2.file.ImageVO;
 
 @Repository
 public class ProductDAO {
@@ -90,4 +91,26 @@ public class ProductDAO {
 		return sqlSessionTemplate.selectList("ProductDAO.getProductList", pro);
 	}
 	
+	// 메인 이미지 조회
+	public ImageVO getMainImage(String imageBy) {
+		return sqlSessionTemplate.selectOne("ImageVO.getMainImage", imageBy);
+	}
+
+	// 상세 이미지 조회
+	public List<ImageVO> getDetailImage(String imageBy) {
+		return sqlSessionTemplate.selectList("ImageVO.getDetailImage", imageBy);
+	}
+
+	// 이미지 삭제
+	public void deleteImage(String ImageName) {
+		sqlSessionTemplate.delete("ImageVO.deleteImage", ImageName);
+		System.err.println("[ DAO ] : delete");
+	}
+	
+	// 카테고리 조회
+	public String getCategory(String proCate) {
+		String result = sqlSessionTemplate.selectOne("ProductDAO.getCategory", proCate);
+		System.err.println("[ DAO ] : getCategory > " + result);
+		return result;
+	}
 }

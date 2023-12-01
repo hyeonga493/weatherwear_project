@@ -8,6 +8,12 @@
 <link href="resources/client/css/style.css" rel="stylesheet" />
 <title>mainIndex.jsp</title>
 <!-- Style 태그는 head 태그 안에 있어야 합니다.-->
+<style>
+.weather_section {
+	height : 350px;
+	border : 3px solid black;
+}
+</style>
 </head>
 <body>
 
@@ -19,27 +25,10 @@
 			alert("${ msg }");
 		</script>
 	</c:if>
-	<div class="main_image">
+	<div class="weather_section">
 	<a href="/w2/getWeather.do">오늘 날짜</a>
-		<h1>날씨 GIF</h1>
 	</div>
-	<!-- -->
-	<section id="weather">
-		<article id="main">
-			<h5>[ section : days ]</h5>
-
-		</article>
-		<article id="keyword">
-			Best Keyword
-			<ol type="1">
-				<li>Keyword_1</li>
-				<li>Keyword_2</li>
-				<li>Keyword_3</li>
-				<li>Keyword_4</li>
-				<li>Keyword_5</li>
-			</ol>
-		</article>
-	</section>
+	
 	 
 	<section id="best">
 		<article>

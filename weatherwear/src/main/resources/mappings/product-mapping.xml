@@ -68,4 +68,12 @@
 		ORDER BY product.proRegDate DESC;
 	</select>
 	
+	<select id="getCategory" resultType="String">
+		SELECT CONCAT(c3.cateName, ',', c2.cateName, ',', c1.cateName) as fullCateName
+		FROM category c1
+		LEFT JOIN category c2 ON (c1.catePrCode = c2.cateId)
+		LEFT JOIN category c3 ON (c2.catePrCode = c3.cateId)
+		WHERE c1.cateId =  #{ proCate };
+	</select>
+	
 </mapper>
