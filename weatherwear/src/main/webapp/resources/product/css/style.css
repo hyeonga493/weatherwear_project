@@ -1,151 +1,3 @@
-div#container{
-    border : 3px solid green;
-    background-color: antiquewhite;
-    padding : 1%;
-
-    /* 화면 중앙 배치 */
-    margin : 0 auto; 
-}
-
-div#product_content{
-	margin: 0 auto;
-	text-align: center;
-}
-
-img#main_logo{
-    width: 30px;
-    float:left;
-    margin: 10px 5px;
-}
-h5#top_menu{
-    float : right;
-    margin : 0 35px 0 0;
-}
-div#container > h5#top_menu > a{
-    text-decoration: none;
-}
-div#container > h5#top_menu > a:hover{
-    text-decoration-line: underline;
-}
-
-header#header{
-    width: 95%;
-    border : 3px solid green;
-    background-color: deepskyblue;
-    padding: 1%;
-
-    /* 아래 요소와의 간격 */
-    margin-bottom: 5px;
-
-    /* 상단 float 해제 */
-    clear: both;
-}
-
-header#header > a > img#banner_logo{
-    width: 250px;
-    margin: 0 15px;
-}
-nav#menubar{
-    width: 95%;
-    border : 3px solid green;
-    background-color: cadetblue;
-    padding: 1%;
-    margin: 0 0 10px 0;
-    
-    /* 아래 요소와의 간격 */
-    margin-bottom: 5px;
-}
-
-/* 메인메뉴 효과 설정 */
-nav#menubar > ul {
-    padding-left: 0;
-    margin: 0 0 0 0.005%;
-}
-
-nav#menubar > ul > li {
-    display: inline;
-    margin: 0 0 0 3%;
-    width : 80px;
-}
-
-nav#menubar > ul > li > a {
-    color : white;
-    text-decoration: none;
-}
-
-nav#menubar > ul > li > a:hover {
-    color : blueviolet;
-    font-size: large;
-    text-decoration: none;
-    text-shadow: 2px 1px 1px white;
-}
-
-section#weather{
-    width : 95%;
-    height : 200px;
-    display: flex;
-    padding: 1%;
-    border: 3px solid green;
-    background-color: aquamarine;
-    margin: 0 0 10px 0;
-}
-
-section#weather > article#main {
-    border: 2px dotted green;
-    width: 80%;
-}
-section#weather > article#keyword {
-    border: 2px dotted green;
-    width: 20%;
-}
-
-
-
-
-
-#지연언니
-.main_image {
-	position: relative;
-	margin: 0 auto;
-}
-
-.main_image > .main_image_text {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	color: white;
-}
-
-.main_image_text2 {
-	position: absolute;
-	top: 45%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	color: white;
-}
-
-.weather_image {
-	position: absolute;
-	top: 65%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	color: white;
-	width: 5%;
-	height: auto;
-}
-
-
-section#best{
-	position: relative;
-    width: 95%;
-    height: auto;
-    padding: 0 1%;
-    border: 3px solid green;
-}
-
-
-#은아언니
 div.product_list{
 	display : inline-block;
 	margin : 0 auto;
@@ -168,13 +20,12 @@ a {
 .product {
  	width:19%;
  	float:left; 
- 	list-style: none;	
+ 	list-style:none;	
  	margin-left:20px;
- 	text-align: center;
 }
 
 .product .name {
-	width:220px;
+	width:300px;
 	font-weight:bold;
 	white-space: nowrap;
 	overflow: hidden;
@@ -205,25 +56,6 @@ a {
 	margin:0 30px 0 0;
 }
 
-.list li {
-	position:relative;
-	display:inline-block;
-	width:150px;
-	height:5px;
-	text-align:center;
-	float:right;
-	margin:0 35px 30px 0;
-	line-height:30px;
-}
-.list li div {
-	display:none;
-	position:absolute;
-}
-.list li:hover div {
-	display:block;
-	width:150px;
-	background:white;
-}
 .order a {
 	margin-left:10px;
 	line-height:50px;
@@ -236,69 +68,3 @@ a {
 .review {
 	font-size:10px;
 }
-
-
-
-
-section#middle{
-    width: 95%;
-    display: flex;
-    padding: 0 1%;
-    border: 3px solid purple;
-    
-    height: 450px;
-}
-
-aside#side {
-    width: 25%;
-    height: 400px;
-    margin: 0.1% 0.1%;
-    border: 3px solid green;
-    background-color: darkturquoise;
-
-    /* 화면 오른쪽 정렬 */
-    float: right;
-}
-
-aside#side > h5 {
-    /* 행간 조정 */
-    letter-spacing : 0.2em;
-}
-
-section#contents {
-    width: 73%;
-    height: 400px;
-    margin: 0.1% 0.1%;
-    border: 3px solid green;
-    background-color: lightskyblue;
-
-    /* 화면 왼쪽 정렬 */
-    float: left;
-}
-
-section#example > li {
-    list-style-position: inside;
-}
-
-img#footer_logo {
-	width: 250px;
-    float : left;
-}
-
-div#content {
-    width: auto;
-   	clear : both;
-}
-
-
-div#footer{
-    width: 95%;
-    height: 200px;
-    padding: 1%;
-    border: 3px solid green;
-    background-color: steelblue;
-
-    /* float 초기화 */
-    clear: both;
-}
-
