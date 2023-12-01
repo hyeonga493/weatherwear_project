@@ -6,74 +6,51 @@
 <html>
 <head>
 <meta charset="utf-8" />
-
-<link rel="stylesheet" href="resources/admin/css/slickGrid/slick.grid.css" type="text/css" />
 <link rel="stylesheet" href="resources/admin/css/jquery/jquery-ui.css" type="text/css" />
-
 <title>등록 상품 목록 페이지</title>
-
-<script src="resources/admin/js/slickGrid/slick.core.js"></script>
-<script src="resources/admin/js/slickGrid/slick.interactions.js"></script>
-<script src="resources/admin/js/slickGrid/slick.grid.js"></script>
 <script src="resources/admin/js/jquery/jquery-3.7.1.min.js"></script>
-<script src="resources/admin/js/slickGrid/jquery.event.drag-2.3.0.js"></script>
-<script src="resources/admin/js/slickGrid/slick.checkboxselectcolumn.js"></script>
-<script src="resources/admin/js/slickGrid/slick.rowselectionmodel.js"></script>
-<script src="resources/admin/js/jquery/jquery-ui.min.js"></script>
-	
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
-
 <script type="text/javascript" charset="UTF-8">
-$(document).ready(function () {
+function order() {
+	var value = document.getElementById("ordertype").value;
 	
-	var columns = [
-		{id: "sale", name: "판매상태", field:"sale", width:100, sortable: true},
-		{id: "category1", name: "카테고리1", field: "category1", width:100, sortable: true},
-		{id: "category2", name: "카테고리", field: "category2", width:100, sortable: true},
-	    {id: "no", name: "상품번호", field: "no", width:100, sortable: true},
-	    {id: "productName", name: "상품명", field: "productName", width:350, sortable: true},
-	    {id: "primeCost", name: "공급가", field: "primeCost", width:100, sortable: true},
-	    {id: "cost", name: "정가", field: "cost", width:100, sortable: true},
-	    {id: "price", name: "판매가", field: "price", width:100, sortable: true},
-	    {id: "openDate", name: "등록일", field: "openDate", width:100, sortable: true},
-	    {id: "proCnt", name: "판매량", field: "proCnt", width:100, sortable: true},
-	    {id: "button", name: "삭제", field: "button", width:52, formatter: buttonFormatter}
-	];
-	
-	var checkboxSelector = new Slick.CheckboxSelectColumn({
-        cssClass: "slick-cell-checkboxsel"
-    });
-	columns.splice(0, 0, checkboxSelector.getColumnDefinition())
-	
-	var options = {
-		enableColumnReorder: false
-	};
-	
-	function buttonFormatter(row, cell, value, columnDef, dataContext) {
-		 return "<button>삭제</button>";
+	if(value == "proRegDate") {
+		window.location.replace("productList.mdo?ordertype=proRegDate");
+	} else if(value == "proCnt") {
+		window.location.replace("productList.mdo?ordertype=proCnt");
+	} else if(value == "proPriceH") {
+		window.location.replace("productList.mdo?ordertype=proPriceH");
+	} else if(value == "proPriceL") {
+		window.location.replace("productList.mdo?ordertype=proPriceL");
+	} else if(value == "proSell") {
+		window.location.replace("productList.mdo?ordertype=proSell");
 	}
 	
-	var data = [
-		{ sale: "판매중", category1: 'outer', category2: 'coat', no: 123456, productName: '코트', primeCost: '00,000원', cost: '00,000원',  price: '00,000원', openDate:'23-11-07', proCnt: 0},
-		{ sale: "판매중", category1: 'outer', category2: 'coat', no: 123456, productName: '코트', primeCost: '00,000원', cost: '00,000원',  price: '00,000원', openDate:'23-11-07', proCnt: 0},
-		{ sale: "판매중", category1: 'outer', category2: 'coat', no: 123456, productName: '코트', primeCost: '00,000원', cost: '00,000원',  price: '00,000원', openDate:'23-11-07', proCnt: 0},
-		{ sale: "일시품절", category1: 'outer', category2: 'coat', no: 123456, productName: '코트', primeCost: '00,000원', cost: '00,000원', price: '00,000원', openDate:'23-11-07', proCnt: 0},
-		{ sale: "판매종료", category1: 'outer', category2: 'coat', no: 123456, productName: '코트', primeCost: '00,000원', cost: '00,000원', price: '00,000원', openDate:'23-11-07', proCnt: 0}
-	];
-	
-	grid = new Slick.Grid("#myGrid", data, columns, options);
-	grid.setSelectionModel(new Slick.RowSelectionModel({selectActiveRow: false}));
-	grid.registerPlugin(checkboxSelector);
-	});
-
-	function getSelectedRow(){
-		var selectedIndexes = grid.getSelectedRows();
-		alert(selectedIndexes);
-	}
+}
 </script>
 <style>
+#productList {
+	text-align:center;
+}
 
+#productList th {
+	width:150px;
+	padding:10px;
+	white-space:nowrap;  
+	overflow:hidden;
+ 	text-overflow:ellipsis;
+}
+
+/* display:inline >> display:inline-block / block */
+
+#productList td {
+	width:150px;
+	padding:10px;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
+}
 </style>
 </head>
 <body class="sb-nav-fixed">
@@ -106,27 +83,39 @@ $(document).ready(function () {
 		<div style="margin-bottom:30px;">
 			<h3>등록 상품 목록</h3>
 		</div>
+		<form id="searchForm" name="searchForm" action="productList.mdo?page=1" method="post">
+ 		<input type="hidden" id="page" name="page" value="${ paging.currentPage }"/>
 		<div style="font-size:15px; padding:10px 0 10px 0">
 			<table style="margin-bottom:10px">
 				<tr>
 					<td>
-					<select class="box" name="searchCondition">
+					<select class="box" id="searchtype" name="searchtype">
 								<option value="SELECT">선택</option>
-								<option value="SELL">판매상태</option>
-								<option value="CATEGORY">카테고리</option>
-								<option value="NAME">상품명</option>			                  
+								<option ${ param.searchtype == 'proId' ? 'selected' : '' }  value="proId">상품번호</option>
+								<option ${ param.searchtype == 'proName' ? 'selected' : '' } value="proName">상품명</option>		                  
 					</select>
 					</td>
-					<td><input type="text" name="searchKeyword"/></td>
+					<td style="padding:10px"><input type="text" id="keyword" name="keyword" value="${param.keyword}"></td>
 					<td>
-						<input type="submit" value="검색"/>
-						<button type="button" id="btn_prodcutRegist" class="btn-write" style="margin-left:100px; padding:8px 8px;" onClick="location.href='/w2/registerProduct.mdo'">상품 등록하기</button>
+						<input type="submit" value="검색">
+						<button type="button" id="btn_productRegist" class="btn-write" style="margin-left:100px; padding:8px 8px;" onClick="location.href='/w2/registerProduct.mdo'">상품 등록하기</button>
 					</td>
 				</tr>
 				</table>
+				</form>
+				</div>
+				<div>
+			<select class="box" id="ordertype" name="ordertype" onchange="order()">
+				<option value="ORDER">정렬</option>
+				<option ${ param.ordertype == 'proRegDate' ? 'selected' : '' } value="proRegDate">등록일</option>
+				<option ${ param.ordertype == 'proCnt' ? 'selected' : '' } value="proCnt">판매량</option>
+				<option ${ param.ordertype == 'proSell' ? 'selected' : '' } value="proSell">판매상태</option>
+			</select>
+			</div>
+		<div>
 				등록 상품 개수
 		</div>
-	<table>
+	<table id="productList">
 		<tr>
 			<th>판매상태</th>
 			<th>상품번호</th>
@@ -145,7 +134,7 @@ $(document).ready(function () {
 			<tr>
 				<td>${product.proSell}</td>
 				<td>${product.proId}</td>
-				<td>${product.proCate}</td>
+				<td>${product.cateName}</td>
 				<td><a href="getProduct.mdo?proId=${product.proId}">${product.proName}</a></td>
 				<td>${product.proContent}</td>
 				<td>${product.proPrimeCost}</td>
@@ -158,7 +147,28 @@ $(document).ready(function () {
 			</tr>
 		</c:forEach>
 	</table>
-	</form>
+	<div class="paging">
+		<c:if test="${paging.prev}">
+			<a href="productList.mdo?page=${startPage -1}">처음페이지로</a>
+		</c:if>
+		&nbsp; &nbsp;
+		<c:if test="${ paging.currentPage>1 }">
+			<a href="productList.mdo?page=${paging.currentPage -1}">이전</a>
+		</c:if>
+		&nbsp;&nbsp;
+		<c:forEach var="pageNum" begin="${paging.startPage}" end="${paging.endPage}">
+			<a href="productList.mdo?&searchtype=${param.searchtype}&keyword=${param.keyword}&ordertype=${param.ordertype}"
+				style="${(pageNum == paging.currentPage) ? 'color:red; font-style:italic;' : 'color:blue;'}">
+				${ pageNum } </a>&nbsp;&nbsp; 
+ 		</c:forEach>
+		<c:if test="${ paging.currentPage < paging.endPage }">
+			<a href="productList.mdo?page=${ paging.currentPage + 1 }">다음</a>&nbsp;&nbsp;
+ 		</c:if>
+		<!-- 다음 버튼 -->
+		<c:if test="${ paging.next }">
+			<a href="productList.mdo?page=${ paging.endPage +1 }">마지막페이지로</a>
+		</c:if>
+	</div>
 	<br/>
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>
 </body>
