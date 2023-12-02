@@ -278,31 +278,11 @@ $(document).ready(function() {
 				<td>
 					<select name="proCate" id="category">
 						<option>SELECT</option>
-						<optgroup label="OUTER">
-							<option value="111" <c:if test="${product.proCate eq '111'}">selected</c:if>>(O)PADDING</option>
-							<option value="112" <c:if test="${product.proCate eq '112'}">selected</c:if>>(O)COAT</option>
-							<option value="113" <c:if test="${product.proCate eq '113'}">selected</c:if>>(O)CARDIGAN</option>
-						</optgroup>
-						<optgroup label="TOP">
-							<option value="121" <c:if test="${product.proCate eq '121'}">selected</c:if>>(T)KNIT</option>
-							<option value="122" <c:if test="${product.proCate eq '122'}">selected</c:if>>(T)SHIRT</option>
-							<option value="123" <c:if test="${product.proCate eq '123'}">selected</c:if>>(T)TSHIRT</option>
-						</optgroup>
-						<optgroup label="PANTS">
-							<option value="131" <c:if test="${product.proCate eq '131'}">selected</c:if>>(P)JEANS</option>
-							<option value="132" <c:if test="${product.proCate eq '132'}">selected</c:if>>(P)SLACKS</option>
-							<option value="133" <c:if test="${product.proCate eq '133'}">selected</c:if>>(P)PANTS</option>
-						</optgroup>
-						<optgroup label="SKIRTS">
-							<option value="141" <c:if test="${product.proCate eq '141'}">selected</c:if>>(S)SHORT</option>
-							<option value="142" <c:if test="${product.proCate eq '142'}">selected</c:if>>(S)MIDI</option>
-							<option value="143" <c:if test="${product.proCate eq '143'}">selected</c:if>>(S)LONG</option>
-						</optgroup>
-						<optgroup label="DRESS">
-							<option value="151" <c:if test="${product.proCate eq '151'}">selected</c:if>>(D)SHORT</option>
-							<option value="152" <c:if test="${product.proCate eq '152'}">selected</c:if>>(D)MIDI</option>
-							<option value="153" <c:if test="${product.proCate eq '153'}">selected</c:if>>(D)LONG</option>
-						</optgroup>
+						<option value="11" <c:if test="${product.proCate eq '11'}">selected</c:if>>OUTER</option>
+						<option value="12" <c:if test="${product.proCate eq '12'}">selected</c:if>>TOP</option>
+						<option value="13" <c:if test="${product.proCate eq '13'}">selected</c:if>>PANTS</option>
+						<option value="14" <c:if test="${product.proCate eq '14'}">selected</c:if>>SKIRTS</option>
+						<option value="15" <c:if test="${product.proCate eq '15'}">selected</c:if>>DRESS</option>
 					</select>
 				</td>
 			<tr>
