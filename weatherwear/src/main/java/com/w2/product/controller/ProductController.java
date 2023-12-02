@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,17 +112,19 @@ public class ProductController {
 		// 이미지 불러오기
 		ImageVO mainvo = new ImageVO();
 		mainvo.setImageBy(pro.getProId());
-		
+
 		mainvo = productService.getMainImage(mainvo.getImageBy());
-//		if(productService.getDetailImage(mainvo.getImageBy())!=null) {
-//			List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
-//			model.addAttribute("detailImageList", detailImageList);
-//		}
+		if(mainvo!=null) {
+			List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
+
+			model.addAttribute("mainImage", mainvo);
+			model.addAttribute("detailImageList", detailImageList);
+		}
+		
 		model.addAttribute("product", pro);
 		model.addAttribute("opColorList", pro.getOpColorList());
 		model.addAttribute("opSizeList", pro.getOpSizeList());
 		model.addAttribute("stCntList", pro.getStCntList());
-		model.addAttribute("mainImage", mainvo);
 
 		ModelAndView mv = new ModelAndView("admin/product/product_detail");
 		mv.addObject("product", pro);
@@ -150,48 +153,57 @@ public class ProductController {
 				System.err.println("삭제 : " + deletelist[i]);
 			}
 		}
-		
-		List<MultipartFile> mainList = request.getFiles("main_Changeimg[]");
-		List<MultipartFile> detailList = request.getFiles("detail_Changeimg[]");
+
 		String oriFilePath = request.getServletContext().getRealPath("/");
-			
-		for(MultipartFile main : mainList) {
-			if(main.getOriginalFilename()== null &&  main.getOriginalFilename() == "" ) {
-			    System.out.println("mainList 파일이 업로드되지 않았습니다.");
-				System.err.println("추가 메인 이미지 없다");
-				break;
+		System.err.println("m : " + httpre.getParameter("mainimg"));
+		System.err.println("d : " + httpre.getParameter("detailimg"));
+		
+		if(httpre.getParameter("mainimg").equals("Y")) {
+			List<MultipartFile> mainList = request.getFiles("main_Changeimg[]");
+
+			for(MultipartFile main : mainList) {
+				if(main.getOriginalFilename()== null &&  main.getOriginalFilename() == "" ) {
+				    System.out.println("mainList 파일이 업로드되지 않았습니다.");
+					System.err.println("추가 메인 이미지 없다");
+					break;
+				}
+				
+				System.err.println("main.name : " + main.getOriginalFilename());
+				// 메인 이미지 새로 업로드 시 기존 이미지 삭제
+				ImageVO mainvo = new ImageVO();
+				mainvo.setImageBy(pro.getProId());
+				mainvo.setWho("product");
+				mainvo.setImageStatus("대표");
+				//mainvo = productService.getMainImage(mainvo.getImageBy());
+				
+				productService.deleteImage(mainvo.getImageName());
+				System.err.println("기존 메인 이미지 삭제");
+				
+				fileController.updateProductImage(mainList, oriFilePath, mainvo);
+				System.err.println("메인 이미지 수정");
 			}
-			
-			System.err.println("main.name : " + main.getOriginalFilename());
-			// 메인 이미지 새로 업로드 시 기존 이미지 삭제
-			ImageVO mainvo = new ImageVO();
-			mainvo.setImageBy(pro.getProId());
-			mainvo.setWho("product");
-			mainvo.setImageStatus("대표");
-			//mainvo = productService.getMainImage(mainvo.getImageBy());
-			
-			productService.deleteImage(mainvo.getImageName());
-			System.err.println("기존 메인 이미지 삭제");
-			
-			fileController.updateProductImage(mainList, oriFilePath, mainvo);
-			System.err.println("메인 이미지 수정");
 		}
 
-		for(MultipartFile detail : detailList) {
-			if(detail.getOriginalFilename()== null &&  detail.getOriginalFilename() == "" ) {
-			    System.out.println("detailList 파일이 업로드되지 않았습니다.");
-				System.err.println("추가 상세 이미지 없다");
+		if(httpre.getParameter("detailimg").equals("Y")) {
+			List<MultipartFile> detailList = request.getFiles("detail_Changeimg[]");
+			
+			for(MultipartFile detail : detailList) {
+				if(detail.getOriginalFilename()== null &&  detail.getOriginalFilename() == "" ) {
+				    System.out.println("detailList 파일이 업로드되지 않았습니다.");
+					System.err.println("추가 상세 이미지 없다");
+					break;
+				}
+				ImageVO detailvo = new ImageVO();
+				detailvo.setImageBy(pro.getProId());
+				detailvo.setWho("product");
+				detailvo.setImageStatus("상세");
+				
+				fileController.updateProductImage(detailList, oriFilePath, detailvo);
+				System.err.println("상세 이미지 수정");
 				break;
 			}
-			ImageVO detailvo = new ImageVO();
-			detailvo.setImageBy(pro.getProId());
-			detailvo.setWho("product");
-			detailvo.setImageStatus("상세");
-			
-			fileController.updateProductImage(detailList, oriFilePath, detailvo);
-			System.err.println("상세 이미지 수정");
-			break;
 		}
+		
 		
 		int result = productService.updateProduct(pro);
 		
@@ -264,7 +276,13 @@ public class ProductController {
 		}
 		
 		mainvo = productService.getMainImage(mainvo.getImageBy());
-		//List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
+
+		if(mainvo != null) {
+			List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
+
+			model.addAttribute("mainImage", mainvo);
+			model.addAttribute("detailImageList", detailImageList);
+		}
 		
 		model.addAttribute("product", pro);
 		model.addAttribute("opColorList", pro.getOpColorList());
@@ -272,8 +290,6 @@ public class ProductController {
 		model.addAttribute("stCntList", pro.getStCntList());
 		model.addAttribute("category", category);
 		
-		model.addAttribute("mainImage", mainvo);
-		//model.addAttribute("detailImageList", detailImageList);
 		
 		ModelAndView mv = new ModelAndView("client/product/product_info");
 		mv.addObject("product", pro);

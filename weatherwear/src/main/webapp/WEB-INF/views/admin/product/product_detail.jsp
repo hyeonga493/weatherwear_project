@@ -29,6 +29,22 @@
 <script>
 $(document).ready(function() {
 
+	// 메인이미지 업로드 확인
+	const mainImageUpload = document.querySelector("#mainImageUpload");
+	mainImageUpload.addEventListener("change", () => {
+	  	if (mainImageUpload.files.length != 0) {
+	    	mainimg.value = 'Y';
+	  	}
+	});
+
+	// 상세이미지 업로드 확인	
+	const detailImageUpload = document.querySelector("#detailImageUpload");
+	detailImageUpload.addEventListener("change", () => {
+	  	if (detailImageUpload.files.length != 0) {
+	    	detailimg.value = 'Y';
+	  	}
+	});
+	
 	$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
 	$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
 							+ "<table style='text-align:center;'>" 
@@ -228,6 +244,20 @@ $(document).ready(function() {
 	});
 });
 </script>
+<style>
+.btn-write {
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-write.clicked {
+  background-color: #ddd;
+  border: 1px solid #ccc;
+}
+</style>
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
@@ -371,6 +401,8 @@ $(document).ready(function() {
 			</table>
 			</div>
 			<div style="margin-left:450px;">
+				<input type="hidden" name="mainimg">
+				<input type="hidden" name="detailimg">
 				<input type="submit" value="수정" onClick="submitPost()" style="padding:10px"/>
 				<a href="deleteProduct.mdo?proId=${product.proId}">삭제</a>
 				
