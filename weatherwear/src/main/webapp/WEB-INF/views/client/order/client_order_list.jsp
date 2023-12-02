@@ -13,7 +13,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <!-- Style 태그는 head 태그 안에 있어야 합니다.-->
 
-</script>
 </head>
 <body>
 	<%@ include file="../base/header.jsp"%>
@@ -28,75 +27,23 @@
 				    <th>주문금액</th>
 				    <th>주문상태</th>
 				    <th>주문일시</th>
-				    <th>운송장번호</th>
 				</tr>
 			</thead>
 			
 			<tbody>
-				<tr>
-					<td><a href="/web/resources/views/jsp/selectOrder.jsp">11111</a></td>
-					<td class="image">이미지</td>
-					<td>상품명</td>
-				    <td>결제 방법</td>
-				    <td>주문금액</td>
-				    <td>주문상태</td>
-				    <td>주문일시</td>
-				    <td>운송장번호</td>
-				</tr>
-				<tr>
-					<td>11112</td>
-					<td class="image">이미지</td>
-					<td>상품명</td>
-				    <td>결제 방법</td>
-				    <td>주문금액</td>
-				    <td>주문상태</td>
-				    <td>주문일시</td>
-				    <td>운송장번호</td>
-				</tr>
-				<tr>
-					<td>11113</td>
-					<td class="image">이미지</td>
-					<td>상품명</td>
-				    <td>결제 방법</td>
-				    <td>주문금액</td>
-				    <td>주문상태</td>
-				    <td>주문일시</td>
-				    <td>운송장번호</td>
-				</tr>
-				<tr>
-					<td>11114</td>
-					<td class="image">이미지</td>
-					<td>상품명</td>
-				    <td>결제 방법</td>
-				    <td>주문금액</td>
-				    <td>주문상태</td>
-				    <td>주문일시</td>
-				    <td>운송장번호</td>
-				</tr>
-				<tr>
-					<td>11115</td>
-					<td class="image">이미지</td>
-					<td>상품명</td>
-				    <td>결제 방법</td>
-				    <td>주문금액</td>
-				    <td>주문상태</td>
-				    <td>주문일시</td>
-				    <td>운송장번호</td>
-				</tr>
-				<tr>
-					<td>11116</td>
-					<td class="image">이미지</td>
-					<td>상품명</td>
-				    <td>결제 방법</td>
-				    <td>주문금액</td>
-				    <td>주문상태</td>
-				    <td>주문일시</td>
-				    <td>운송장번호</td>
-				</tr>
+				<c:forEach var="OrderDAO" items="${getOrderList}"
+						varStatus="i">
+					<tr>
+						<td><a href="clientDetail.do?clientId=${OrderDAO.clientId}&&odid=${OrderDAO.odid}">${OrderDAO.odid}</a></td>
+						<td class="image">이미지</td>
+						<td>${OrderDAO.addColumn }</td>
+					    <td>결제 방법</td>
+					    <td>${OrderDAO.odPrice}</td>
+					    <td>${OrderDAO.odStatus }</td>
+					    <td>${OrderDAO.odDate }</td>
+					</tr>
+				</c:forEach>
 			</tbody>
-		
-		
-		
 		</table>
 	
 	

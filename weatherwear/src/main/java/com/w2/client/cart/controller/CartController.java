@@ -49,10 +49,11 @@ public class CartController {
 	
 	//장바구니에서 상품목록 조회
 	@RequestMapping("/clientCart.do")
-	public String getCartList(Model model, CartVO cartVO) {
+	public String getCartList(HttpServletRequest request,Model model, CartVO cartVO) {
 		System.err.println("[CartController] : getCartList");
 		System.err.println("clientId : " + cartVO.getClientId());
-
+		HttpSession session = request.getSession();// order페이지에서 불러오기 위하여 세션에 회원번호 저장할 것
+		session.setAttribute("clientId", cartVO.getClientId());//order페이지에서 불러오기 위하여 세션에 회원번호 저장할 것
 //		List<CartVO> getCartList = cartService.getCartList(cartVO);
 		model.addAttribute("getCartList", cartService.getCartList(cartVO));
 		

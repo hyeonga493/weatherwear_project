@@ -9,6 +9,7 @@
 <title>주문관리 페이지</title>
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css"/>
+<!-- <link href="resources/admin/css/managerOrder.css" type="text/css" rel="stylesheet" /> -->
 </head>
 <body class="sb-nav-fixed">
 
