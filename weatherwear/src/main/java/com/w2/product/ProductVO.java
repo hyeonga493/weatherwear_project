@@ -11,7 +11,6 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
 public class ProductVO {
 	
 	// product
@@ -37,19 +36,21 @@ public class ProductVO {
 	// category
 	private String cateName;
 	
+	// option_sample
 	private List<String> opColorList;
 	private List<String> opSizeList;
 	private List<Integer> stCntList;
 	
-	private String searchtype;
-	private String keyword;
-	private String ordertype;
-	private String viewtype;
+	private String searchtype;  // 검색조건
+	private String keyword;  // 검색어
+	private String ordertype;  // 정렬
+	private String gubun;  // 카테고리별 목록(사용자)
 	
+	// 페이징
 	private int postStart;
 	private int postEnd;
 	private int startPage;
-	private int endPage; 
+	private int endPage;
 	
 	private MultipartFile uploadFile;
 

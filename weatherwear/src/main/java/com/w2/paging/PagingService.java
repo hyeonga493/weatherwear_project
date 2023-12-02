@@ -12,5 +12,6 @@ public interface PagingService {
 	// 리스트 출력
 	public List<ClientVO> clientList(Integer page, ClientVO client, Model model);
 	
-	public List<ProductVO> productList(Integer page, ProductVO pro, Model model);
+	public List<ProductVO> ProductListAdmin(Integer page, ProductVO pro, Model model);
+	public List<ProductVO> ProductListClient(Integer page, ProductVO pro, Model model);
 }

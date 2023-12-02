@@ -89,7 +89,7 @@ public class ProductController {
 			pro.setKeyword("");
 		}
 		
-		List<ProductVO> productList = pagingService.productList(page, pro, model);
+		List<ProductVO> productList = pagingService.ProductListAdmin(page, pro, model);
 		
 		model.addAttribute("productList", productList);
 		
@@ -113,14 +113,15 @@ public class ProductController {
 		mainvo.setImageBy(pro.getProId());
 		
 		mainvo = productService.getMainImage(mainvo.getImageBy());
-		List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
-	
+//		if(productService.getDetailImage(mainvo.getImageBy())!=null) {
+//			List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
+//			model.addAttribute("detailImageList", detailImageList);
+//		}
 		model.addAttribute("product", pro);
 		model.addAttribute("opColorList", pro.getOpColorList());
 		model.addAttribute("opSizeList", pro.getOpSizeList());
 		model.addAttribute("stCntList", pro.getStCntList());
 		model.addAttribute("mainImage", mainvo);
-		model.addAttribute("detailImageList", detailImageList);
 
 		ModelAndView mv = new ModelAndView("admin/product/product_detail");
 		mv.addObject("product", pro);
@@ -167,7 +168,7 @@ public class ProductController {
 			mainvo.setImageBy(pro.getProId());
 			mainvo.setWho("product");
 			mainvo.setImageStatus("대표");
-			mainvo = productService.getMainImage(mainvo.getImageBy());
+			//mainvo = productService.getMainImage(mainvo.getImageBy());
 			
 			productService.deleteImage(mainvo.getImageName());
 			System.err.println("기존 메인 이미지 삭제");
@@ -225,7 +226,7 @@ public class ProductController {
 		
 		System.out.println("[ ClientController ] : product_list");
 		
-		List<ProductVO> productList = pagingService.productList(page, pro, model);
+		List<ProductVO> productList = pagingService.ProductListClient(page, pro, model);
 		
 		model.addAttribute("productList", productList);
 		
@@ -263,7 +264,7 @@ public class ProductController {
 		}
 		
 		mainvo = productService.getMainImage(mainvo.getImageBy());
-		List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
+		//List<ImageVO> detailImageList = productService.getDetailImage(mainvo.getImageBy());
 		
 		model.addAttribute("product", pro);
 		model.addAttribute("opColorList", pro.getOpColorList());
@@ -272,7 +273,7 @@ public class ProductController {
 		model.addAttribute("category", category);
 		
 		model.addAttribute("mainImage", mainvo);
-		model.addAttribute("detailImageList", detailImageList);
+		//model.addAttribute("detailImageList", detailImageList);
 		
 		ModelAndView mv = new ModelAndView("client/product/product_info");
 		mv.addObject("product", pro);

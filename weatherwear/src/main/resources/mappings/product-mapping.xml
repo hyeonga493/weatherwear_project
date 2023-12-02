@@ -4,6 +4,21 @@
 
 <mapper namespace="ProductDAO">
 
+	<resultMap type="com.w2.product.ProductVO" id="product">
+		<id property="proId" column="proId"/>
+		<result property="proName" column="proName"/>
+		<result property="proCate" column="proCate"/> 
+		<result property="proSell" column="proSell"/> 
+		<result property="proContent" column="proContent"/> 
+		<result property="proRegDate" column="proRegDate"/> 
+		<result property="proPrimeCost" column="proPrimeCost"/>
+		<result property="proCost" column="proCost"/> 
+		<result property="proTax" column="proTax"/> 
+		<result property="proMargin" column="proMargin"/> 
+		<result property="proPrice" column="proPrice"/>
+		<result property="cateName" column="cateName"/> 
+	</resultMap>
+
 	<insert id="insertProduct">
 		INSERT INTO product(proId, proCate, proName, proContent, proSell)  VALUES(#{proId}, #{proCate}, #{proName}, #{proContent}, #{proSell});
 	</insert>
@@ -61,11 +76,150 @@
 		WHERE proId = #{proId} 
 	</select>
 	
-	<select id="getProductList" resultType="product">
+	<select id="getProductCount" resultType="int">
+		<choose>
+			<when test="searchtype == 'proId'">
+				SELECT COUNT(*) FROM product
+				WHERE proId LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="searchtype == 'proName'">
+				SELECT COUNT(*) FROM product
+				WHERE proName LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test = "gubun == 'outer'">
+				SELECT COUNT(*) FROM product
+				WHERE product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'top'">
+				SELECT COUNT(*) FROM product
+				WHERE product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'pants'">
+				SELECT COUNT(*) FROM product
+				WHERE product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'skirts'">
+				SELECT COUNT(*) FROM product
+				WHERE product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'dress'">
+				SELECT COUNT(*) FROM product
+				WHERE product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<otherwise>
+				SELECT COUNT(*) FROM product
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getProductListClient" resultType="com.w2.product.ProductVO">
 		SELECT * FROM product
 		JOIN product_price ON product.proId = product_price.proId
-		WHERE proName LIKE '%'||#{searchKeyword}||'%' 
-		ORDER BY product.proRegDate DESC;
+		JOIN category ON product.proCate = category.cateId
+		WHERE product.proSell = 'Y'
+		<choose>
+			<when test = "gubun == 'outer'">
+				AND product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'top'">
+				AND product.proCate LIKE CONCAT('12', '%')
+			</when>
+			<when test = "gubun == 'pants'">
+				AND product.proCate LIKE CONCAT('13', '%')
+			</when>
+			<when test = "gubun == 'skirts'">
+				AND product.proCate LIKE CONCAT('14', '%')
+			</when>
+			<when test = "gubun == 'dress'">
+				AND product.proCate LIKE CONCAT('15', '%')
+			</when>
+			<otherwise>
+				<if test="searchtype == 'proId'">
+					AND product.proId LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				<if test="searchtype == 'proName'">
+					AND product.proName LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				ORDER BY
+				<choose>
+				<when test="ordertype == 'proRegDate'">
+					product.proRegDate DESC
+				</when>
+				<when test="ordertype == 'proCnt'">
+					product.proCnt DESC
+				</when>
+				<when test="ordertype == 'proPriceH'">
+					product_price.proPrice DESC
+				</when>
+				<when test="ordertype == 'proPriceL'">
+					product_price.proPrice ASC
+				</when>
+				<when test="ordertype == 'proSell'">
+					product.proSell ASC
+				</when>
+				<otherwise>
+					product.proName ASC
+				</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+<!-- 		<choose> -->
+<!-- 			<when test="#{ postStart == 1}"> -->
+<!-- 				LIMIT 0,20 -->
+<!-- 			</when> -->
+<!-- 			<otherwise> -->
+				LIMIT #{ postStart }, 20
+<!-- 			</otherwise> -->
+<!-- 		</choose> -->
+	</select>
+	
+	<select id="getProductListAdmin" resultType="com.w2.product.ProductVO">
+		SELECT
+		product.proId, product.proName, category.cateName, LEFT(product.proContent, 20) AS proContent,
+		product_price.proPrimeCost, product_price.proCost, product_price.proPrice,
+		product.proRegDate, product.proCnt, product.proView, product.proLike,
+		CASE product.proSell WHEN 'O' THEN '일시품절'
+							WHEN 'Y' THEN '판매중'
+							ELSE '판매종료' END AS 'proSell'
+		FROM product
+		JOIN product_price ON product.proId = product_price.proId
+		JOIN category ON product.proCate = category.cateId
+		WHERE 1 = 1
+		<if test = "searchtype == 'proId'">
+			AND product.proId LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		<if test = "searchtype == 'proName'">
+			AND product.proName LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		ORDER BY
+		<choose>
+			<when test="ordertype == 'proRegDate'">
+				product.proRegDate DESC
+			</when>
+			<when test="ordertype == 'proCnt'">
+				product.proCnt DESC
+			</when>
+			<when test="ordertype == 'proPriceH'">
+				product_price.proPrice DESC
+			</when>
+			<when test="ordertype == 'proPriceL'">
+				product_price.proPrice ASC
+			</when>
+			<when test="ordertype == 'proSell'">
+				product.proSell ASC
+			</when>
+			<otherwise>
+				product.proName ASC
+			</otherwise>
+		</choose>
+<!-- 		<choose> -->
+<!-- 			<when test="#{ postStart == 1}"> -->
+<!-- 				LIMIT 0, 10 -->
+<!-- 			</when> -->
+<!-- 			<otherwise> -->
+				LIMIT #{ postStart }, 10
+<!-- 			</otherwise> -->
+<!-- 		</choose> -->
 	</select>
 	
 	<select id="getCategory" resultType="String">

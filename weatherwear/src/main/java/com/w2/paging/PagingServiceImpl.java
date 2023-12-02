@@ -69,7 +69,7 @@ public class PagingServiceImpl implements PagingService{
 	}
 	
 	@Override
-	public List<ProductVO> productList(Integer page, ProductVO pro, Model model) {
+	public List<ProductVO> ProductListAdmin(Integer page, ProductVO pro, Model model) {
 
 		int currentPage;
 		
@@ -94,7 +94,38 @@ public class PagingServiceImpl implements PagingService{
 
 		model.addAttribute("paging", paging);
 		
-		List<ProductVO> productList = productDAO.getProductList(pro);
+		List<ProductVO> productList = productDAO.getProductListAdmin(pro);
+
+		return productList;
+	}
+	
+	@Override
+	public List<ProductVO> ProductListClient(Integer page, ProductVO pro, Model model) {
+
+		int currentPage;
+		
+		if( page == null || page == 0) {
+			currentPage = 1;
+		} else { 
+			currentPage = page;
+		}
+		
+		int totalCount = productDAO.searchCount(pro);
+		
+		Paging paging = new Paging(totalCount, currentPage, pro);
+		
+		int postStart = ((paging.getCurrentPage() -1) * 10) + 1;
+		
+		int postEnd = paging.getCurrentPage() * 10;
+		
+		pro.setStartPage(paging.getStartPage());
+		pro.setEndPage(paging.getEndPage());
+		pro.setPostStart(postStart);
+		pro.setPostEnd(postEnd);
+
+		model.addAttribute("paging", paging);
+		
+		List<ProductVO> productList = productDAO.getProductListClient(pro);
 
 		return productList;
 	}

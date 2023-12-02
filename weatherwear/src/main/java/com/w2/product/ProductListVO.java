@@ -12,6 +12,5 @@ import lombok.ToString;
 public class ProductListVO {
 	
 	private List<ProductVO> proList;
-	
 
 }

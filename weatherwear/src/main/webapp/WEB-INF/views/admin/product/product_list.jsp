@@ -157,7 +157,7 @@ function order() {
 		</c:if>
 		&nbsp;&nbsp;
 		<c:forEach var="pageNum" begin="${paging.startPage}" end="${paging.endPage}">
-			<a href="productList.mdo?&searchtype=${param.searchtype}&keyword=${param.keyword}&ordertype=${param.ordertype}"
+			<a href="productList.mdo?page=${ pageNum }&searchtype=${param.searchtype}&keyword=${param.keyword}&ordertype=${param.ordertype}"
 				style="${(pageNum == paging.currentPage) ? 'color:red; font-style:italic;' : 'color:blue;'}">
 				${ pageNum } </a>&nbsp;&nbsp; 
  		</c:forEach>

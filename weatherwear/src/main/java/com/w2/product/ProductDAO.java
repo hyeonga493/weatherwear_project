@@ -85,10 +85,18 @@ public class ProductDAO {
 		return sqlSessionTemplate.selectOne("ProductDAO.getProductCount", pro);
 	}
 	
-	public List<ProductVO> getProductList(ProductVO pro) {
-		System.out.println("[ ProductDAO ] : getProductList");
+	// 상품 목록 조회(사용자)
+	public List<ProductVO> getProductListClient(ProductVO pro) {
+		System.out.println("[ ProductDAO ] : getProductListClient");
 		
-		return sqlSessionTemplate.selectList("ProductDAO.getProductList", pro);
+		return sqlSessionTemplate.selectList("ProductDAO.getProductListClient", pro);
+	}
+	
+	// 상품 목록 조회(관리자)
+	public List<ProductVO> getProductListAdmin(ProductVO pro) {
+		System.out.println("[ ProductDAO ] : getProductListAdmin");
+		
+		return sqlSessionTemplate.selectList("ProductDAO.getProductListAdmin", pro);
 	}
 	
 	// 메인 이미지 조회

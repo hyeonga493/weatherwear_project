@@ -122,7 +122,7 @@ public class ProductServiceImpl implements ProductService {
 		productDAO.deleteProduct(pro);
 	}
 	
-	// 상품 조회(사용자)
+	// 상품 조회(관리자, 사용자)
 	@Override
 	public ProductVO getProduct(ProductVO pro) {
 		return productDAO.getProduct(pro);
@@ -134,10 +134,16 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getOptionList(pro);
 	}
 	
+	// 상품 목록 조회(관리자)
+	@Override
+	public List<ProductVO> getProductListAdmin(ProductVO pro) {
+		return productDAO.getProductListAdmin(pro);
+	}
+	
 	// 상품 목록 조회(사용자)
 	@Override
-	public List<ProductVO> getProductList(ProductVO pro) {
-		return productDAO.getProductList(pro);
+	public List<ProductVO> getProductListClient(ProductVO pro) {
+		return productDAO.getProductListClient(pro);
 	}
 
 	// 메인 이미지 조회

@@ -4,7 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <link href="resources/client/css/style.css" rel="stylesheet" />
+<link href="resources/product/css/style.css" rel="stylesheet" />
 </head>
+<style>
+.menu {
+	width:100%;
+}
+
+li {
+	list-style:none;
+}
+</style>
 <html>
 <div id="container" >
         <p>
@@ -22,27 +32,72 @@
 
 	<nav id="menubar">
 		<!--<h5>[ nav : menubar ]</h5>-->
-		<ul>
-			<!-- 새 창으로 열기 target="_blank" -->
-			<li><a href="productList.do?page=new">New</a></li>
-			<!-- product_new -->
-			<li><a href="productList.do?page=weather">Weather</a></li>
-			<!-- product_weather -->
-			<li><a href="productList.do?page=outer">Outer</a></li>
-			<!-- product_outer -->
-			<li><a href="productList.do?page=top">Top</a></li>
-			<!-- product_top -->
-			<li><a href="productList.do?page=dress">Dress</a></li>
-			<!-- product_dress -->
-			<li><a href="productList.do?page=pants">Pants</a></li>
-			<!-- product_pants -->
-			<li><a href="productList.do?page=skirts">Skirts</a></li>
-			<!-- product_skirts -->
-			<li><a href="clientNotice.do">Notice</a></li>
+			<div class="product_list">
+				<ul class="menu">
+					<li><a href="productList.do">ALL</a></li>
+					<li><a href="#">WEATHER</a></li>
+					<li><a href="productList.do?gubun=outer">OUTER</a>
+<!-- 						<ul> -->
+<!-- 							<li><a href="productList.do?gubun=111">PADDING</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=112">COAT</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=113">CARDIGAN</a></li> -->
+<!-- 						</ul> -->
+					</li>
+					<li><a href="productList.do?gubun=top">TOP</a>
+<!-- 						<ul> -->
+<!-- 							<li><a href="productList.do?gubun=121">KNIT</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=122">SHIRT</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=123">TSHIRT</a></li> -->
+<!-- 						</ul> -->
+					</li>
+					<li value><a href="productList.do?gubun=pants">PANTS</a>
+<!-- 						<ul> -->
+<!-- 							<li><a href="productList.do?gubun=131">JEANS</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=132">SLACKS</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=133">PANTS</a></li> -->
+<!-- 						</ul> -->
+					</li>
+					<li><a href="productList.do?gubun=skirts">SKIRTS</a>
+<!-- 						<ul> -->
+<!-- 							<li><a href="productList.do?gubun=141">SHORT</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=142">MIDI</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=143">LONG</a></li> -->
+<!-- 						</ul>   -->
+					</li>
+					<li><a href="productList.do?gubun=dress">DRESS</a>
+<!-- 						<ul> -->
+<!-- 							<li><a href="productList.do?gubun=151">SHORT</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=152">MIDI</a></li> -->
+<!-- 							<li><a href="productList.do?gubun=153">LONG</a></li> -->
+<!-- 						</ul>	   -->
+					</li>
+					<li><a href="clientNotice.do">NOTICE</a></li>
 			<!-- 공지사항 -->
-			<li><a href="clientQnaList.do">Qna</a></li>
+					<li><a href="clientQnaList.do">Q&A</a></li>
 			<!-- 문의사항 -->
-		</ul>
+				</ul>
+			</div>
+<!-- 		<ul> -->
+			<!-- 새 창으로 열기 target="_blank" -->
+<!-- 			<li><a href="productList.do?gubun=new">New</a></li> -->
+<!-- 			<!-- product_new -->
+<!-- 			<li><a href="productList.do?gubun=weather">Weather</a></li> -->
+<!-- 			<!-- product_weather -->
+<!-- 			<li><a href="productList.do?gubun=outer">Outer</a></li> -->
+<!-- 			<!-- product_outer -->
+<!-- 			<li><a href="productList.do?gubun=top">Top</a></li> -->
+<!-- 			<!-- product_top -->
+<!-- 			<li><a href="productList.do?gubun=dress">Dress</a></li> -->
+<!-- 			<!-- product_dress -->
+<!-- 			<li><a href="productList.do?gubun=pants">Pants</a></li> -->
+<!-- 			<!-- product_pants -->
+<!-- 			<li><a href="productList.do?gubun=skirts">Skirts</a></li> -->
+<!-- 			<!-- product_skirts -->
+<!-- 			<li><a href="clientNotice.do">Notice</a></li> -->
+<!-- 			<!-- 공지사항 -->
+<!-- 			<li><a href="clientQnaList.do">Qna</a></li> -->
+<!-- 			<!-- 문의사항 -->
+<!-- 		</ul> -->
 	</nav>
 </header>
 </html>

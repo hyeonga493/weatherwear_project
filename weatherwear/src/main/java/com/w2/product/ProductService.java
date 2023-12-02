@@ -19,7 +19,9 @@ public interface ProductService {
 	
 	ProductVO getOptionList(ProductVO pro);
 	
-	List<ProductVO> getProductList(ProductVO pro);
+	List<ProductVO> getProductListAdmin(ProductVO pro);
+	
+	List<ProductVO> getProductListClient(ProductVO pro);
 
 	// 매인 이미지 조회
 	ImageVO getMainImage(String imageBy);
