@@ -75,23 +75,23 @@
 		<choose>
 			<when test="searchtype== 'clientId'">
 				SELECT COUNT(*) FROM client
-				WHERE cId LIKE CONCAT('%', #{ keyword }, '%')
+				WHERE cId LIKE '%${ keyword }%'
 			</when>
 			<when test="searchtype=='clientName'">
 				SELECT COUNT(*) FROM client
-				WHERE cName LIKE CONCAT('%', #{ keyword }, '%')
+				WHERE cName LIKE '%${ keyword }%'
 			</when>
 			<when test="searchtype=='clientNickName'">
 				SELECT COUNT(*) FROM client
-				WHERE cNickName LIKE CONCAT('%', #{ keyword }, '%')
+				WHERE cNickName LIKE '%${ keyword }%'
 			</when>
 			<when test="searchtype=='clientNum'">
 				SELECT COUNT(*) FROM client
-				WHERE cNum LIKE CONCAT('%', #{ keyword }, '%')
+				WHERE cNum LIKE '%${ keyword }%'
 			</when>
 			<when test="searchtype=='clientEmail'">
 				SELECT COUNT(*) FROM client
-				WHERE cEmail LIKE CONCAT('%', #{ keyword }, '%')
+				WHERE cEmail LIKE '%${ keyword }%'
 			</when>
 			<otherwise>
 				SELECT COUNT(*) FROM client
@@ -102,23 +102,31 @@
 	<!-- 회원 리스트 조회 (페이징) -->
 	<select id="clientList" resultMap="client">
 		SELECT * FROM client
-		WHERE 1=1
+		<where>
 		<if test="searchtype=='clientId'">
-			AND cId LIKE CONCAT('%', #{ keyword }, '%')
+			cId LIKE '%${ keyword }%'
 		</if>
 		<if test="searchtype=='clientName'">
-			AND cName LIKE CONCAT('%', #{ keyword }, '%')
+			cName LIKE '%${ keyword }%'
 		</if>
 		<if test="searchtype=='clientNickName'">
-			AND cNickName LIKE CONCAT('%', #{ keyword }, '%')
+			cNickName LIKE '%${ keyword }%'
 		</if>
 		<if test="searchtype=='clientNum'">
-			AND cNum LIKE CONCAT('%', #{ keyword }, '%')
+			cNum LIKE '%${ keyword }%'
 		</if>
 		<if test="searchtype=='clientEmail'">
-			AND cEmail LIKE CONCAT('%', #{ keyword }, '%')
+			cEmail LIKE '%${ keyword }%'
 		</if>
+		</where>
 		ORDER BY cId DESC
-		LIMIT #{ postStart }, 10
-	</select>
+		<choose>
+			<when test="#{ postStart == 1}">
+				LIMIT 0,10
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 10
+			</otherwise>
+		</choose>
+		</select>
 </mapper>

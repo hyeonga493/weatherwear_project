@@ -27,9 +27,6 @@
 	<script type="text/javascript" src="resources/product/js/product_detail.js" charset="UTF-8"></script>
 	<script type="text/javascript" src="resources/product/js/checkbox.js" charset="UTF-8"></script>
 <script>
-/**
- * 
- */
 $(document).ready(function() {
 
 	$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
@@ -50,23 +47,18 @@ $(document).ready(function() {
 	
 	// 상품 아이디 조회
 	var proId = "${ product.proId }";
-	// console.log("proId : " + proId);
 	
 	// 색상 옵션 조회
 	var opColorList = "${ opColorList }";
-	// console.log("opColorList : " + opColorList);
 	
 	var opColor = opColorList.substring(1,opColorList.length-1).replace(/\s/g, '');
-	// console.log("opColor : " + opColor);
 	
 	$("input[name='opColor']").val(opColor);
 	
 	// 사이즈 옵션 조회
 	var opSizeList = "${ opSizeList }";
-	// console.log("opSizeList : " + opSizeList);
 	
 	var opSize = opSizeList.substring(1,opSizeList.length-1).replace(/\s/g, '');
-	// console.log("opSize : " + opSize);
 	
 	$("input[name='opSize']").val(opSize);
 	
@@ -74,8 +66,6 @@ $(document).ready(function() {
 	// 옵션별 재고 조회
 	var stCntList = "${ stCntList }";
 	var stCnt = stCntList.substring(1,stCntList.length-1).replace(/\s/g, '');
-	// console.log("stCntList : " + stCntList);
-	// console.log("stCnt : " + stCnt);
 
 	$("input[name='stCntList']").val(stCnt);
 	
@@ -105,8 +95,6 @@ $(document).ready(function() {
 		});
 	}
 
-	
-	
 	for(var i=0; i<opColorList.length; i++){
 		for(var j=0; j<opSizeList.length; j++){
 			$("#optionStock table tbody:last").append("<tr style='border-bottom:1px solid grey;'><td>" + opColorList[i] + "</td><td>" + opSizeList[j] + "</td><td>" 
@@ -147,7 +135,6 @@ $(document).ready(function() {
 				$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
 			}
 		}
-		// console.log("stCntList : " + stCntList);
 		$("input[name='stCntList']").val(stCntList);
 		
 		if(stCntList!=null){
@@ -200,9 +187,6 @@ $(document).ready(function() {
 						+ "<input type='number' name='stCnt' id='stCnt" + opColorList[i] + opSizeList[j] + "' value='0' min='0' style='width:40px; text-alin:center; border:none;'></td></tr>");	
 			}
 		}
-		
-		// console.log("change opColorList : " + opColorList);
-		// console.log("change opSizeList : " + opSizeList);
 
 		$("#applyStock").click(function() {
 			var stCntList = [];
@@ -218,7 +202,6 @@ $(document).ready(function() {
 					stCntList.push(cnt);
 				}
 			}
-			// console.log("stCntList : " + stCntList);
 			$("input[name='stCntList']").val(stCntList);
 
 			if(stCntList!=null){
@@ -236,7 +219,6 @@ $(document).ready(function() {
 					$("#stCnt"+ opColorList[i] + opSizeList[j] + "").val(cnt);
 				}
 			}
-			// console.log("stCntList : " + stCntList);
 			$("input[name='stCntList']").val(stCntList);
 			
 			if(stCntList!=null){

@@ -18,13 +18,6 @@
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-	<main>
-		<div class="container-fluid">
-			<h1 class="mt-4"></h1>
-		</div>
-	</main>
-	<script	src="<c:url value='https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js'/>" crossorigin="anonymous"></script>
-	<hr><hr><hr><br>
 <div id="wrap">
 	<div id="container">
 		<section id="content">
@@ -62,7 +55,6 @@
 												<th>포인트</th>
 												<th>구매누적</th>
 												<th>추천인</th>
-												<th>수정하기</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -81,7 +73,6 @@
 													<td>${ client.clientPoint }</td>
 													<td>${ client.clientBuyCnt }</td>
 													<td>${ client.clientRecId }</td>
-													<td><button type="button" id="updateClient" onclick="location.href='updateClient.mdo?clientId=${ client.clientId }&page=${paging.currentPage}&searchType=${ param.keyword }'">수정하기</button></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -93,7 +84,7 @@
 								<!-- 이전 버튼 -->
 								<c:if test="${ paging.prev }">
 									<a href="client.mdo?page=${ startPage -1 }">처음페이지로</a>
-								</c:if>&nbsp;	&nbsp;						
+								</c:if>&nbsp;&nbsp;						
 								<c:if test="${ paging.currentPage>1 }">
 									<a href="client.mdo?page=${ paging.currentPage -1 }">이전</a>
 								</c:if>&nbsp;&nbsp;

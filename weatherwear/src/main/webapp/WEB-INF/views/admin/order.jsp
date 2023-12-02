@@ -15,20 +15,7 @@
 
 	<%@ include file="./base/header.jsp"%>
 	<div>
-	<!-- 전체화면 버튼 -->
-	<button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#">
-		<i class="fas fa-bars"></i>
-	</button>
 	
-		<!-- Navbar-->
-		<div class="container-fluid">
-			<h1 class="mt-4"></h1>
-		</div>
-		<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-		<hr>
-		<hr>
-		<hr>
-		<br>
 	<div class="select" style="margin-top: 50px;">
 		<hr>
 		<label>조회기간</label>

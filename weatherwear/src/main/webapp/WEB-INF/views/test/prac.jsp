@@ -13,9 +13,212 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="resources/client/js/client_join.js"></script>
+
+<style>
+div {
+    display: block;
+}
+
+table {
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+}
+
+caption {
+    display: table-caption;
+    text-align: -webkit-center;
+}
+
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
+}
+
+tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}
+
+th {
+    display: table-cell;
+    vertical-align: inherit;
+    font-weight: bold;
+    text-align: -internal-center;
+}
+
+td {
+    display: table-cell;
+    vertical-align: inherit;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+</style>
+
+
 </head>
 <body>
 
+	<h2>Table</h2>
+<div class="content">
+	<table class="RulesTb" summary="배송결제 정보의 배송방식, 배송지역, 배송비, 배송정보, 특이사항에 대해 나온 표">
+		<caption>배송결제 정보</caption>
+		<tbody>
+			</tbody><tbody>
+				<!-- 택배 배송 -->
+				<tr>
+					<th class="mBoxL" rowspan="5" scope="row">택배 배송</th>
+					<th class="mBox_mL">배송방식</th>
+					<td class="mBox_mR">
+						<ul>
+							
+							<li>WEATHERWEAR 물류센터 직접배송(롯데택배/CJ대한통운)</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th class="mBox_mL" scope="row">배송지역</th>
+					<td class="mBox_mR">
+						<ul>
+							<li>전국(일부지역 제외)</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th class="mBox_mL" scope="row">배송비</th>
+					<td class="mBox_mR">
+						<ul>
+							<li>3,000원 (50,000원 이상 구입하면 무료배송, 도서·산간지역 동일)</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<th class="mBox_mL" scope="row">배송정보</th>
+					<td class="mBox_mR">
+						<ul class="mBottom">
+							<li>
+								배송기일 : 결제일 다음날부터 3영업일 이내 발송<br>(토요일/일요일/공휴일은 배송기일에서 제외)<br>
+							</li>
+							<li class="lastChild">
+								도서·산간 지역은 배송기일이 추가적으로 소요될 수 있으며, 상품의 재고상황에 따라 배송기일이 다소 지연될 수 있는 점 양해 부탁드립니다.
+							</li>
+						</ul>
+					</td>
+				</tr>
+			</tbody>
+		
+	</table>
+	<!--// end shipping -->
+</div>
+
+
+
+<script>
+$(document).ready(function() {
+	var reSize = "${ reSize }";
+	$("#reviewPop").modal('hide');
+	
+});
+</script><!-- 지희씨 ReviewController, VO, DAO 등 필요
+
+// 결제내역 리스트 페이지
+	@RequestMapping("/do.do")
+	@Description("결제내역 페이지")
+	public ModelAndView reviewOrderList(ReviewVO review, Model model) {
+		
+		List<ReviewVO> result = reviewService.getReviewOrderList(review);
+	
+		model.addAttribute("reviewOrderList", result);
+		
+		System.err.println("model : " + model.toString());
+
+		ModelAndView mv = new ModelAndView("test/modal");
+
+		mv.addObject("reSize", result.size());
+		mv.addObject("result", result);
+		
+		return mv;
+	}
+
+ -->
+	<h3>Modal</h3>
+	<script>
+		function review(name){
+			console.log(name);	
+			$("#reviewPop").modal('show');	
+		}
+	</script>
+	<c:forEach var="reviewOrder" items="${ reviewOrderList }">
+		<c:if test="${ reviewOrder.reId == null }">
+		<h1>리뷰 없음</h1>
+		<button type="button" onclick="review()">리뷰쓰기</button>
+		</c:if>
+		<c:if test="${ reviewOrder.reId != null }">
+		<h1 style="color: red">리뷰 있음</h1>
+<%--		reId : ${ reviewOrder.reId }<br>
+		clientId : ${ reviewOrder.clientId }<br><br>
+		
+		odId : ${ reviewOrder.odId }<br>
+		
+		opId : ${ reviewOrder.opId }<br><br>
+		
+		proId : ${ reviewOrder.proId }<br>
+		proName : ${ reviewOrder.proName }<br><br>
+		
+		opColor : ${ reviewOrder.opColor }<br>
+		opSize : ${ reviewOrder.opSize }<br>
+		opIdList : ${ reviewOrder.opIdList }<br>
+		starpoint_wrap : ${ reviewOrder.starpoint_wrap }<br><br>
+		
+		reContent : ${ reviewOrder.reContent }<br>
+		reImage : ${ reviewOrder.reImage }<br>
+		reStar : ${ reviewOrder.reStar }<br>
+		reDate : ${ reviewOrder.reDate }<br> --%>
+		<hr>
+		</c:if>
+		
+		<c:set var="opIdList" value="${ reviewOrder.opIdList }"/>
+		<c:forEach var="opId" items="${ opIdList }">
+			<br>${ opId }
+			<c:if test="${ reviewOrder.reId != null }">
+			<button type="button" onclick="review('${opId}')">리뷰보기</button>
+			<font color="green">
+				<br>[----------<br>
+				${ reviewOrder.reId }<br>
+				${ reviewOrder.reContent }<br>
+				----------]<br>
+			</font>
+			</c:if>
+			
+			
+			<!-- review modal -->
+			<div class="modal fade" id="reviewPop" tabindex="-1" role="dialog" aria-labelledby="reviewPop">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<form action="writeReview.do" method="post" id="reviewPopForm" >
+							${ reviewOrder.reId }<br>
+							${ reviewOrder.reContent }<br>
+						</form>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+		
+	</c:forEach>
 	<h3>stringList</h3>
 	<%
 		String cone = "c1-1";
