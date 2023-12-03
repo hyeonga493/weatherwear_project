@@ -15,7 +15,7 @@
 		SELECT * FROM weather
 		WHERE wdate = #{wdate}
 	</select>
-
+ 
 	<insert id="saveWeather" parameterType="weather">
 		INSERT INTO weather (wdate, province, temp_min, temp_max, weather_id) 
 		VALUES (#{ wdate }, #{ province }, #{ temp_min }, #{ temp_max }, #{weather_id } ) 

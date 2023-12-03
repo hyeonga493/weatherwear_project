@@ -10,7 +10,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString 
 public class ClientVO {
 	private String clientId;				//필수
 	private String clientPwd;				//필수

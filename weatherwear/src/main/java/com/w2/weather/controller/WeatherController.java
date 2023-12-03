@@ -7,7 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -16,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.w2.weather.Utility;
 import com.w2.weather.WeatherService;
@@ -25,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class WeatherController {
-	
+	 
 	@Autowired
 	private WeatherService weatherService;
 	
@@ -38,140 +41,163 @@ public class WeatherController {
 	@RequestMapping("/saveWeather.do")
 	public String saveWeather() throws IOException, ParseException {
 		
-		String province = "seoul";
-
+		//String province = "seoul";
+		List<String> pvList = new ArrayList<String>();
+		pvList.add("seoul");
+		pvList.add("busan");
+		pvList.add("daegu");
+		pvList.add("chuncheon");
+		pvList.add("suwon");
+		pvList.add("incheon");
+		pvList.add("jeju");
+		
 		// API url 주소
 		String apiUrl = "https://api.openweathermap.org/data/2.5/forecast?";
 
-		StringBuilder urlBuilder = new StringBuilder(apiUrl);
-		urlBuilder.append(URLEncoder.encode("q", "UTF-8") + "=" + URLEncoder.encode(province, "UTF-8")); // 지역(서울)
-		urlBuilder.append("&" + URLEncoder.encode("appid", "UTF-8") + "=" + apiId);
-		urlBuilder.append("&" + URLEncoder.encode("units", "UTF-8") + "=" + URLEncoder.encode("metric", "UTF-8")); // 섭씨
 
-		// 날씨 데이터를 받아올 url 주소
-		URL url = new URL(urlBuilder.toString());
-		//System.out.println("URL : " + url);
-		
-		// GET 방식, json형태로 받아오고, 제대로 연결되었는지 확인
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("GET");
-		conn.setRequestProperty("Content-type", "application/json");
-		System.out.println("Response code: " + conn.getResponseCode());
+		for(String province : pvList) {
 
-		BufferedReader br;
-		if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-			br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-		} else {
-			br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-		}
-
-		StringBuilder sb = new StringBuilder();
-		String line;
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-
-		br.close();
-		conn.disconnect();
-
-		String dataJson = sb.toString();
-
-		// json 에서 데이터 파싱
-		try {
-			JSONParser parser = new JSONParser();
-			JSONObject jsonObject = (JSONObject) parser.parse(dataJson);
-			JSONArray list = (JSONArray) jsonObject.get("list");
-			//List<WeatherVO> weatherList = new ArrayList<>();
-			WeatherVO vo = new WeatherVO();
+			StringBuilder urlBuilder = new StringBuilder(apiUrl);
+			urlBuilder.append(URLEncoder.encode("q", "UTF-8") + "=" + URLEncoder.encode(province, "UTF-8")); // 지역(서울)
+			urlBuilder.append("&" + URLEncoder.encode("appid", "UTF-8") + "=" + apiId);
+			urlBuilder.append("&" + URLEncoder.encode("units", "UTF-8") + "=" + URLEncoder.encode("metric", "UTF-8")); // 섭씨
+	
+			// 날씨 데이터를 받아올 url 주소
+			URL url = new URL(urlBuilder.toString());
+			//System.err.println("URL : " + url);
+			System.err.println(">>>>>>>>>>>>>>> province : " + province);
 			
-			for (int i = 0; i < list.size(); i++) {
-
-				JSONObject data = (JSONObject) list.get(i);
-
-				String dt_txt = (String) data.get("dt_txt");
-
-				String date = dt_txt.substring(0, 13); // 날짜
-				String time = dt_txt.substring(11, 13); // 시간
-				
-				//System.err.println(i + " > date : " + date);
-				//System.err.println(i + " > time : " + time);
-				
-				JSONObject main = (JSONObject) data.get("main");
-				//System.err.println(i + " > main : " + main.toString());
-				
-				JSONArray weather = (JSONArray) data.get("weather");
-				JSONObject weatherId = (JSONObject) weather.get(0);
-				long id = (long) weatherId.get("id");
-				//System.err.println(i + " > id : " + id);
-				
-				if((!time.equals("06")) && (!time.equals("15"))){
-					// System.err.println("err : " + time + "지나간다");
-					continue;
+			if(url != null) {
+				// GET 방식, json형태로 받아오고, 제대로 연결되었는지 확인
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				conn.setRequestMethod("GET");
+				conn.setRequestProperty("Content-type", "application/json");
+				System.err.println("Response code: " + conn.getResponseCode());
+		
+				BufferedReader br;
+				if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+					br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				} else {
+					br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
 				}
-				if (time.equals("06")) {
-					String tempStr = main.get("temp").toString();
-					double temp = Double.parseDouble(tempStr);
-					vo.setWdate(date.substring(0, 10));
-					vo.setProvince(province);
-					vo.setTemp_min(temp);
-					
-					//System.err.println(i + " 6시 이후 >>>>>> " + vo.toString());
+		
+				StringBuilder sb = new StringBuilder();
+				String line;
+				while ((line = br.readLine()) != null) {
+					sb.append(line);
 				}
+		
+				br.close();
+				conn.disconnect();
+		
+				String dataJson = sb.toString();
+		
+				// json 에서 데이터 파싱
+				try {
+					JSONParser parser = new JSONParser();
+					JSONObject jsonObject = (JSONObject) parser.parse(dataJson);
+					JSONArray list = (JSONArray) jsonObject.get("list");
+		
+					WeatherVO vo = new WeatherVO();
 
-				if (time.equals("15")) {
-					String tempStr = main.get("temp").toString();
-					double temp = Double.parseDouble(tempStr);
+					double minTemp = 30.0;
+					double maxTemp = 0.0;	
+					System.err.println("초기화");
 					
-					vo.setTemp_max(temp);
-					vo.setWeather_id((int) id);
+					
+					for (int i = 0; i < list.size(); i++) {
+						if(i==0) {
+							System.err.println("@@@@@@@@@@@@@@ 다음 도시");
+						}
+						JSONObject data = (JSONObject) list.get(i);
 
-					///weatherList.add(vo); // weatherList에 추가
-					//System.err.println(i + " 15시 이후 >>>>>> " + vo.toString());
-					
-					//System.err.println(i + " >>> check 전에 vo : " + vo.toString());
-					
-					/* 날짜가 null인 경우 toString에서 nullpointException이 발생
-					if(weatherService.checkDate(vo)!=null) {	
-						System.err.println("vo : " + vo.toString());
+						
+						String dt_txt = (String) data.get("dt_txt");
+		
+						String date = dt_txt.substring(0, 13); // 날짜
+						String time = dt_txt.substring(11, 13); // 시간
+		
+		
+						JSONObject main = (JSONObject) data.get("main");
+						
+						JSONArray weather = (JSONArray) data.get("weather");
+						JSONObject weatherId = (JSONObject) weather.get(0);
+						long id = (long) weatherId.get("id");
+		
+						vo.setWdate(date.substring(0, 10));
+						vo.setWeatherday(Utility.getDay(date.substring(0, 10)));
+						vo.setProvince(province);
+						
+						double temp = Double.parseDouble(main.get("temp").toString());
+						System.err.println("온도온도 : " + temp);
+						
+						
+						if(temp < minTemp) {
+							minTemp = Math.round(temp*10)/10.0;
+							System.err.println(">> 작은수로변경 : " + temp);
+						}
+						if(temp > maxTemp) {				
+							maxTemp = Math.round(temp*10)/10.0;
+							System.err.println(">>>> 큰수로변경 : " + temp);
+						}
+						
+						vo.setTemp_min(minTemp);
+						vo.setTemp_max(maxTemp);	
+						
+						if (time.equals("15")) {
+							vo.setWeather_id((int) id);
+						}
+						
+						if(time.equals("21")) {
+							if(weatherService.saveWeather(vo) > 0) {
+								System.out.println("insert 성공");
+							} else {
+								System.out.println("insert 실패");
+							}
+							System.err.println(minTemp + " : " + maxTemp);
+						}
 					}
-					*/
-					
-					
-					// 3시 데이터 넣고 삽입해야하므로 if문 안에 작성합니다.
-					if(weatherService.saveWeather(vo) > 0) {
-						System.out.println("insert 성공");
-					} else {
-						System.out.println("insert 실패");
-					}
+					System.err.println(" > min : " + minTemp + "/ max : " + maxTemp);
+	
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return "redirect:/";
+		return "redirect:clientMain.do";
 	}
 	
-	
+	/*
+		weather1 : -2
+		weather2 : -1
+		weather3 : 오늘
+		weather4 : +1
+		weather5 : +2
+	 */	
 	@RequestMapping("/getWeather.do")
-	public String getWeather(WeatherVO vo, Model model) {
+	public ModelAndView getWeather(WeatherVO vo, Model model) {
 		System.out.println("[ WeatherController ] : getWeather");
 		log.debug(null);
 		
 		Date d = new Date();
-		for(int i=1; i<6; i++) {
-			String date = Utility.getDate(d, (i-3));
-			vo.setWdate(date);
-			
-			model.addAttribute("weather" + i, weatherService.getWeather(vo));
-			System.err.println("------- getWeather vo : " + weatherService.getWeather(vo));
-		}
-		//weather1 : -2
-		//weather2 : -1
-		//weather3 : 오늘
-		//weather4 : +1
-		//weather5 : +2
+		ModelAndView mv = new ModelAndView("client/base/weather");
+		List<WeatherVO> wList = new ArrayList<WeatherVO>();
 		
-		return "client/base/weather";
+		for(int i=1; i<6; i++) {
+			String date = Utility.getDate(d, (i-4));
+			System.err.println("++++++++++++++++++" + Utility.getDay(date.substring(0, 10)));
+			vo.setWdate(Utility.getDay(date));
+			vo.setWdate(date);
+			vo = weatherService.getWeather(vo);
+			wList.add(vo);
+			model.addAttribute("wList", wList);
+			
+			mv.addObject("weather"+i+"_id", vo.getWeather_id());
+			mv.addObject("weather"+i+"_max", vo.getTemp_max());
+			mv.addObject("weather"+i+"_min", vo.getTemp_min());
+			mv.addObject("weather"+i+"_date", vo.getWdate());
+			System.err.println(vo.getWdate());
+		}
+		return mv;
 	}
-	
 }

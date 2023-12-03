@@ -25,7 +25,7 @@ public class ClientPostController {
 
 	@Autowired
 	private ClientService service;
-
+ 
 	@Autowired
 	private BCryptPasswordEncoder pwden;
 	

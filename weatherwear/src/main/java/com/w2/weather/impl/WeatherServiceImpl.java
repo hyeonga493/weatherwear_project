@@ -1,11 +1,17 @@
-package com.w2.weather;
+package com.w2.weather.impl;
+
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.w2.weather.WeatherDAO;
+import com.w2.weather.WeatherService;
+import com.w2.weather.WeatherVO;
+
 @Service("weatherService")
 public class WeatherServiceImpl implements WeatherService {
-
+ 
 	@Autowired
 	private WeatherDAO dao;
 
@@ -13,7 +19,6 @@ public class WeatherServiceImpl implements WeatherService {
 	public WeatherVO checkDate(WeatherVO vo) {
 		System.err.println("[WeatherServiceImpl] : checkDate");
 		WeatherVO result = dao.checkDate(vo.getWdate());
-		// System.err.println("result : " + result);
 
 		return result;
 	}
@@ -22,15 +27,11 @@ public class WeatherServiceImpl implements WeatherService {
 	public int saveWeather(WeatherVO vo) {
 		System.err.println("[WeatherServiceImpl] : insertWeather");
 		
-		//System.err.println("______impl vo : " + vo.toString());
-		
 		if(vo.getWdate() == null) {
-			// System.err.println("값없으니 돌아가 >>>>>>>>");
 			return 0;
 		}
 		
 		int result = dao.saveWeather(vo);
-		// System.err.println("_______result : " + result);
 
 		return result;
 	}
@@ -40,4 +41,8 @@ public class WeatherServiceImpl implements WeatherService {
 		return dao.getWeather(vo);
 	}
 	
+	@Override
+	public List<WeatherVO> getWeatherList(WeatherVO vo){
+		return dao.getWeatherList(vo);
+	}
 }

@@ -13,7 +13,7 @@ public class ClientDAO {
 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
+	 
 	// 아이디 체크
 	public int idCheck(String clientId) {
 		System.err.println("[ ClientDAO ] : idCheck");

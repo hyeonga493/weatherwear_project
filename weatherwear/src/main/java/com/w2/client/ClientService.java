@@ -13,7 +13,7 @@ public interface ClientService {
 
 	// 아이디 체크
 	public int idCheckService(String clientId);
-
+ 
 	// 닉네임 체크
 	public int nickCheckService(String clientNickName);
 
