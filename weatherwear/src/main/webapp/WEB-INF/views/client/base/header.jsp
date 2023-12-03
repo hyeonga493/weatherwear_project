@@ -7,10 +7,7 @@
 <link href="resources/product/css/style.css" rel="stylesheet" />
 </head>
 <style>
-.menu {
-	width:100%;
-}
- 
+
 li {
 	list-style:none;
 }
@@ -18,7 +15,7 @@ li {
 <html>
 <div id="container" >
         <p>
-            <h5>[ div : container ]</h5>
+        <br><br>
 			<c:if test="${ client != null }"> <!-- 로그인한 경우 -->
 				<h5 id="top_menu">${ client.clientName } | <a href="clientMypage.do">MYPAGE</a> | <a href="clientCart.do">CART</a> | <a href="clientLogout.do">LOGOUT</a></h5>
 			</c:if>
@@ -27,15 +24,14 @@ li {
 			</c:if>
         </p>
 <header id="header">
-	<h5>[ header : header ]</h5>
 	<a href="/w2/clientMain.do"><img src="resources/image/client/logo_pull.png" id="banner_logo"></a>
 
 	<nav id="menubar">
 		<!--<h5>[ nav : menubar ]</h5>-->
 			<div class="product_list">
 				<ul class="menu">
-					<li><a href="productList.do">ALL</a></li>
 					<li><a href="#">WEATHER</a></li>
+					<li><a href="productList.do?gubun=all">ALL</a></li>
 					<li><a href="productList.do?gubun=outer">OUTER</a>
 <!-- 						<ul> -->
 <!-- 							<li><a href="productList.do?gubun=111">PADDING</a></li> -->

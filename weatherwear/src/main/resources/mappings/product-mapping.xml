@@ -3,7 +3,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ProductDAO">
- 
+
 	<resultMap type="com.w2.product.ProductVO" id="product">
 		<id property="proId" column="proId"/>
 		<result property="proName" column="proName"/>
@@ -20,7 +20,7 @@
 	</resultMap>
 
 	<insert id="insertProduct">
-		INSERT INTO product(proId, proCate, proName, proContent, proSell)  VALUES(#{proId}, #{proCate}, #{proName}, #{proContent}, #{proSell});
+		INSERT INTO product(proId, proCate, proName, proContent, proSell, proRegDate)  VALUES(#{proId}, #{proCate}, #{proName}, #{proContent}, #{proSell}, #{ proRegDate });
 	</insert>
 	
 	<insert id="insertProductPrice">
@@ -28,7 +28,7 @@
 	</insert>
 	
 	<insert id="insertOption">
-		INSERT INTO option_sample(proId, opColor, opSize, stCnt) VALUES (#{ proId }, #{ opColor }, #{ opSize }, #{ stCnt })
+		INSERT INTO option_info(proId, opColor, opSize, stCnt) VALUES (#{ proId }, #{ opColor }, #{ opSize }, #{ stCnt })
 	</insert>
 
 	<update id="updateProduct">
@@ -44,7 +44,7 @@
 	</update>
 	
 	<insert id="deleteOption">
-		DELETE FROM option_sample
+		DELETE FROM option_info
 		WHERE proId = #{proId}
 	</insert>
 	
@@ -60,19 +60,19 @@
 	</select>    
 	
 	<select id="getColorList" resultType="String">
-		SELECT  opColor FROM option_sample
+		SELECT  opColor FROM option_info
 		WHERE proId = #{proId}
 		GROUP BY opColor
 	</select>
 	
 	<select id="getSizeList" resultType="String">
-		SELECT  opSize FROM option_sample
+		SELECT  opSize FROM option_info
 		WHERE proId = #{proId}
 		GROUP BY opSize
 	</select>
 	
 	<select id="getCntList" resultType="int">
-		SELECT  stCnt FROM option_sample
+		SELECT  stCnt FROM option_info
 		WHERE proId = #{proId} 
 	</select>
 	
@@ -92,19 +92,22 @@
 			</when>
 			<when test = "gubun == 'top'">
 				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('11', '%')
+				WHERE product.proCate LIKE CONCAT('12', '%')
 			</when>
 			<when test = "gubun == 'pants'">
 				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('11', '%')
+				WHERE product.proCate LIKE CONCAT('13', '%')
 			</when>
 			<when test = "gubun == 'skirts'">
 				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('11', '%')
+				WHERE product.proCate LIKE CONCAT('14', '%')
 			</when>
 			<when test = "gubun == 'dress'">
 				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('11', '%')
+				WHERE product.proCate LIKE CONCAT('15', '%')
+			</when>
+			<when test = "gubun == 'all'">
+				SELECT COUNT(*) FROM product
 			</when>
 			<otherwise>
 				SELECT COUNT(*) FROM product
@@ -112,7 +115,69 @@
 		</choose>
 	</select>
 	
-	<select id="getProductListClient" resultType="com.w2.product.ProductVO">
+	<select id="getMainList" resultType="com.w2.file.ImageVO" parameterType="product">
+		SELECT * 
+		FROM product_image
+		JOIN product ON product.proId = product_image.imageBy
+		WHERE  imageStatus='대표'
+		AND product.proCate Like CONCAT('15', '%')
+		<choose>
+			<when test = "gubun == 'outer'">
+				AND product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'top'">
+				AND product.proCate LIKE CONCAT('12', '%')
+			</when>
+			<when test = "gubun == 'pants'">
+				AND product.proCate LIKE CONCAT('13', '%')
+			</when>
+			<when test = "gubun == 'skirts'">
+				AND product.proCate LIKE CONCAT('14', '%')
+			</when>
+			<when test = "gubun == 'dress'">
+				AND product.proCate LIKE CONCAT('15', '%')
+			</when>
+			<otherwise>
+				<if test="searchtype == 'proId'">
+					AND product.proId LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				<if test="searchtype == 'proName'">
+					AND product.proName LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				ORDER BY
+				<choose>
+				<when test="ordertype == 'proRegDate'">
+					product.proRegDate DESC
+				</when>
+				<when test="ordertype == 'proCnt'">
+					product.proCnt DESC
+				</when>
+				<when test="ordertype == 'proPriceH'">
+					product_price.proPrice DESC
+				</when>
+				<when test="ordertype == 'proPriceL'">
+					product_price.proPrice ASC
+				</when>
+				<when test="ordertype == 'proSell'">
+					product.proSell ASC
+				</when>
+				<otherwise>
+					product.proName ASC
+				</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="#{ postStart == 1}">
+				LIMIT 0,20
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getProductListClient" resultType="product">
 		SELECT * FROM product
 		JOIN product_price ON product.proId = product_price.proId
 		JOIN category ON product.proCate = category.cateId
@@ -163,17 +228,17 @@
 				</choose>
 			</otherwise>
 		</choose>
-<!-- 		<choose> -->
-<!-- 			<when test="#{ postStart == 1}"> -->
-<!-- 				LIMIT 0,20 -->
-<!-- 			</when> -->
-<!-- 			<otherwise> -->
+		<choose>
+			<when test="#{ postStart == 1}">
+				LIMIT 0,20
+			</when>
+			<otherwise>
 				LIMIT #{ postStart }, 20
-<!-- 			</otherwise> -->
-<!-- 		</choose> -->
+			</otherwise>
+		</choose>
 	</select>
 	
-	<select id="getProductListAdmin" resultType="com.w2.product.ProductVO">
+	<select id="getProductListAdmin" resultType="product">
 		SELECT
 		product.proId, product.proName, category.cateName, LEFT(product.proContent, 20) AS proContent,
 		product_price.proPrimeCost, product_price.proCost, product_price.proPrice,
@@ -212,18 +277,22 @@
 				product.proName ASC
 			</otherwise>
 		</choose>
-<!-- 		<choose> -->
-<!-- 			<when test="#{ postStart == 1}"> -->
-<!-- 				LIMIT 0, 10 -->
-<!-- 			</when> -->
-<!-- 			<otherwise> -->
+		<choose>
+			<when test="#{ postStart == 1}">
+				LIMIT 0, 10
+			</when>
+			<otherwise>
 				LIMIT #{ postStart }, 10
-<!-- 			</otherwise> -->
-<!-- 		</choose> -->
+			</otherwise>
+		</choose>
 	</select>
 	
 	<select id="getCategory" resultType="String">
-		SELECT CONCAT(c3.cateName, ',', c2.cateName, ',', c1.cateName) as fullCateName
+		SELECT
+			CASE
+				WHEN c2.catePrCode IS NULL THEN CONCAT(c2.cateName, ',', c1.cateName)
+				ELSE CONCAT(c3.cateName, ',', c2.cateName, ',', c1.cateName)
+			END as fullCateName
 		FROM category c1
 		LEFT JOIN category c2 ON (c1.catePrCode = c2.cateId)
 		LEFT JOIN category c3 ON (c2.catePrCode = c3.cateId)

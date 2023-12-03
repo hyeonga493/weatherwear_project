@@ -9,23 +9,30 @@
 		<result property="temp_min" column="TEMP_MIN" />
 		<result property="temp_max" column="TEMP_MAX" />
 		<result property="weather_id" column="WEATHER_ID" />
+		<result property="weatherday" column="weatherday" />
 	</resultMap>
 <!--  -->
 	<select id="checkDate" parameterType="weather" resultMap="weather">
 		SELECT * FROM weather
 		WHERE wdate = #{wdate}
 	</select>
- 
+
 	<insert id="saveWeather" parameterType="weather">
-		INSERT INTO weather (wdate, province, temp_min, temp_max, weather_id) 
-		VALUES (#{ wdate }, #{ province }, #{ temp_min }, #{ temp_max }, #{weather_id } ) 
+		INSERT INTO weather (wdate, province, temp_min, temp_max, weather_id, weatherday) 
+		VALUES (#{ wdate }, #{ province }, #{ temp_min }, #{ temp_max }, #{weather_id }, #{ weatherday }) 
 		ON DUPLICATE KEY UPDATE 
-    	wdate=#{ wdate }, temp_min=#{ temp_min }, temp_max=#{ temp_max }, weather_id=#{weather_id };
+    	temp_min=#{ temp_min }, temp_max=#{ temp_max }, weather_id=#{weather_id };
 	</insert>
  
 	<select id="getWeather" resultType="weather" parameterType="weather">
 		SELECT * FROM weather
-		WHERE wdate = #{wdate}
+		WHERE wdate = #{wdate} AND province=#{ province }
+	</select>
+	
+	<select id="getWeatherList" resultType="weather" parameterType="map">
+		SELECT * FROM weather
+		WHERE wdate IN (#{day_1}, #{day_2}, #{day_3}, #{day_4}, #{day_5})
+		AND province = #{ province }
 	</select>
 <!--
 	<select id="getWeatherList" resultMap="weatherInfo" parameterType="weather">
