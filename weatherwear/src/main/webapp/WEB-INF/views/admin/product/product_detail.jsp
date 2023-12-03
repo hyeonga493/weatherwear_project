@@ -14,7 +14,7 @@
 	<title>상품 등록 정보 / 수정</title>
 	<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 	<link rel="stylesheet" href="resources/product/css/product_style.css" />
-	
+	 
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<script src="resources/admin/js/jquery/jquery.min.js"></script>
 	
@@ -28,23 +28,6 @@
 	<script type="text/javascript" src="resources/product/js/checkbox.js" charset="UTF-8"></script>
 <script>
 $(document).ready(function() {
-
-	// 메인이미지 업로드 확인
-	const mainImageUpload = document.querySelector("#mainImageUpload");
-	mainImageUpload.addEventListener("change", () => {
-	  	if (mainImageUpload.files.length != 0) {
-	    	mainimg.value = 'Y';
-	  	}
-	});
-
-	// 상세이미지 업로드 확인	
-	const detailImageUpload = document.querySelector("#detailImageUpload");
-	detailImageUpload.addEventListener("change", () => {
-	  	if (detailImageUpload.files.length != 0) {
-	    	detailimg.value = 'Y';
-	  	}
-	});
-	
 	$("#optionResult").html("<font color='blue' size='3'>적용되었습니다.</font>");
 	$("#optionStock").html("<form action='insertStock.mdo' method='post'>" 
 							+ "<table style='text-align:center;'>" 
@@ -58,7 +41,7 @@ $(document).ready(function() {
 							+ "</form>"
 							+ "<input type='number' name='changeall'><button type='button' class='btn-write' id='changeStockAll'>재고 일괄 적용하기</button><br>"
 							+ "<button type='button' class='btn-write' id='applyStock'>재고 적용하기</button>" 
-							+ "<input type='text' name='stCntList' value='${ stCntList }'>"
+							+ "<input type='hidden' name='stCntList' value='${ stCntList }'>"
 							+ "<span id='stockResult'></span>");
 	
 	// 상품 아이디 조회
@@ -262,27 +245,6 @@ $(document).ready(function() {
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-	<!-- 전체화면 버튼 -->
-	<button class="btn btn-link btn-sm order-1 order-lg-0"
-		id="sidebarToggle" href="#">
-		<i class="fas fa-bars"></i>
-	</button>
-
-	<!-- Navbar-->
-	<!-- <ul> -->
-	<ul class="navbar-nav ml-auto ml-md-0">
-		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" aria-haspopup="true" aria-expanded="false"></a>
-		</li>
-	</ul>
-		<main>
-		<div class="container-fluid">
-			<h1 class="mt-4"></h1>
-		</div>
-		</main>
-		<script	src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-		<hr><hr><hr><br>
-		
 		<section>
 			<div>
 				<h3>상품 상세</h3>
@@ -384,6 +346,7 @@ $(document).ready(function() {
 			        </c:if>
 			        </ul>
 			        <ul id="detailimageList_ori">
+			        	<input type="checkbox" id="checkAllId" name="checkName" > 전체선택<br>
 			        <c:if test="${ detailImageList != null }">
 			        	<c:forEach var="detail" items="${ detailImageList }">
 			        		<label for="${ detail.imageName }">
@@ -401,10 +364,9 @@ $(document).ready(function() {
 			</table>
 			</div>
 			<div style="margin-left:450px;">
-				<input type="hidden" name="mainimg">
-				<input type="hidden" name="detailimg">
 				<input type="submit" value="수정" onClick="submitPost()" style="padding:10px"/>
-				<a href="deleteProduct.mdo?proId=${product.proId}">삭제</a>
+				<a href="deleteProduct.mdo?proId=${product.proId}"style="padding:10px"><font color="red">삭제</font></a>
+				<a href="productList.mdo" style="padding:10px">돌아가기</a>
 				
 			</div>
 			</form>

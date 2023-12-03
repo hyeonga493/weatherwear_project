@@ -3,7 +3,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="ProductDAO">
-
+ 
 	<resultMap type="com.w2.product.ProductVO" id="product">
 		<id property="proId" column="proId"/>
 		<result property="proName" column="proName"/>

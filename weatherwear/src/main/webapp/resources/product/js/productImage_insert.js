@@ -8,7 +8,7 @@ $(function(){
         
         mainImageList = $("#mainImageUpload")[0].files;
         mainListTag = '';
-        
+         
         mainImageTag = '';
         for(i = 0; i < mainImageList.length; i++){
             mainListTag += "<label for "+mainImageList[i].name+"> " + mainImageList[i].name + "</label><br>";

@@ -8,13 +8,11 @@ div.clearfixed::after {
 	content: "";
 	clear: both
 }
+ 
 a {
 	text-decoration: none;
+	font-weight: bold;
 	color:black;
-}
-
-.menu > li {
-	list-style:none;
 }
 
 .product {
@@ -34,16 +32,30 @@ a {
 
 .menu {
 	height:50px;
-	width : 60%;
+	width : 100%;
 	line-height:50px;
-	text-align:center;
-	position: relative;
+	display:flex;
+	margin: 0 auto 0 auto;
+	flex-wrap: nowrap;
+	justify-content: space-evenly;
 }
+
+.menu ul {
+  justify-content: space-between;
+}
+
 .menu li {
-	float:left;
-	width:140px;
-	position:relative;
+	list-style:none;
+	width: 100%;
+	padding: 0 5%;
+	letter-spacing: 2px;
 }
+
+.menu li a:hover {
+    text-decoration: none;
+    text-shadow: 2px 1px 1px silver;
+}
+
 .menu li div {
 	width:500px;
 	display:none;

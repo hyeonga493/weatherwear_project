@@ -11,7 +11,7 @@
 	<%@ include file="./base/header.jsp"%>
 	<div class="client_login">
 		<h2>Login</h2>
-		
+		 
 		<!-- 경고창 띄우기 -->
 		<c:if test="${ msg != null }">
 			<script>

@@ -9,7 +9,7 @@ $(document).ready(function() {
 		var opSize = $("input[name='opSize']").val().replace(/\s/g, '');
 		var opColorList = [];
 		var opSizeList = [];
-		
+		 
 		if (opColor) {
 			opColor.split(",").forEach(function(item) {
 				opColorList.push(item);

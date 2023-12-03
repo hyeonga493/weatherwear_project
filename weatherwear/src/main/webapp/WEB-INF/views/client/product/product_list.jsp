@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <link href="resources/product/css/style.css" rel="stylesheet" />
 <title>product_list.jsp</title>
-<style>
+<style> 
 #ordertype {
 	width: 100px;
 	padding: 10px;

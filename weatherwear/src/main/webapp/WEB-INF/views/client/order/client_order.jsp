@@ -4,7 +4,7 @@
     
 
 
-<%
+<%  
   String caIdList = request.getParameter("CaIdList");
   if (caIdList != null) {
       // URL 디코딩

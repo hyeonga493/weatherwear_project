@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <title>client_login.jsp</title>
 <script>
-
+ 
 </script>
 </head>
 <body>

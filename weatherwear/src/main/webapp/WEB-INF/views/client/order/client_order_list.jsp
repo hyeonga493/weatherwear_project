@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<head>
+<head> 
 <meta charset="UTF-8">
 <link href="resources/client/css/style.css" rel="stylesheet" />
 <link href="resources/client/order/css/client_order_list.css" type="text/css" rel="stylesheet" />

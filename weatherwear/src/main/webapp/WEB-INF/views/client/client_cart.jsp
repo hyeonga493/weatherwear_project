@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
 <link href="resources/client/css/style.css" rel="stylesheet" />
 <link href="resources/client/css/cartStructure.css" type="text/css" rel="stylesheet" />
 <title>client_cart.jsp</title>

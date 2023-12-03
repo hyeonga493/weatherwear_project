@@ -9,7 +9,7 @@
 <title>mainIndex.jsp</title>
 <!-- Style 태그는 head 태그 안에 있어야 합니다.-->
 <style>
-.weather_section {
+.weather_section { 
 	height : 350px;
 	border : 3px solid black;
 }

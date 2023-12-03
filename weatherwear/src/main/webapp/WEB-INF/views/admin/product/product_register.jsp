@@ -13,7 +13,7 @@
 
 .delBtn:hover {
     color: red;
-}
+} 
 </style>
 <html>
 <head>
@@ -85,30 +85,35 @@
 <!-- 				<input type="text" name="proCate"> -->
 					<select name="proCate" id="category">
 						<option>SELECT</option>
+						<option value="11">OUTER</option>
+						<option value="12">TOP</option>
+						<option value="13">PANTS</option>
+						<option value="14">SKIRTS</option>
+						<option value="15">DRESS</option>
 						<optgroup label="OUTER">
-							<option value="111" selected="selected">PADDING</option>
-							<option value="112">COAT</option>
-							<option value="113">CARDIGAN</option>
+<!-- 							<option value="111" selected="selected">PADDING</option> -->
+<!-- 							<option value="112">COAT</option> -->
+<!-- 							<option value="113">CARDIGAN</option> -->
 						</optgroup>
 						<optgroup label="TOP">
-							<option value="121">KNIT</option>
-							<option value="122">SHIRT</option>
-							<option value="123">TSHIRT</option>
+<!-- 							<option value="121">KNIT</option> -->
+<!-- 							<option value="122">SHIRT</option> -->
+<!-- 							<option value="123">TSHIRT</option> -->
 						</optgroup>
 						<optgroup label="PANTS">
-							<option value="131">JEANS</option>
-							<option value="132">SLACKS</option>
-							<option value="133">PANTS</option>
+<!-- 							<option value="131">JEANS</option> -->
+<!-- 							<option value="132">SLACKS</option> -->
+<!-- 							<option value="133">PANTS</option> -->
 						</optgroup>
 						<optgroup label="SKIRTS">
-							<option value="141">SHORT</option>
-							<option value="142">MIDI</option>
-							<option value="143">LONG</option>
+<!-- 							<option value="141">SHORT</option> -->
+<!-- 							<option value="142">MIDI</option> -->
+<!-- 							<option value="143">LONG</option> -->
 						</optgroup>
 						<optgroup label="DRESS">
-							<option value="151">SHORT</option>
-							<option value="152">MIDI</option>
-							<option value="153">LONG</option>
+<!-- 							<option value="151">SHORT</option> -->
+<!-- 							<option value="152">MIDI</option> -->
+<!-- 							<option value="153">LONG</option> -->
 						</optgroup>
 					</select>
 				</td>

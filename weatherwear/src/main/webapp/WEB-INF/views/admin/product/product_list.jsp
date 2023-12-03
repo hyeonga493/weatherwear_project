@@ -14,7 +14,7 @@
 <script type="text/javascript" charset="UTF-8">
 function order() {
 	var value = document.getElementById("ordertype").value;
-	
+	 
 	if(value == "proRegDate") {
 		window.location.replace("productList.mdo?ordertype=proRegDate");
 	} else if(value == "proCnt") {
@@ -68,6 +68,7 @@ function order() {
 					<td>
 					<select class="box" id="searchtype" name="searchtype">
 								<option value="SELECT">선택</option>
+								<option ${ param.searchtype == null ? 'selected' : '' }  value="proId">상품번호</option>
 								<option ${ param.searchtype == 'proId' ? 'selected' : '' }  value="proId">상품번호</option>
 								<option ${ param.searchtype == 'proName' ? 'selected' : '' } value="proName">상품명</option>		                  
 					</select>
@@ -83,29 +84,24 @@ function order() {
 				</div>
 				<div>
 			<select class="box" id="ordertype" name="ordertype" onchange="order()">
-				<option value="ORDER">정렬</option>
 				<option ${ param.ordertype == 'proRegDate' ? 'selected' : '' } value="proRegDate">등록일</option>
+				<option ${ param.ordertype == null ? 'selected' : '' } value="proRegDate">등록일</option>
 				<option ${ param.ordertype == 'proCnt' ? 'selected' : '' } value="proCnt">판매량</option>
 				<option ${ param.ordertype == 'proSell' ? 'selected' : '' } value="proSell">판매상태</option>
 			</select>
 			</div>
-		<div>
-				등록 상품 개수
-		</div>
 	<table id="productList">
 		<tr>
 			<th>판매상태</th>
 			<th>상품번호</th>
 			<th>카테고리</th>
 			<th>상품명</th>
-			<th>상품설명</th>
 			<th>공급가</th>
 			<th>소비자가</th>
 			<th>판매가</th>
 			<th>등록일</th>
 			<th>판매량</th>
 			<th>조회수</th>
-			<th>좋아요수</th>		
 		</tr>
 		<c:forEach var="product" items="${productList}">
 			<tr>
@@ -113,24 +109,22 @@ function order() {
 				<td>${product.proId}</td>
 				<td>${product.cateName}</td>
 				<td><a href="getProduct.mdo?proId=${product.proId}">${product.proName}</a></td>
-				<td>${product.proContent}</td>
 				<td>${product.proPrimeCost}</td>
 				<td>${product.proCost}</td>
 				<td>${product.proPrice}</td>
 				<td fmt:formatDate pattern="yyyy-MM-dd">${product.proRegDate}</td>
 				<td>${product.proCnt}</td>
 				<td>${product.proView}</td>
-				<td>${product.proLike}</td>
 			</tr>
 		</c:forEach>
 	</table>
 	<div class="paging">
 		<c:if test="${paging.prev}">
-			<a href="productList.mdo?page=${startPage -1}">처음페이지로</a>
+			<a href="productList.mdo?page=${startPage -1}&searchtype=${param.searchtype}&keyword=${param.keyword}&ordertype=${param.ordertype}">처음페이지로</a>
 		</c:if>
 		&nbsp; &nbsp;
 		<c:if test="${ paging.currentPage>1 }">
-			<a href="productList.mdo?page=${paging.currentPage -1}">이전</a>
+			<a href="productList.mdo?page=${paging.currentPage -1}&searchtype=${param.searchtype}&keyword=${param.keyword}&ordertype=${param.ordertype}">이전</a>
 		</c:if>
 		&nbsp;&nbsp;
 		<c:forEach var="pageNum" begin="${paging.startPage}" end="${paging.endPage}">
@@ -139,11 +133,11 @@ function order() {
 				${ pageNum } </a>&nbsp;&nbsp; 
  		</c:forEach>
 		<c:if test="${ paging.currentPage < paging.endPage }">
-			<a href="productList.mdo?page=${ paging.currentPage + 1 }">다음</a>&nbsp;&nbsp;
+			<a href="productList.mdo?page=${ paging.currentPage + 1 }&searchtype=${param.searchtype}&keyword=${param.keyword}&ordertype=${param.ordertype}">다음</a>&nbsp;&nbsp;
  		</c:if>
 		<!-- 다음 버튼 -->
 		<c:if test="${ paging.next }">
-			<a href="productList.mdo?page=${ paging.endPage +1 }">마지막페이지로</a>
+			<a href="productList.mdo?page=${ paging.endPage +1 }&searchtype=${param.searchtype}&keyword=${param.keyword}&ordertype=${param.ordertype}">마지막페이지로</a>
 		</c:if>
 	</div>
 	<br/>

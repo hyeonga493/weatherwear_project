@@ -13,7 +13,7 @@
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css">
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
-
+ 
 </head>
 <body class="sb-nav-fixed">
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>

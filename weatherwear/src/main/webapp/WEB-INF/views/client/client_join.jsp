@@ -10,7 +10,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="resources/client/js/client_join.js"></script>
 </head>
-<body>
+<body> 
 	<%@ include file="./base/header.jsp"%>
 	<div class="client_join">
 		<h2>JoinUs</h2>

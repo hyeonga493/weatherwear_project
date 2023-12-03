@@ -10,7 +10,7 @@
 <title>mainIndex.jsp</title>
 <!-- Style 태그는 head 태그 안에 있어야 합니다.-->
 </head>
-<body>
+<body> 
 	<c:if test="${client == null}">
 		<script>
 			alert("잘못된 접근입니다. 다시 시도해주세요");

@@ -9,7 +9,7 @@
 <title>사용자 공지사항 페이지</title>
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
-
+ 
 </head>
 <body>
 	<%@ include file="../../client/base/header.jsp"%>

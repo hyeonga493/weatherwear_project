@@ -13,7 +13,7 @@
 
 	<div id="wrap">
 		<!-- container -->
-		<div id="container">
+		<div id="container"> 
 			<section id="content">
 				<div class="sub-type notice">
 					<div class="inner-box">
