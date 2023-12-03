@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ProductListVO {
-	
+	 
 	private List<ProductVO> proList;
 
 }

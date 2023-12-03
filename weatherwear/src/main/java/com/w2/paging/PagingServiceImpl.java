@@ -8,17 +8,19 @@ import org.springframework.ui.Model;
 
 import com.w2.client.ClientDAO;
 import com.w2.client.ClientVO;
+import com.w2.file.ImageVO;
 import com.w2.product.ProductDAO;
 import com.w2.product.ProductVO;
 
 @Service("pagingService")
 public class PagingServiceImpl implements PagingService{
-
+ 
 	@Autowired
 	private ClientDAO clientDAO;
 	@Autowired
 	private ProductDAO productDAO;
 
+	// 회원 조회(관리자)
 	@Override
 	public List<ClientVO> clientList(Integer page, ClientVO client, Model model) {
 
@@ -68,8 +70,9 @@ public class PagingServiceImpl implements PagingService{
 		return clientList;
 	}
 	
+	// 상품 조회(관리자)
 	@Override
-	public List<ProductVO> ProductListAdmin(Integer page, ProductVO pro, Model model) {
+	public List<ProductVO> productListAdmin(Integer page, ProductVO pro, Model model) {
 
 		int currentPage;
 		
@@ -78,7 +81,6 @@ public class PagingServiceImpl implements PagingService{
 		} else { 
 			currentPage = page;
 		}
-		
 		int totalCount = productDAO.searchCount(pro);
 		
 		Paging paging = new Paging(totalCount, currentPage, pro);
@@ -98,9 +100,10 @@ public class PagingServiceImpl implements PagingService{
 
 		return productList;
 	}
-	
+
+	// 상품 조회(사용자)
 	@Override
-	public List<ProductVO> ProductListClient(Integer page, ProductVO pro, Model model) {
+	public List<ProductVO> productListClient(Integer page, ProductVO pro, Model model) {
 
 		int currentPage;
 		
@@ -109,7 +112,7 @@ public class PagingServiceImpl implements PagingService{
 		} else { 
 			currentPage = page;
 		}
-		
+
 		int totalCount = productDAO.searchCount(pro);
 		
 		Paging paging = new Paging(totalCount, currentPage, pro);
@@ -128,6 +131,12 @@ public class PagingServiceImpl implements PagingService{
 		List<ProductVO> productList = productDAO.getProductListClient(pro);
 
 		return productList;
+	}
+
+	// 메인 이미지 목록 조회
+	@Override
+	public List<ImageVO> getProductMain(Integer page, ProductVO pro, Model model) {
+		return productDAO.getMainList(pro);
 	}
 	
 }

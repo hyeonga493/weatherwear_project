@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Getter
-@Setter
+@Setter 
 @ToString
 public class ImageVO {
 	private String imageId;	// 이미지 고유 번호

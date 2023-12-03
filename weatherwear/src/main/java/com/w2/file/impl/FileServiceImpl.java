@@ -11,7 +11,7 @@ import com.w2.file.ImageVO;
 public class FileServiceImpl implements FileService {
 	@Autowired
 	private FileDAO filedao;
-	
+	 
 	@Override
 	public int insertImage(ImageVO cmvo) {
 		System.out.println("[ Imple ] : insertImage");

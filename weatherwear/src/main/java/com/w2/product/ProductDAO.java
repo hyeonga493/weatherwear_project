@@ -10,7 +10,7 @@ import com.w2.file.ImageVO;
 
 @Repository
 public class ProductDAO {
-
+ 
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
 	
@@ -56,18 +56,28 @@ public class ProductDAO {
 		sqlSessionTemplate.update("ProductDAO.deleteOption", proId);
 	}
 	
+	// 상품 삭제
 	public void deleteProduct(ProductVO pro) {
 		System.out.println("[ ProductDAO ] : deleteProduct");
 		
 		sqlSessionTemplate.delete("ProductDAO.deleteProduct", pro);
 	}
 	
-	public ProductVO getProduct(ProductVO pro) {
+	// 상품 조회(관리자)
+	public ProductVO getProductAdmin(ProductVO pro) {
 		System.out.println("[ ProductDAO ] : getProduct");
-		
 		return (ProductVO)sqlSessionTemplate.selectOne("ProductDAO.getProduct", pro);
 	}
+
+	// 상품 조회(사용자)
+	public ProductVO getProductClient(ProductVO pro) {
+		System.out.println("[ ProductDAO ] : getProduct");
+		ProductVO result = (ProductVO)sqlSessionTemplate.selectOne("ProductDAO.getProduct", pro);
+		sqlSessionTemplate.update("ProductDAO.upcountView", result);
+		return result;
+	}
 	
+	// 상품 옵션조회
 	public ProductVO getOptionList(ProductVO pro) {
 		System.out.println("[ ProductDAO ] : getOptionList");
 
@@ -79,7 +89,8 @@ public class ProductDAO {
 		
 		return pro;
 	}
-	
+
+	// 상품 수 조회
 	public int searchCount(ProductVO pro) {
 		
 		return sqlSessionTemplate.selectOne("ProductDAO.getProductCount", pro);
@@ -90,6 +101,19 @@ public class ProductDAO {
 		System.out.println("[ ProductDAO ] : getProductListClient");
 		
 		return sqlSessionTemplate.selectList("ProductDAO.getProductListClient", pro);
+	}
+	
+	// 상품 메인 이미지 목록 조회(사용자)
+	public List<ImageVO> getProductMain(ProductVO pro){
+		System.out.println("[ ProductDAO ] : getProductMain");
+
+		return sqlSessionTemplate.selectList("ProductDAO.getProductMain", pro);
+	}
+
+	// 메인 이미지 목록 조회(사용자) > 페이징
+	public List<ImageVO> getMainList(ProductVO pro) {
+		System.out.println("[ ProductDAO ] : getProductMain");
+		return sqlSessionTemplate.selectList("ProductDAO.getMainList", pro);
 	}
 	
 	// 상품 목록 조회(관리자)
@@ -121,4 +145,5 @@ public class ProductDAO {
 		System.err.println("[ DAO ] : getCategory > " + result);
 		return result;
 	}
+
 }

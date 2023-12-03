@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FileController {
 	@Autowired
 	private AwsS3 awsS3 = AwsS3.getInstance();
-	
+	 
 	@Autowired
 	private FileService fileService;
 	

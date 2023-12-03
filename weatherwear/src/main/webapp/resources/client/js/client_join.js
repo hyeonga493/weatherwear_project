@@ -11,7 +11,7 @@
 			alert("아이디를 입력해주세요");
 			return;
 		}
-
+ 
 		$.ajax({
 			url: "/w2/checkId.do?clientId="+clientId,
 			type: "POST",

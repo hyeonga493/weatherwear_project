@@ -3,7 +3,7 @@ package com.w2.product;
 import java.sql.Date;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.w2.file.ImageVO;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,8 +11,9 @@ import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class ProductVO {
-	
+	 
 	// product
 	private String proSell;  // 판매상태
 	private String proId;  // 상품번호
@@ -52,14 +53,8 @@ public class ProductVO {
 	private int startPage;
 	private int endPage;
 	
-	private MultipartFile uploadFile;
+	private String mainImageDir;
+	private String mainImageName;
 
-	@Override
-	public String toString() {
-		return "ProductVO [proSell=" + proSell + ", proId=" + proId + ", proCate=" + proCate + ", proName=" + proName
-				+ ", proContent=" + proContent + ", proRegDate=" + proRegDate + ", proPrimeCost=" + proPrimeCost
-				+ ", cateName=" + cateName + ", opColorList=" + opColorList + ", opSizeList=" + opSizeList
-				+ ", stCntList=" + stCntList + "]";
-	}
 	
 }

@@ -28,7 +28,7 @@ import com.w2.product.ProductVO;
 
 @Controller
 public class ProductController {
-
+ 
 	@Autowired
 	private ProductService productService;
 	
@@ -90,7 +90,7 @@ public class ProductController {
 			pro.setKeyword("");
 		}
 		
-		List<ProductVO> productList = pagingService.ProductListAdmin(page, pro, model);
+		List<ProductVO> productList = pagingService.productListAdmin(page, pro, model);
 		
 		model.addAttribute("productList", productList);
 		
@@ -103,7 +103,7 @@ public class ProductController {
 		
 		opt.setProId(pro.getProId());
 		
-		pro = productService.getProduct(pro);
+		pro = productService.getProductAdmin(pro);
 		
 		// 옵션 정보 저장
 		pro = productService.getOptionList(pro);
@@ -158,15 +158,15 @@ public class ProductController {
 		System.err.println("m : " + httpre.getParameter("mainimg"));
 		System.err.println("d : " + httpre.getParameter("detailimg"));
 		
-		if(httpre.getParameter("mainimg").equals("Y")) {
+		if(httpre.getParameter("main_imageList") != null) {
 			List<MultipartFile> mainList = request.getFiles("main_Changeimg[]");
 
 			for(MultipartFile main : mainList) {
-				if(main.getOriginalFilename()== null &&  main.getOriginalFilename() == "" ) {
+				if(main.getOriginalFilename()== null ||  main.getOriginalFilename() == "" ) {
 				    System.out.println("mainList 파일이 업로드되지 않았습니다.");
 					System.err.println("추가 메인 이미지 없다");
 					break;
-				}
+				} 
 				
 				System.err.println("main.name : " + main.getOriginalFilename());
 				// 메인 이미지 새로 업로드 시 기존 이미지 삭제
@@ -174,21 +174,23 @@ public class ProductController {
 				mainvo.setImageBy(pro.getProId());
 				mainvo.setWho("product");
 				mainvo.setImageStatus("대표");
-				//mainvo = productService.getMainImage(mainvo.getImageBy());
 				
-				productService.deleteImage(mainvo.getImageName());
-				System.err.println("기존 메인 이미지 삭제");
+				if(productService.getMainImage(mainvo.getImageBy())!=null){
+					productService.deleteImage(mainvo.getImageName());
+					System.err.println("기존 메인 이미지 삭제");
+				}
+				
 				
 				fileController.updateProductImage(mainList, oriFilePath, mainvo);
 				System.err.println("메인 이미지 수정");
 			}
 		}
 
-		if(httpre.getParameter("detailimg").equals("Y")) {
+		if(httpre.getParameter("detail_imageList") != null) {
 			List<MultipartFile> detailList = request.getFiles("detail_Changeimg[]");
 			
 			for(MultipartFile detail : detailList) {
-				if(detail.getOriginalFilename()== null &&  detail.getOriginalFilename() == "" ) {
+				if(detail.getOriginalFilename()== null ||  detail.getOriginalFilename() == "" ) {
 				    System.out.println("detailList 파일이 업로드되지 않았습니다.");
 					System.err.println("추가 상세 이미지 없다");
 					break;
@@ -224,8 +226,7 @@ public class ProductController {
 	@RequestMapping(value = "/updateProduct.mdo")
 	public String updateProduct(ProductVO pro) {
 		
-		int result = productService.updateProduct(pro);
-		
+		productService.updateProduct(pro);
 		return "redirect:productList.mdo";
 	}
 	
@@ -238,9 +239,12 @@ public class ProductController {
 		
 		System.out.println("[ ClientController ] : product_list");
 		
-		List<ProductVO> productList = pagingService.ProductListClient(page, pro, model);
+		List<ProductVO> productList = pagingService.productListClient(page, pro, model);
+		//List<ImageVO> mainList = productService.getProductMain(pro);
+		List<ImageVO> mainList = pagingService.getProductMain(page, pro, model);
 		
 		model.addAttribute("productList", productList);
+		model.addAttribute("mainList", mainList);
 		
 		return "client/product/product_list";
 	}
@@ -250,10 +254,9 @@ public class ProductController {
 	public ModelAndView productInfo(ProductVO pro, OptionVO opt, Model model) {
 		System.out.println("[ ClientController ] : product_info");
 		
-
 		opt.setProId(pro.getProId());
 		
-		pro = productService.getProduct(pro);
+		pro = productService.getProductClient(pro);
 		
 		// 옵션 정보 저장
 		pro = productService.getOptionList(pro);
@@ -298,6 +301,20 @@ public class ProductController {
 		mv.addObject("stCntList", pro.getStCntList());
 		
 		return mv;
+	}
+	
+	@RequestMapping("/dododo.do")
+	public String inputT() {
+		return "test/success";
+	}
+	
+	// 상품 대량 등록 실행
+	@PostMapping("/dododo.do")
+	public String input() throws IOException, ParseException {
+		
+		productService.test();
+		
+		return "test/success";
 	}
 	
 }

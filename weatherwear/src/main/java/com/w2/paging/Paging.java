@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Paging {
-	
+ 	
 	// 한 페이지당 보여 줄 게시글의 수
 	private static final int VIEW_POST_NUM = 10;
 	
@@ -42,6 +42,7 @@ public class Paging {
 		}
 		
 		this.totalPosts = totalPosts;
+		System.err.println("2. totalPosts : " + totalPosts);
 		
 		// 생성자에서 메소드를 호출하여 페이지 번호를 부여하는 기능을 추가합니다.
 		pagingMaker();
@@ -51,6 +52,7 @@ public class Paging {
 	public void pagingMaker() {
 		// 한 페이지당 보여줄 글의 개수로 총 페이지를 나누어 총 페이지 수를 지정합니다.
 		totalPage = (totalPosts-1) / VIEW_POST_NUM + 1;
+		System.err.println("3. totalPage : " + totalPage);
 		
 		if(currentPage < 1 || currentPage > totalPage) {
 			currentPage = 1;

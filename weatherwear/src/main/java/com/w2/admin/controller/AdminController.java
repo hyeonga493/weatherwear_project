@@ -22,7 +22,7 @@ import jdk.jfr.Description;
 
 @Controller
 public class AdminController {
-	
+	 
 	@Autowired
 	private ClientService service;
 	@Autowired
