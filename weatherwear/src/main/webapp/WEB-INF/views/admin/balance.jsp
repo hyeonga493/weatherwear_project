@@ -23,9 +23,7 @@
 
 	<!-- Navbar-->
 	<ul class="navbar-nav ml-auto ml-md-0">
-		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
-			href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
-			aria-expanded="false">
+		<li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				</div></li>
 	</ul>
 		<main>

@@ -1,25 +1,78 @@
 package com.w2.client.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.w2.client.ClientVO;
+import com.w2.product.ProductService;
+import com.w2.product.ProductVO;
+import com.w2.weather.WeatherService;
+import com.w2.weather.WeatherVO;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
 public class ClientGetController {
+
+	@Autowired
+	private WeatherService weatherService;
+
+	@Autowired
+	private ProductService productService;
+	
+	public void checkTime() {
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				LocalDateTime now = LocalDateTime.now();
+				DateTimeFormatter fm = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				String fmNow = now.format(fm);
+			}
+		}, 0, 1000*60*60*24); //하루에 한 번 실행합니다.
+	}
+	
 	// 메인페이지 호출
 	@RequestMapping("/clientMain.do")
-	public String clientMain() {
+	public ModelAndView clientMain(WeatherVO vo, ProductVO pro,Model model, HttpServletRequest request) {
 		System.out.println("[ ClientGetController ] : clientMain");
 		log.debug(null);
 		
-		return "client/client_main";
+		ModelAndView mv = new ModelAndView("client/client_main");
+
+		if(request.getParameter("province") != null) {
+			vo.setProvince(request.getParameter("province"));
+		} else {
+			vo.setProvince("seoul");
+		}
+		
+		List<ProductVO> proList = productService.getBestProduct(pro);
+		List<WeatherVO> wList = weatherService.getWeatherList(vo);
+		System.err.println("weatherList : " + wList);
+		mv.addObject("weather3_id", wList.get(2).getWeather_id());
+		model.addAttribute("today", wList.get(2));
+		model.addAttribute("weather1", wList.get(0));
+		model.addAttribute("weather2", wList.get(1));
+		model.addAttribute("weather4", wList.get(3));
+		model.addAttribute("weather5", wList.get(4));
+		model.addAttribute("proList", proList);
+
+		checkTime();
+		System.err.println("지역 : " + vo.getProvince());
+		return mv;
 	}
 	
 	// 로그인 페이지 호출

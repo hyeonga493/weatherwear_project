@@ -1,10 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<html>
 <footer>
 	<div id="footer">
 		<a href="login.mdo"><img src="resources/image/client/logo_footer.png" id="footer_logo"></a>
-		<h5>[ div : footer/change ]</h5>
 		<div id="content">
 			<br>
 			<!--// util menu -->
@@ -19,5 +17,3 @@
 		</div>
 	</div>
 </footer>
-</div>
-</html>

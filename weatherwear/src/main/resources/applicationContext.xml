@@ -14,14 +14,23 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- client -->
-	<context:component-scan	base-package="com.w2.client"></context:component-scan>
-	<context:component-scan	base-package="com.w2.file"></context:component-scan>
+	<context:component-scan	base-package="com.w2.client"/>
+	<context:component-scan	base-package="com.w2.file"/>
+	<context:component-scan base-package="com.w2.paging" /> 
 	 
 	<!-- adminMainController -->
 	<context:component-scan base-package="com.w2.admin" /> 
 	
+	<!-- weather -->
+	<context:component-scan	base-package="com.w2.weather"/>
+	
+	<!-- product -->
+	<context:component-scan base-package="com.w2.product"/>
+	
 	<!-- 데이터베이스 정보 -->
     <context:property-placeholder location="classpath:config/webserverdb.properties" />
+    
+    <bean id="productService" class="com.w2.product.impl.ProductServiceImpl"/>
     
 	<!-- Data Source -->
 	<!--  <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"> -->

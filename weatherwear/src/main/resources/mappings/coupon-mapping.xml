@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<!-- mapper를 루트 엘리먼트로 사용합니다. -->
+<mapper namespace="CouponAdminDAO">
+	
+	<resultMap type="couponAdmin" id="couponResult">
+		<id property="cpId" column="cpId"/>
+		<result property="clientId" column="cId"/>
+		<result property="cpCate" column="cpCate"/>
+		<result property="cpName" column="cpName"/> 
+		<result property="cpPrice" column="cpPrice"/> 
+		<result property="cpStDate" column="cpStDate"/> 
+		<result property="cpEndDate" column="cpEndDate"/> 
+		<result property="cpProList" column="cpProList"/>
+		<result property="cpStatus" column="cpStatus"/>
+		<result property="minPrice" column="minPrice"/> 
+		<!-- <result property="chClientType" column="grId"/> -->
+		<result property="chClientType" column="grId"/>
+	</resultMap>
+	 
+	<!-- 쿠폰정보 등록 -->
+	<insert id="couponInfoRegist" parameterType="couponAdmin">
+        INSERT INTO coupon_info (cpId, cpName, cpPrice, cpStDate, cpEndDate, minPrice, grList ) 
+        VALUES(#{ cpId }, #{ cpName }, #{ cpPrice }, now(), #{ cpEndDate }, #{ minPrice }, #{ chClientType });
+    </insert>
+    
+	<!--회원아이디별 쿠폰정보 등록 -->
+	<insert id="couponListRegist" parameterType="couponAdmin">
+        INSERT INTO coupon_list (cpId, cId, cpStatus ) 
+        VALUES(#{ cpId }, #{ clientId }, "사용가능");
+    </insert> 
+    
+	 <select id="couponAdminList" resultMap="couponResult" parameterType="couponAdmin">
+		SELECT DISTINCT A.cpId, A.cpName, A.cpPrice, A.minPrice, A.cpStDate, A.cpEndDate, B.cpStatus 
+		FROM coupon_info A 
+		LEFT JOIN coupon_list B 
+		ON A.cpId = B.cpId; 
+    </select> 
+    
+    <!-- 쿠폰 등록 시, 등급별 고객 id 리스트 가져오기 위해 -->
+ 	<select id="clientIdList" resultMap="couponResult" parameterType="coupon">
+        SELECT * FROM client 
+        WHERE grId=#{ chClientType }
+    </select>
+ 
+    <select id="couponClientList" resultMap="couponResult" parameterType="couponAdmin">
+    	SELECT A.cpId, B.cpName, B.cpStDate, B.cpEndDate, A.cpStatus 
+		FROM coupon_list A
+		RIGHT JOIN coupon_info B
+		ON A.cpId = B.cpId
+		WHERE A.cId=#{ clientId }; 
+    </select>
+    
+    <!-- 기간 만료된 쿠폰 상태 변경하는 로직 -->
+    <update id="updateCpStatus" parameterType="couponAdmin">
+    	 <!-- 한 cpId에 해당하는 모든 상태값을 변경해야함!! , but 만료 유효기간 날짜는 검색함... -->
+        UPDATE coupon_list
+        SET cpStatus=#{ cpStatus }
+        WHERE cpId=#{ cpId } 
+    </update>
+</mapper> 

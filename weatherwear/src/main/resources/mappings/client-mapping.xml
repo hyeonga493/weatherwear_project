@@ -3,7 +3,7 @@
 <!-- MyBatis 다운 파일 PDF 에서 붙여넣은 내용입니다. -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-				
+	 			
 <mapper namespace="ClientDAO">
 	<!-- -->
 	<resultMap type="com.w2.client.ClientVO" id="client">
@@ -23,6 +23,10 @@
 	<!-- 아이디 존재 여부 확인 (탈퇴한 회원 정보는 제외합니다.) -->
 	<select id="idCheck" resultType="int">
 		SELECT count(*) FROM client WHERE cId=#{ clientId } AND cId NOT IN (SELECT wcId FROM withdraw_info)
+	</select>
+	
+	<select id="nickCheck" resultType="int">
+		SELECT count(*) FROM client WHERE cNickName=#{ clientNickName }
 	</select>
 	
 	<!-- 회원 확인 요청 (탈퇴한 회원 정보는 제외합니다.)  -->
@@ -65,4 +69,64 @@
 		INSERT INTO client(cId, cPwd, cName, cNum, cEmail, cEmailCheck, cRecId, cBirth, cNickName, grId, cPoint)
 		VALUES(#{ clientId }, #{ clientPwd }, #{ clientName }, #{ clientNum }, #{ clientEmail }, #{ clientEmailCheck }, #{ clientRecId }, #{ clientBirth }, #{ clientNickName }, #{ gradeId }, #{ clientPoint })
 	</insert>
+	
+	<!-- 회원 수 조회 -->
+	<select id="getClientCount" resultType="int">
+		<choose>
+			<when test="searchtype== 'clientId'">
+				SELECT COUNT(*) FROM client
+				WHERE cId LIKE '%${ keyword }%'
+			</when>
+			<when test="searchtype=='clientName'">
+				SELECT COUNT(*) FROM client
+				WHERE cName LIKE '%${ keyword }%'
+			</when>
+			<when test="searchtype=='clientNickName'">
+				SELECT COUNT(*) FROM client
+				WHERE cNickName LIKE '%${ keyword }%'
+			</when>
+			<when test="searchtype=='clientNum'">
+				SELECT COUNT(*) FROM client
+				WHERE cNum LIKE '%${ keyword }%'
+			</when>
+			<when test="searchtype=='clientEmail'">
+				SELECT COUNT(*) FROM client
+				WHERE cEmail LIKE '%${ keyword }%'
+			</when>
+			<otherwise>
+				SELECT COUNT(*) FROM client
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- 회원 리스트 조회 (페이징) -->
+	<select id="clientList" resultMap="client">
+		SELECT * FROM client
+		<where>
+		<if test="searchtype=='clientId'">
+			cId LIKE '%${ keyword }%'
+		</if>
+		<if test="searchtype=='clientName'">
+			cName LIKE '%${ keyword }%'
+		</if>
+		<if test="searchtype=='clientNickName'">
+			cNickName LIKE '%${ keyword }%'
+		</if>
+		<if test="searchtype=='clientNum'">
+			cNum LIKE '%${ keyword }%'
+		</if>
+		<if test="searchtype=='clientEmail'">
+			cEmail LIKE '%${ keyword }%'
+		</if>
+		</where>
+		ORDER BY cId DESC
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20
+			</otherwise>
+		</choose>
+		</select>
 </mapper>

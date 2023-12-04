@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<!-- mapper를 루트 엘리먼트로 사용합니다. -->
+<mapper namespace="CouponDAO">
+	
+	<resultMap type="coupon" id="couponResult">
+		<id property="cpId" column="cpId"/>
+		<result property="clientId" column="cId"/>
+		<result property="cpCate" column="cpCate"/>
+		<result property="cpName" column="cpName"/> 
+		<result property="cpPrice" column="cpPrice"/> 
+		<result property="cpStDate" column="cpStDate"/> 
+		<result property="cpEndDate" column="cpEndDate"/> 
+		<result property="cpProList" column="cpProList"/>
+		<result property="cpStatus" column="cpStatus"/>
+		<result property="minPrice" column="minPrice"/> 
+		<!-- <result property="chClientType" column="grId"/> -->
+		<result property="chClientType" column="grId"/>
+	</resultMap>
+	 
+    <select id="couponClientList" resultMap="couponResult" parameterType="coupon">
+    	SELECT A.cpId, B.cpName, B.cpStDate, B.cpEndDate, A.cpStatus 
+		FROM coupon_list A
+		RIGHT JOIN coupon_info B
+		ON A.cpId = B.cpId
+		WHERE A.cId=#{ clientId }; 
+    </select>
+    
+</mapper> 

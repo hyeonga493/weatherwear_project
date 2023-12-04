@@ -20,24 +20,16 @@ import com.w2.file.ImageVO;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 public class FileController {
 	@Autowired
 	private AwsS3 awsS3 = AwsS3.getInstance();
-	
+	 
 	@Autowired
 	private FileService fileService;
 	
 	@Autowired
 	private Environment env;
-	
-	@RequestMapping("/dodo.do")
-	public void in() {
-		System.out.println(env.getProperty("aws.s3.accessKey"));
-		System.out.println(env.getProperty("aws.s3.secretKey"));
-		System.out.println(env.getProperty("aws.s3.bucket"));
-	}
 	
 	// 이미지 업로드 페이지 요청(테스트)
 	@RequestMapping("/insertImage.do")
@@ -51,9 +43,10 @@ public class FileController {
 	@PostMapping("/insertImage.do")
 	public void insertCmImage(MultipartHttpServletRequest request, ImageVO imvo, String where) throws IllegalStateException, IOException {
 		System.out.println("[ FileController ] : insertCmImage/get");
+		System.err.println("imvo : " + imvo.toString());
 		imvo.setImageStatus("환불");
 		imvo.setImageBy("client01");
-		insertImage(request, imvo, "client");
+		//insertImage(request, imvo, "client");
 	}
 	
 	/**
@@ -105,7 +98,7 @@ public class FileController {
 		String sysFileName = "";
 
 		// 이름 형식 지정
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMDDHHss");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHss");
 		Calendar calendar = Calendar.getInstance();
 		sysFileName = simpleDateFormat.format(calendar.getTime());
 		
@@ -153,6 +146,110 @@ public class FileController {
 			
 			// 이름에 추가한 인덱스 제거
 			sysFileName = sysFileName.substring(0, sysFileName.length() -2);
+		}
+	}
+	
+	
+	/**FileList를 넘겨야 합니다. > List<MultipartFile> fileList = request.getFiles("input 태그 name")
+	 * 업로드할 파일의 풀 경로 > 
+	 * String orgFilePath = request.getServletContext().getRealPath("/");
+	 */	
+	public void insertProductImage(List<MultipartFile> fileList1, List<MultipartFile> fileList2, String orgFilePath, ImageVO imvo) throws IllegalStateException, IOException {
+		System.out.println("[ FileController ] : productImageInsert/post");
+
+		// 업로드할 파일 기본 저장 위치
+		String rootUploadDir = "C:" + File.separator + "Weatherwear";
+		
+		// 업로드할 파일 저장 위치
+		String uploadDir = "https://hyeongabucket.s3.ap-northeast-2.amazonaws.com/product_image/";
+		String folder = "product_image/";
+
+		imvo.setImageDir(uploadDir);
+		
+		// 서버에 저장할 파일 이름
+		String sysFileName = "";
+
+		// 이름 형식 지정
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHss");
+		Calendar calendar = Calendar.getInstance();
+		sysFileName = simpleDateFormat.format(calendar.getTime());
+		
+		System.err.println("[ FileController ] 대표 이미지 저장 시작");
+		// 메인 이미지 저장
+		imvo.setImageStatus("대표");
+		uploadProductImage(fileList1, sysFileName, orgFilePath, folder, imvo);
+		
+		System.err.println("[ FileController ] 상세 이미지 저장 시작");
+		// 상세 이미지 저장
+		imvo.setImageStatus("상세");
+		uploadProductImage(fileList2, sysFileName, orgFilePath, folder, imvo);
+	}
+	
+	// 사진 업로드(상세)
+	public void updateProductImage(List<MultipartFile> fileList, String orgFilePath, ImageVO imvo) throws IllegalStateException, IOException {
+		System.out.println("[ FileController ] : updateProductImage/post");
+
+		// 업로드할 파일 기본 저장 위치
+		String rootUploadDir = "C:" + File.separator + "Weatherwear";
+		
+		// 업로드할 파일 저장 위치
+		String uploadDir = "https://hyeongabucket.s3.ap-northeast-2.amazonaws.com/product_image/";
+		String folder = "product_image/";
+
+		imvo.setWho("product");
+		imvo.setImageDir(uploadDir);
+		
+		// 서버에 저장할 파일 이름
+		String sysFileName = "";
+
+		// 이름 형식 지정
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyMMddHHss");
+		Calendar calendar = Calendar.getInstance();
+		sysFileName = simpleDateFormat.format(calendar.getTime());
+
+		uploadProductImage(fileList, sysFileName, orgFilePath, folder, imvo);
+	}
+	
+	// 상품 : 메인/상세 이미지 저장 호출
+	public void uploadProductImage(List<MultipartFile> fileList, String sysFileName, String orgFilePath, String folder, ImageVO imvo) throws IllegalStateException, IOException {
+
+		// 중복 방지
+		for(int i=0; i<10; i++) {
+			sysFileName += (char)((Math.random()*26)+97);
+		}
+		sysFileName += "_" ;
+		
+		// 리스트로 받아온 파일을 하나씩 저장
+		for(MultipartFile file : fileList){
+			System.out.println(file.getOriginalFilename());
+			
+			// 순서 정렬을 위한 인덱스 추가 (날짜 + 인덱스)
+			sysFileName += fileList.indexOf(file);
+			
+			// 기본 이름
+			// String orgFileName = file.getOriginalFilename();
+			
+			// 변경된 파일 이름으로 지정
+			file.transferTo(new File(orgFilePath + File.separator + sysFileName + ".jpg"));
+			
+			// S3에 저장할 파일 생성
+			File result = new File(orgFilePath + File.separator + sysFileName + ".jpg");
+
+			// 업로드 위치 (S3 주소)
+			awsS3.upload(result, folder + sysFileName + ".jpg");	
+			
+			imvo.setImageId(sysFileName);
+			imvo.setImageName(sysFileName + ".jpg");
+			
+			// 테이블에 정보 삽입
+			if(fileService.insertImage(imvo) > 0 ) {
+				System.out.println("이미지 삽입 성공");
+			} else {
+				System.out.println("이미지 삽입 실패");
+			}
+			
+			// 이름에 추가한 인덱스 제거
+			sysFileName = sysFileName.substring(0, sysFileName.length() -1);
 		}
 	}
 }

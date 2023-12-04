@@ -1,5 +1,8 @@
 package com.w2.client.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -9,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.w2.client.ClientService;
 import com.w2.client.ClientVO;
@@ -21,9 +25,33 @@ public class ClientPostController {
 
 	@Autowired
 	private ClientService service;
-
+ 
 	@Autowired
 	private BCryptPasswordEncoder pwden;
+	
+	@RequestMapping("/do.do")
+	public String dodo() {
+		return "test/prac";
+	}
+	
+	@PostMapping("getCheckbox.do")
+	public String getCheck(HttpServletRequest request) {
+		String[] deleteCode = request.getParameter("deleteList").split(",");
+		String[] selectCode = request.getParameter("selectList").split(",");
+
+		List<String> deleteList = new ArrayList<String>();
+		List<String> selectList = new ArrayList<String>();
+		
+		for(int i=0; i<deleteCode.length; i++) {
+			deleteList.add(deleteCode[i].toString());
+			selectList.add(selectCode[i].toString());
+		}
+
+		System.err.println("deleteList : " + deleteList);
+		System.err.println("selectList : " + selectList);
+		
+		return "redirect:/do.do";
+	}
 	
 	// 아이디 체크
 	@PostMapping("/checkId.do")
@@ -45,7 +73,27 @@ public class ClientPostController {
 		response.setContentType("applicaion/json");
 		response.getWriter().write(String.valueOf(check));
 	}
+	
+	// 닉네임 체크
+	@PostMapping("/checkNick.do")
+	public void checkNick(ClientVO client, HttpServletRequest request, HttpServletResponse response) throws Exception  {
+		System.out.println("[ Controller ] : checkNick");
 
+		System.err.println("cNickname : " + client.getClientNickName());
+		
+		// test
+		int check = service.nickCheckService(client.getClientNickName());
+
+		if (check == 1) {
+			System.err.println("닉네임 있음");
+		} else {
+			System.err.println("닉네임 없음");
+		}
+
+		response.setContentType("applicaion/json");
+		response.getWriter().write(String.valueOf(check));
+	}
+	
 	// 회원 정보 가져오기
 	@PostMapping("/getClient.do")
 	public void getClient(ClientVO client) {

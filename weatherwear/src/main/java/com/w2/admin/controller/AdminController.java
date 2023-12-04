@@ -1,16 +1,35 @@
 package com.w2.admin.controller;
 
+import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.w2.client.ClientService;
+import com.w2.client.ClientVO;
+import com.w2.paging.PagingService;
 
 import jdk.jfr.Description;
 
 @Controller
 public class AdminController {
-
+	 
+	@Autowired
+	private ClientService service;
+	@Autowired
+	private PagingService pagingService;
+	@Autowired
+	private BCryptPasswordEncoder pwden;
+	
 	@RequestMapping(value = "/login.mdo")
 	@Description("DashBoard 페이지")
 	public String login(Locale locale, Model model) {
@@ -22,37 +41,16 @@ public class AdminController {
 	public String index(Locale locale, Model model) {
 		return "/admin/main";
 	}
-	
-	@RequestMapping(value = "/couponUser.mdo")
-	@Description("쿠폰 관리페이지(사용자)")
-	public String couponUser(Locale locale, Model model) {
-		/* return "/w2/coupon/coupon"; */
-		return "/admin/coupon/user/couponUser";
+
+	@RequestMapping("/adminOrder.mdo")
+	public String getAdminOrderList(Locale locale, Model model) {
+		return "/admin/order";
 	}
-	
-	@RequestMapping(value = "/newCouponDetail.mdo")
-	@Description("새 쿠폰 받기 페이지(사용자)")
-	public String newCouponDetail(Locale locale, Model model) {
-		/* return "/w2/coupon/coupon"; */
-		return "/admin/coupon/user/newCouponDetail";
-	}
-	
-	@RequestMapping(value = "/coupon.mdo")
-	@Description("쿠폰 관리페이지(관리자)")
-	public String coupon(Locale locale, Model model) {
-		 return "/admin/coupon/coupon"; 
-	}
-	
+
 	@RequestMapping(value = "/stoke.mdo")
 	@Description("물류 관리 페이지")
 	public String distribution(Locale locale, Model model) {
 		return "/admin/stoke";
-	}
-	
-	@RequestMapping(value = "/order.mdo")
-	@Description("주문 관리 페이지")
-	public String order(Locale locale, Model model) {
-		return "/admin/order";
 	}
 	
 	@RequestMapping(value = "/deliverInfo.mdo")
@@ -75,49 +73,84 @@ public class AdminController {
 	
 	@RequestMapping(value = "/client.mdo")
 	@Description("회원 관리 페이지")
-	public String client(Locale locale, Model model) {
+	public String getClientList(@RequestParam(value="page", required=false)Integer page, ClientVO client, Model model) {
+		
+		if(client.getSearchtype() == null) {
+			System.err.println("type 널이야");
+			client.setSearchtype("");
+		}
+		if(client.getKeyword() == null) {
+			System.err.println("keyword 널이야");
+			client.setKeyword("");
+		}
+		
+		List<ClientVO> clientList = pagingService.clientList(page, client, model);
+		
+		model.addAttribute("clientList", clientList);
+		
 		return "/admin/client";
 	}
 	
-//	@RequestMapping(value = "/notice.mdo")
-//	@Description("공지사항 페이지")
-//	public String notice(Locale locale, Model model) {
-//		 return "/admin/board/notice"; 
-//	}
-	
-//	@RequestMapping(value = "/writeNotice.mdo")
-//	@Description("공지사항 글쓰기 페이지")
-//	public String writeNotice(Locale locale, Model model) {
-//		 return "/admin/board/writeNotice"; 
-//	}
-	
-	@RequestMapping(value = "/writeFaq.mdo")
+	@RequestMapping(value = "/writeQna.mdo")
 	@Description("문의사항 글쓰기 페이지")
 	public String writeFaq(Locale locale, Model model) {
-		 return "/admin/board/writeFaq"; 
-	}
-	
-	@RequestMapping(value = "/faq.mdo")
-	@Description("문의 페이지")
-	public String faq(Locale locale, Model model) {
-		return "/admin/board/faq";
+		 return "/admin/qna/qna_write"; 
 	}
 	
 	@RequestMapping(value = "/product.mdo")
 	@Description("상품 관리(상품 목록) 페이지")
 	public String product(Locale locale, Model model) {
-		return "/admin/product/product";
+		return "/admin/product/product_list";
 	}
 	
 	@RequestMapping(value = "/insertProduct.mdo")
 	@Description("상품 등록 페이지")
 	public String insertProduct(Locale locale, Model model) {
-		return "/admin/product/insertProduct";
+		return "/admin/product/product_regist";
 	}
 	
 	@RequestMapping(value = "/total.mdo")
 	@Description("통계 페이지")
 	public String stats(Locale locale, Model model) {
 		return "/admin/total";
+	}
+
+	// 로그인
+	@PostMapping("/adminLogin.mdo")
+	public String adminLogin(ClientVO client, HttpServletRequest request) {
+		System.out.println("[ Controller ] : clientLogin");
+		System.err.println("client : " + client.toString());
+
+		HttpSession session = request.getSession(false);
+		if(client.getClientId().equals("admin")) {
+			
+			ClientVO result = service.getClientService(client);
+			
+			// 테스트
+			if (result != null) {
+				
+				if (pwden.matches(client.getClientPwd(), result.getClientPwd())) {
+					session.setAttribute("client", result);
+					System.err.println("session : " + session.getAttribute("client.clientId"));
+					System.err.println("session : " + session.getValue("client"));
+					System.err.println("session : " + session.getAttributeNames());
+					
+					return "redirect:/dashboard.mdo";
+				}
+				System.err.println(">>>> [ Controller ] : 비밀번호 불일치");
+			}
+		}
+		return "redirect:/login.mdo";
+	}
+	
+	// 로그아웃 요청
+	@RequestMapping("/adminLogout.mdo")
+	public String adminLogout(HttpSession session) {
+		System.out.println("[ Contoller ] : adminLogout");
+	
+		if(session != null) {
+			session.invalidate();
+		}
+		return "redirect:/login.mdo";
 	}
 }

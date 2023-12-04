@@ -4,3 +4,4 @@ public interface FileService {
 
 	public int insertImage(ImageVO cmvo);
 }
+ 

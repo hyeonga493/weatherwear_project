@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ProductDAO">
+
+	<resultMap type="com.w2.product.ProductVO" id="product">
+		<id property="proId" column="proId"/>
+		<result property="proName" column="proName"/>
+		<result property="proCate" column="proCate"/> 
+		<result property="proSell" column="proSell"/> 
+		<result property="proContent" column="proContent"/> 
+		<result property="proRegDate" column="proRegDate"/> 
+		<result property="proPrimeCost" column="proPrimeCost"/>
+		<result property="proCost" column="proCost"/> 
+		<result property="proTax" column="proTax"/> 
+		<result property="proMargin" column="proMargin"/> 
+		<result property="proPrice" column="proPrice"/>
+		<result property="cateName" column="cateName"/> 
+	</resultMap>
+
+	<insert id="insertProduct">
+		INSERT INTO product(proId, proCate, proName, proContent, proSell, proRegDate)  VALUES(#{proId}, #{proCate}, #{proName}, #{proContent}, #{proSell}, #{ proRegDate });
+	</insert>
+	
+	<insert id="insertProductPrice">
+		INSERT INTO product_price(proId, proPrimeCost) VALUES(#{proId}, #{proPrimeCost});
+	</insert>
+	
+	<insert id="insertOption">
+		INSERT INTO option_info(proId, opColor, opSize, stCnt) VALUES (#{ proId }, #{ opColor }, #{ opSize }, #{ stCnt })
+	</insert>
+
+	<update id="updateProduct">
+		UPDATE product
+		SET proSell = #{proSell}, proName = #{proName}, proContent = #{proContent}, proCate = #{proCate}
+		WHERE proId = #{proId}
+	</update>
+
+	<update id="updateProductPrice">
+		UPDATE product_price
+		SET proId = #{proId}, proPrimeCost = #{proPrimeCost}
+		WHERE proId = #{proId}
+	</update>
+	
+	<insert id="deleteOption">
+		DELETE FROM option_info
+		WHERE proId = #{proId}
+	</insert>
+	
+    <!-- ON DELETE CASCADE : FK 포함된 table에서 데이터 모두 삭제 -->
+	<delete id="deleteProduct">
+		DELETE FROM product WHERE proId = #{proId}  
+	</delete>
+	
+	<update id="upcountView">
+		UPDATE product
+		SET proView = (#{ proView } + 1) WHERE proId=#{ proId }
+	</update>
+	
+	<select id="getProduct" resultType="product">
+		SELECT * FROM product
+		JOIN product_price ON product.proId = product_price.proId
+		WHERE product.proId = #{proId}
+	</select>    
+	
+	
+	<select id="getColorList" resultType="String">
+		SELECT  opColor FROM option_info
+		WHERE proId = #{proId}
+		GROUP BY opColor
+	</select>
+	
+	<select id="getSizeList" resultType="String">
+		SELECT  opSize FROM option_info
+		WHERE proId = #{proId}
+		GROUP BY opSize
+	</select>
+	
+	<select id="getCntList" resultType="int">
+		SELECT  stCnt FROM option_info
+		WHERE proId = #{proId} 
+	</select>
+	
+	<select id="getProductCount" resultType="int">
+		SELECT COUNT(*) FROM product
+		JOIN product_image ON product.proId = product_image.imageBy
+		WHERE  imageStatus='대표'
+		<choose>
+			<when test="searchtype == 'proId'">
+				AND proId LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test="searchtype == 'proName'">
+				AND proName LIKE CONCAT('%', #{ keyword }, '%')
+			</when>
+			<when test = "gubun == 'outer'">
+				AND product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'top'">
+				AND product.proCate LIKE CONCAT('12', '%')
+			</when>
+			<when test = "gubun == 'pants'">
+				AND product.proCate LIKE CONCAT('13', '%')
+			</when>
+			<when test = "gubun == 'skirts'">
+				AND product.proCate LIKE CONCAT('14', '%')
+			</when>
+			<when test = "gubun == 'dress'">
+				AND product.proCate LIKE CONCAT('15', '%')
+			</when>
+		</choose>
+	</select>
+	
+	<select id="getMainList" resultType="com.w2.file.ImageVO" parameterType="com.w2.product.ProductVO">
+		SELECT * 
+		FROM product_image
+		JOIN product ON product.proId = product_image.imageBy
+		WHERE  imageStatus='대표'
+		<choose>
+			<when test = "gubun == 'outer'">
+				AND product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'top'">
+				AND product.proCate LIKE CONCAT('12', '%')
+			</when>
+			<when test = "gubun == 'pants'">
+				AND product.proCate LIKE CONCAT('13', '%')
+			</when>
+			<when test = "gubun == 'skirts'">
+				AND product.proCate LIKE CONCAT('14', '%')
+			</when>
+			<when test = "gubun == 'dress'">
+				AND product.proCate LIKE CONCAT('15', '%')
+			</when>
+			<otherwise>
+				<if test="searchtype == 'proId'">
+					AND product.proId LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				<if test="searchtype == 'proName'">
+					AND product.proName LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				ORDER BY
+				<choose>
+				<when test="ordertype == 'proRegDate'">
+					product.proRegDate DESC
+				</when>
+				<when test="ordertype == 'proCnt'">
+					product.proCnt DESC
+				</when>
+				<when test="ordertype == 'proPriceH'">
+					product_price.proPrice DESC
+				</when>
+				<when test="ordertype == 'proPriceL'">
+					product_price.proPrice ASC
+				</when>
+				<when test="ordertype == 'proSell'">
+					product.proSell ASC
+				</when>
+				<otherwise>
+					product.proName ASC
+				</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getProductListClient" resultType="com.w2.product.ProductVO" parameterType="com.w2.product.ProductVO">
+		SELECT * FROM product
+		JOIN product_price ON product.proId = product_price.proId
+		JOIN category ON product.proCate = category.cateId
+		JOIN product_image i ON (product.proId = i.imageBy)
+		WHERE product.proSell = 'Y'
+        AND i.imageStatus = '대표'
+		<choose>
+			<when test = "gubun == 'outer'">
+				AND product.proCate LIKE CONCAT('11', '%')
+			</when>
+			<when test = "gubun == 'top'">
+				AND product.proCate LIKE CONCAT('12', '%')
+			</when>
+			<when test = "gubun == 'pants'">
+				AND product.proCate LIKE CONCAT('13', '%')
+			</when>
+			<when test = "gubun == 'skirts'">
+				AND product.proCate LIKE CONCAT('14', '%')
+			</when>
+			<when test = "gubun == 'dress'">
+				AND product.proCate LIKE CONCAT('15', '%')
+			</when>
+			<otherwise>
+				<if test="searchtype == 'proId'">
+					AND product.proId LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				<if test="searchtype == 'proName'">
+					AND product.proName LIKE CONCAT('%', #{ keyword }, '%')
+				</if>
+				ORDER BY
+				<choose>
+				<when test="ordertype == 'proRegDate'">
+					product.proRegDate DESC
+				</when>
+				<when test="ordertype == 'proCnt'">
+					product.proCnt DESC
+				</when>
+				<when test="ordertype == 'proPriceH'">
+					product_price.proPrice DESC
+				</when>
+				<when test="ordertype == 'proPriceL'">
+					product_price.proPrice ASC
+				</when>
+				<when test="ordertype == 'proSell'">
+					product.proSell ASC
+				</when>
+				<otherwise>
+					product.proName ASC
+				</otherwise>
+				</choose>
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getProductListAdmin" resultType="com.w2.product.ProductVO" parameterType="com.w2.product.ProductVO">
+		SELECT
+		product.proId, product.proName, category.cateName, LEFT(product.proContent, 20) AS proContent,
+		product_price.proPrimeCost, product_price.proCost, product_price.proPrice,
+		product.proRegDate, product.proCnt, product.proView, product.proLike,
+		CASE product.proSell WHEN 'O' THEN '일시품절'
+							WHEN 'Y' THEN '판매중'
+							ELSE '판매종료' END AS 'proSell'
+		FROM product
+		JOIN product_price ON product.proId = product_price.proId
+		JOIN category ON product.proCate = category.cateId
+		WHERE 1 = 1
+		<if test = "searchtype == 'proId'">
+			AND product.proId LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		<if test = "searchtype == 'proName'">
+			AND product.proName LIKE CONCAT('%', #{ keyword }, '%')
+		</if>
+		ORDER BY
+		<choose>
+			<when test="ordertype == 'proRegDate'">
+				product.proRegDate DESC
+			</when>
+			<when test="ordertype == 'proCnt'">
+				product.proCnt DESC
+			</when>
+			<when test="ordertype == 'proPriceH'">
+				product_price.proPrice DESC
+			</when>
+			<when test="ordertype == 'proPriceL'">
+				product_price.proPrice ASC
+			</when>
+			<when test="ordertype == 'proSell'">
+				product.proSell ASC
+			</when>
+			<otherwise>
+				product.proName ASC
+			</otherwise>
+		</choose>
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0, 10
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 10
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getCategory" resultType="String">
+		SELECT
+			CASE
+				WHEN c2.catePrCode IS NULL THEN CONCAT(c2.cateName, ',', c1.cateName)
+				ELSE CONCAT(c3.cateName, ',', c2.cateName, ',', c1.cateName)
+			END as fullCateName
+		FROM category c1
+		LEFT JOIN category c2 ON (c1.catePrCode = c2.cateId)
+		LEFT JOIN category c3 ON (c2.catePrCode = c3.cateId)
+		WHERE c1.cateId =  #{ proCate };
+	</select>
+	
+	<!-- BestCollection -->
+	<select id="getBestProduct" resultType="product">
+		SELECT p.proId, p.proName, i.imagedir, i.imageName, p.proView
+		FROM product p 
+		JOIN product_image i ON (p.proId = i.imageBy)
+		WHERE i.imageStatus = '대표'
+		ORDER BY p.proView DESC
+		LIMIT 5;
+	</select>
+	
+</mapper>

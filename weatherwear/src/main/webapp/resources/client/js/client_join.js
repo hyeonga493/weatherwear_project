@@ -11,7 +11,7 @@
 			alert("아이디를 입력해주세요");
 			return;
 		}
-
+ 
 		$.ajax({
 			url: "/w2/checkId.do?clientId="+clientId,
 			type: "POST",
@@ -32,6 +32,41 @@
 			error : function(error){
 				alert("Error");
 				$('#clientId').val('');
+			}
+		})	
+	}
+ 
+  // 닉네임 중복 확인
+	function nickCheck(){
+		
+		console.log("$ : " + $("#clientNickName").val());
+		
+		let clientNickName = $("#clientNickName").val();
+		if(clientNickName==''){
+			alert("아이디를 입력해주세요");
+			return;
+		}
+
+		$.ajax({
+			url: "/w2/checkNick.do?clientNickName="+clientNickName,
+			type: "POST",
+			async: true,
+			dataType: "text",
+			data: JSON.stringify({clientNickName : clientNickName}),
+			contentType : "application/json",
+			// contentType : "text/plain",
+			success: function(result){
+				//alert("result : " + result);
+				if (result == 1){
+					$("#checkNickName").html("<font color='red' size='1'><b>이미 사용중인 닉네임입니다.</b></font>");
+					$('#clientNickName').val('');
+				} else {
+					$("#checkNickName").html("<font color='green' size='1'><b><b>사용 가능한 닉네임입니다.</b></font>");
+				}
+			},
+			error : function(error){
+				alert("Error");
+				$('#clientNickName').val('');
 			}
 		})	
 	}

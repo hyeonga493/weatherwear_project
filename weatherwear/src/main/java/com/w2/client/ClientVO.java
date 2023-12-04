@@ -2,13 +2,15 @@ package com.w2.client;
 
 import java.util.Date;
 
+import com.w2.paging.SearchVO;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString 
 public class ClientVO {
 	private String clientId;				//필수
 	private String clientPwd;				//필수
@@ -29,5 +31,14 @@ public class ClientVO {
 	private Date clientLogDate;
 	private int clientBuyCnt;
 	
+	// 검색 기능(회원관리, 정보찾기)
 	private String keyword;
+	private String searchtype;
+	
+	// 페이징 정보(글 번호)
+	private int postStart;
+	private int postEnd;
+	
+	private int startPage;
+	private int endPage;
 }
