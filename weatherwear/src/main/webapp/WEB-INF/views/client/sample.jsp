@@ -7,61 +7,43 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 </head>
 <body>
 	<h3>Sample이다</h3>
-	<script type="text/javascript">
-	<!--장바구니 이동 선택에 따라 -> 주말에 다시 생각하기!!!!!>-->
-	<!--const YesOrNo = document.getElementById('goToCart').val();
-	$(document).ready(function() { // form - input - goToCart로 값 전달 
-		$(".product_add_btn").on("click",function(){
-			 if (!confirm("장바구니로 이동하시겠습니까?")) {
-				 	const YesOrNo = "No";
-		        } else {
-		        	const YesOrNo = "Yes";
-		        }
-		});
-	});-->
-	</script>
+
+	
 	
 	<h1>장바구니에 데이터 삽입</h1>
 	<form class="product_add_btn" action="insert.do" method="post">
 		<input type="hidden" name="clientId" value="client01">
-		<input type="hidden" name="proId" value="1111">
-		<input type="hidden" name="opId" value="1111블랙M">
-		<input type="hidden" name="proName" value="패딩 샘플 1">
-		<input type="hidden" name="opSize" value="M">
-		<input type="hidden" name="opColor" value="블랙">
+		<input type="hidden" name="proId" value="W2DR10720">
+		<input type="hidden" name="opId" value="W2DR10720블랙L">
+		<input type="hidden" name="caCnt" value="5">
 		<!-- <input type="hidden" id="goToCart" name="goToCart"value=YesOrNo> --><!-- 장바구니 이동 안내 선택에 따라 -->
-		<input type="submit" value="장바구니에 데이터 삽입 위해- client01,1111블랙M">
+		<input type="submit" value="장바구니에 데이터 삽입 위해- client01,W2DR10720블랙L">
 	</form>				
 	<form class="product_add_btn" action="insert.do" method="post">
 		<input type="hidden" name="clientId" value="client02">
-		<input type="hidden" name="proId" value="1111">
-		<input type="hidden" name="opId" value="1111블랙S">
-		<input type="hidden" name="proName" value="패딩 샘플 1">
-		<input type="hidden" name="opSize" value="S">
-		<input type="hidden" name="opColor" value="블랙">
-		<input type="submit" value="장바구니에 데이터 삽입 위해 - client02,1111블랙S">
+		<input type="hidden" name="proId" value="W2DR10720">
+		<input type="hidden" name="opId" value="W2DR10720아이보리L">
+		<input type="hidden" name="caCnt" value="1">
+		<input type="submit" value="장바구니에 데이터 삽입 위해 - client02,W2DR10720아이보리L">
 	</form>				
 	<form class="product_add_btn" action="insert.do" method="post">
 		<input type="hidden" name="clientId" value="client01">
-		<input type="hidden" name="proId" value="1111">
-		<input type="hidden" name="opId" value="1111블랙S">
-		<input type="hidden" name="proName" value="패딩 샘플 1">
-		<input type="hidden" name="opSize" value="S">
-		<input type="hidden" name="opColor" value="블랙">
-		<input type="submit" value="장바구니에 데이터 삽입 위해 - client01,1111블랙S">
+		<input type="hidden" name="proId" value="W2DR64903">
+		<input type="hidden" name="opId" value="W2DR64903블랙S">
+		<input type="hidden" name="caCnt" value="3">
+		<input type="submit" value="장바구니에 데이터 삽입 위해 - client01,W2DR64903블랙S">
 	</form>				
 	<form action="insert.do" method="post">
 		<input type="hidden" name="clientId" value="client02">
-		<input type="hidden" name="proId" value="1113">
-		<input type="hidden" name="opId" value="1113블랙S">
-		<input type="hidden" name="proName" value="패딩 샘플 3">
-		<input type="hidden" name="opSize" value="S">
-		<input type="hidden" name="opColor" value="블랙">
-		<input type="submit" value="장바구니에 데이터 삽입 위해 - client02,1113블랙S">
+		<input type="hidden" name="proId" value="W2DR85026">
+		<input type="hidden" name="opId" value="W2DR85026아이보리M">
+		<input type="hidden" name="caCnt" value="1">
+		<input type="submit" value="장바구니에 데이터 삽입 위해 - client02,W2DR85026아이보리M">
 	</form>				
 	<br><br><br><br>
 	    <p>주문 번호: ${param.odid}</p>

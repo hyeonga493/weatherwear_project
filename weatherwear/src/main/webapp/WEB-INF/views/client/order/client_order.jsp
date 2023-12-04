@@ -4,7 +4,7 @@
     
 
 
-<%  
+<%
   String caIdList = request.getParameter("CaIdList");
   if (caIdList != null) {
       // URL 디코딩
@@ -212,7 +212,6 @@ function submitFunction(){
 					</tr>
 				</table>
 				<table class="contentTable" border="2">
-					<p>
 					<tr>
 						<th>포인트 사용</th>
 					</tr>

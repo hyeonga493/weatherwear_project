@@ -163,7 +163,20 @@ public class OrderDAO {
 		sqlSessionTemplate.update("toOrder_plusPoint", orderVO);
 	}
 
+	public OrderVO toOrder_get_product(OrderVO orderVO) {//상품상세로부터
+		return sqlSessionTemplate.selectOne("OrderDAO.toOrder_get_product",orderVO);
+	}
 
+	public OrderVO toOrder_get_Price_product(OrderVO orderVO) {//상품상세로부터
+		return sqlSessionTemplate.selectOne("OrderDAO.toOrder_get_Price_product",orderVO);
+	}
+
+	public void toOrder_insert_into_orders_info_product(OrderVO orderVO) {//상품상세로부터
+		System.err.println("[OrderDAO] [toOrder_insert_into_orders_info_product] : "+orderVO.toString());
+		System.err.println("[tem] : "+sqlSessionTemplate.insert("toOrder_insert_into_orders_info_product", orderVO));
+		sqlSessionTemplate.insert("toOrder_insert_into_orders_info_product", orderVO);
+		
+	}
 
 
 	

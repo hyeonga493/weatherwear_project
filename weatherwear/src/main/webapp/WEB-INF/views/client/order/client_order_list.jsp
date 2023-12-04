@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
 <meta charset="UTF-8">
 <link href="resources/client/css/style.css" rel="stylesheet" />
 <link href="resources/client/order/css/client_order_list.css" type="text/css" rel="stylesheet" />
@@ -26,7 +26,8 @@
 				    <th>결제 방법</th>
 				    <th>주문금액</th>
 				    <th>주문상태</th>
-				    <th>주문일시</th>
+				    <th>결제상태</th>
+				    <th>결제일시</th>
 				</tr>
 			</thead>
 			
@@ -37,10 +38,11 @@
 						<td><a href="clientDetail.do?clientId=${OrderDAO.clientId}&&odid=${OrderDAO.odid}">${OrderDAO.odid}</a></td>
 						<td class="image">이미지</td>
 						<td>${OrderDAO.addColumn }</td>
-					    <td>결제 방법</td>
+					    <td>${OrderDAO.payMtd}</td>
 					    <td>${OrderDAO.odPrice}</td>
 					    <td>${OrderDAO.odStatus }</td>
-					    <td>${OrderDAO.odDate }</td>
+					    <td>${OrderDAO.payStatus }</td>
+					    <td>${OrderDAO.payDate }</td>
 					</tr>
 				</c:forEach>
 			</tbody>

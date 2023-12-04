@@ -27,5 +27,18 @@ public class AdminOrderVO {
 	private String odStatus; //주문 상태
 	private String clientNum; //회원 연락처
 	
+	private int odTotal; //총 가격
+	private int odProCnt; 
+	private String opId; 
+	private int usedPoint; 
+	private int cpPrice; 
+	private String cpId; 
+	private String cpName; 
+	
+	private String payStatus; 
+	private String payMtd; 
+	private Date payDate; 
+	
+	
 //일단 쿠폰//결제수단 보류
 }

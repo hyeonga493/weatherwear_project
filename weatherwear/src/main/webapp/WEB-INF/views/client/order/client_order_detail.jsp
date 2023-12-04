@@ -7,7 +7,7 @@
 
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
 <meta charset="UTF-8">
 <link href="resources/client/css/style.css" rel="stylesheet" />
 <link href="resources/client/order/css/client_order_detail.css" type="text/css" rel="stylesheet" />
@@ -29,14 +29,15 @@
 			</div>
 			<div class="sideText">
 			
+				<h3>주문 날짜 : ${getOdStatus.payDate }</h3>
 				<h1>
-					<br>&nbsp;${getOdStatus.odStatus }
+					<br>&nbsp;주문 상태 : ${getOdStatus.odStatus }<br>결제 상태 : ${getOdStatus.payStatus }
 				</h1>
 				<br>
 				<h3>&nbsp;주문번호 : ${getOdStatus.odid}</h3>
 				
 			<c:forEach var="OrderDAO" items="${getOdInfo}" varStatus="i">
-				<h3>&nbsp;옵션 : ${OrderDAO.proName }, 수량 : ${OrderDAO.odProCnt }</h3>
+				<h3>&nbsp;상품명 : ${OrderDAO.proName }, 옵션 : ${OrderDAO.opColor }  ${OrderDAO.opSize }, 수량 : ${OrderDAO.odProCnt }</h3>
 			</c:forEach>
 				
 				<h3>&nbsp;상품 금액&nbsp;&nbsp;&nbsp;&nbsp;-----&nbsp;&nbsp;${getPrice.odTotal}원</h3>
@@ -66,14 +67,12 @@
 
 			<div class="chargeInfo">
 				<h1>결제상세</h1>
-				<h3>---포인트 사용&nbsp;&nbsp;- {컬럼 따로 필요할 듯} 원</h3>
-				<h3>카드 간편 결제&nbsp;&nbsp;---원</h3>
-				<h3>--카드(카드번호-카드번호-카드번호-카드번호) &nbsp;&nbsp;---원</h3>
+				<h3>포인트 사용&nbsp;&nbsp;- ${getOdStatus.usedPoint } point</h3>
+				<h3>결제 방법 : &nbsp;&nbsp;${getOdStatus.payMtd } </h3>
 			</div>
 
 			<div class="plusPoint">
-				<h1>포인트 혜택&nbsp;&nbsp;</h1>
-				<h4>포인트 적립&nbsp;&nbsp;원</h4>
+				<h4>포인트 적립&nbsp;&nbsp;${plusPoint } point</h4>
 			</div>
 			<input type="button" value="전체 재구매">
 </div>

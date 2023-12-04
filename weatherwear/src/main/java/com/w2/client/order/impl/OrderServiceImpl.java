@@ -148,6 +148,16 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	
+	@Override
+	public OrderVO toOrder_get_product(OrderVO orderVO, Model model) {
+		return orderDAO.toOrder_get_product(orderVO);
+	}
+
+	@Override
+	public OrderVO toOrder_get_Price_product(OrderVO orderVO) {
+		return orderDAO.toOrder_get_Price_product(orderVO);
+	}
+
 	public OrderVO toOrder_get_coupon_choose(OrderVO orderVO) {
 		return orderDAO.toOrder_get_coupon_choose(orderVO);
 		

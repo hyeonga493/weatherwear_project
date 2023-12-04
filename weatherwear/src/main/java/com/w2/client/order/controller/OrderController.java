@@ -43,13 +43,8 @@ public class OrderController {
 	
 		System.err.println("orderVO.선택한 카트: "+ orderVO.getCaIdList()); // 값 존재
 		System.err.println("request.선택한 카트: "+ request.getParameter("caIdList")); // 값 존재
-//		System.err.println("caIdList: "+request.getParameter("CaIdList"));
-//		String checked_coupon = request.getParameter("checked_coupon");
-//		System.err.println(checked_coupon);
 		
-//			orderVO.setCaIdString(request.getParameter("CaIdList"));
-			
-//		System.err.println("CaIdString : "+ orderVO.getCaIdString());
+		
 				
 		//String 값을 ,로 끊어서
 		//String[] 에 값 받아서 이용
@@ -61,30 +56,6 @@ public class OrderController {
 				orderVO.setCaIdList(li);
 				System.err.println("@@@@@@@@@@@@ : "+orderService.toOrder_get_couponList(orderVO));
 		
-				
-				
-				
-				/*//잠시 주석
-				int price = orderService.toOrder_get_Price(orderVO).getOdTotal() + orderVO.getDeliPrice();
-				int choose_cp_price =0;
-				if(orderVO.getCpId_choose() != null && !orderVO.getCpId_choose().isEmpty()) 
-				{choose_cp_price= orderService.toOrder_get_coupon_choose(orderVO).getCpPrice();}
-				else {choose_cp_price = 0;}
-				int use_point = 0;
-				if(orderVO.getUsePoint()!=null && !orderVO.getUsePoint().isEmpty()) {
-					use_point = Integer.parseInt(orderVO.getUsePoint());
-					orderVO.setUsedPoint(Integer.parseInt(orderVO.getUsePoint()));
-					}
-				else {use_point = 0;}
-				
-//				int odPrice_sum = price - choose_cp_price - Integer.parseInt(orderVO.getUsePoint());
-				int odPrice_sum = price - choose_cp_price - use_point;
-				
-				orderVO.setOdPrice(odPrice_sum);
-				
-				
-				System.err.println("!!! 포인트 usedPoint: "+ orderVO.getUsedPoint()); //
-				*/
 				
 				   // 현재 시간을 LocalDateTime으로 얻음
 		        LocalDateTime currentTime = LocalDateTime.now();
@@ -131,17 +102,8 @@ public class OrderController {
 		{model.addAttribute("usePoint",orderVO.getUsePoint());}
 		model.addAttribute("odPrice",orderVO.getOdPrice());
 		model.addAttribute("odid",orderVO.getOdid());
-		
-//		orderService.toOrder_add_address_update(orderVO);
-//		orderService.toOrder_add_address_insert(orderVO);
-//		orderService.toOrder_insert_into_orders(orderVO);
-//		orderService.toOrder_insert_into_orders_info(orderVO);
-//		orderService.toOrder_delete_usedcaId(orderVO);
-//		orderService.toOrder_usedPoint(orderVO);
-//		orderService.toOrder_plusPoint(orderVO);
-//		//orderService.orderFromCart(orderVO); //위의 insert,delete,update를 모두 통합
-		
-//		orderService.orderFromCart(orderVO);
+
+
 		return "client/order/client_order";
 	}
 	
@@ -169,8 +131,6 @@ public class OrderController {
 		rtt.addAttribute("cpId_choose", orderVO.getCpId_choose());
 		rtt.addAttribute("CaIdList",orderVO.getCaIdList() );
 		rtt.addAttribute("usePoint",request.getParameter("use_point"));
-//		System.err.println("[OrderController] [toOrder_coupon_update] orderVO.getCpId_choose : "+orderVO.getCpId_choose());
-//		return "redirect:/clientOrder.do?clientId="+orderVO.getClientId()+"&cpId_choose="+orderVO.getCpId_choose();
 		return "redirect:/clientOrder.do?";
 	}
 	
@@ -197,7 +157,10 @@ public class OrderController {
 		System.err.println("[OrderController] : getOrderDetail");
 		System.err.println("clientId : "+ orderVO.getClientId());
 		System.err.println("odId : "+ orderVO.getOdid());
+		orderVO.setPlusPoint((int)Math.round(orderVO.getGrPoint()*orderVO.getOdTotal()));
+		System.err.println("plusPoint : "+orderVO.getPlusPoint());
 		
+		model.addAttribute("plusPoint", orderVO.getPlusPoint());
 		model.addAttribute("getOdStatus", orderService.getOdStatus(orderVO));
 		model.addAttribute("getOdInfo", orderService.getOdInfo(orderVO));
 		model.addAttribute("getAdress", orderService.getAdress(orderVO));

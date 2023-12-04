@@ -14,10 +14,13 @@ public class AdminOrderDAO {
 	@Autowired
 	private SqlSessionTemplate sqlsessionTemplate;
 	
-	
-	
+	public List<AdminOrderVO> getAdminOrderListAll(AdminOrderVO adminOrderVO) {//주문 내역 조회_날짜 지정 없이
+		System.err.println("[ tem ] : " + sqlsessionTemplate.selectList("AdminOrderDAO.getAdminOrderListAll", adminOrderVO));
 
-	public List<AdminOrderVO> getAdminOrderList(AdminOrderVO adminOrderVO) {//주문 내역 조회
+		return sqlsessionTemplate.selectList("AdminOrderDAO.getAdminOrderListAll", adminOrderVO);
+	}
+
+	public List<AdminOrderVO> getAdminOrderList(AdminOrderVO adminOrderVO) {//주문 내역 조회_날짜 지정
 		System.err.println("[ OrderDAO ] : 탄다");
 		
 		System.err.println("_________________be : " + adminOrderVO.getBeginDateU());

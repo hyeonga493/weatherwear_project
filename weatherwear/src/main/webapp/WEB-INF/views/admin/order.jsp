@@ -9,7 +9,25 @@
 <title>주문관리 페이지</title>
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <!-- <link href="resources/admin/css/managerOrder.css" type="text/css" rel="stylesheet" /> -->
+<script>
+        
+function selectedControl(){
+	  const el = document.getElementById('orderStatusAll');  //select box
+	  const len = el.options.length; //select box의 option 갯수
+	  const str = document.getElementById('selectValue').value; //입력 받은 value 값
+	  //select box의 option 갯수만큼 for문 돌림
+	  for (let i=0; i<len; i++){  
+	  	//select box의 option value가 입력 받은 value의 값과 일치할 경우 selected
+	    if(el.options[i].value == str){
+	    	el.options[i].selected = true;
+	    }
+	  }  
+	}
+</script>
+
 </head>
 <body class="sb-nav-fixed">
 
@@ -43,6 +61,8 @@
 				<option value="환불완료">환불완료</option>
 			</select> <input class="btn1" type="button" value="변경사항 저장"
 				onClick="updateOrderStatus('${AdminOrderDAO.odid}','s_orderStatus${i.index }')">
+				<input type='text' id='selectValue'>
+				<input type='button' onclick='selectedControl()' value='선택'>
 		</form>
 	</div>
 
@@ -56,7 +76,8 @@
 						<th>회원 번호</th>
 						<th>주문 날짜</th>
 						<th>주문 상태</th>
-						<th>주문 상품 및 수량</th>
+						<th>결제 상태</th>
+						<th>주문 상품</th>
 						<th>총 금액</th>
 						<th>적용된 쿠폰</th>
 						<th>할인 금액</th>
@@ -66,6 +87,7 @@
 
 					</tr>
 				</thead>
+
 
 				<tbody>
 					<c:forEach var="AdminOrderDAO" items="${getAdminOrderList}"
@@ -235,12 +257,13 @@
 									</select> <br> <br>
 								</form>
 							</td>
+							<td>${AdminOrderDAO.payStatus}</td>
 							<td>${AdminOrderDAO.opIdList}</td>
+							<td>${AdminOrderDAO.odTotal}</td>
+							<td>${AdminOrderDAO.cpName}</td>
+							<td>쿠폰 : ${AdminOrderDAO.cpPrice}, 포인트 : ${AdminOrderDAO.usedPoint}</td>
+							<td>${AdminOrderDAO.payMtd}결제수단</td>
 							<td>${AdminOrderDAO.odPrice}</td>
-							<td>적용된 쿠폰</td>
-							<td>할인금액</td>
-							<td>결제수단</td>
-							<td>실결제금액</td>
 							<td>${AdminOrderDAO.clientNum}</td>
 						</tr>
 					</c:forEach>

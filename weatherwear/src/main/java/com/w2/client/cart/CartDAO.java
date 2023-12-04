@@ -33,12 +33,6 @@ public class CartDAO {
 		
 	}
 	
-	public void deleteCheckedCart(CartVO cartVO) { // 장바구니에서 상품 삭제 // caId를 받아서 삭제하려니 안됨
-		System.err.println("[ CartDAO ] [deleteCheckedCart] : "+cartVO);
-		sqlsessionTemplate.delete("CartDAO.deleteCheckedCart",cartVO);
-		
-	}
-	
 	
 	public List<CartVO> getCartList(CartVO cartVO){//장바구니 조회
 		System.err.println("[ CartDAO ] : 탄다");

@@ -50,8 +50,8 @@
      <!-- 특수문자는 태그로 감싸야하므로 특수문자가 들어가는 경우 <! [CDATA[ SQL문 ]] >  -->
         <!-- opId를 카트에 추가해야 할 듯? -->
         <!-- 데이터 삽입 시 자꾸 2개씩 들어가서 INSERT IGNORE INTO 사용 -->
-        INSERT INTO cart (proId, cId, opId) 
-        VALUES(#{ proId }, #{ clientId }, #{opId});
+        INSERT INTO cart (proId, cId, opId,caCnt) 
+        VALUES(#{ proId }, #{ clientId }, #{opId},#{caCnt});
         
    <!--  --> </insert>
 
@@ -61,20 +61,12 @@
         SET caCnt=#{ caCnt } WHERE caId=#{caId};
     </update>
 
-<!-- 데이터 삭제 --> 
+<!-- 데이터 삭제 --><!-- 개별,체크 삭제 --> 
     <delete id="deleteCart" parameterType="cartVO"><!-- caId는 사용자 불문 유일키. -->
         DELETE FROM cart
         WHERE caId=#{caId};
     </delete> 
 
-<!-- 데이터 선택값 삭제 -->
-	<delete id="deleteCheckedCart">
-		DELETE FROM cart
-		WHERE caId IN
-		<foreach collection="checkedCaIdList" item="caId" separator="," open="(" close=")">
-			#{caId}
-		</foreach>
-	</delete>
 
 
 

@@ -17,16 +17,28 @@
 	<!-- -->
 	<resultMap type="adminOrderVO" id="adminOrderResult">
 		<id property="odid" column="odid" /><!-- pk에 사용 -->
-		<result property="clientId" column="cid" /><!-- orders에는 소문자인 cid로 
-			생성되어있음 -->
+		<result property="clientId" column="cid" /><!-- orders에는 소문자인 cid로 생성되어있음 -->
 		<result property="addid" column="addid" />
 		<result property="opIdList" column="opIdList" />
 		<result property="deliId" column="deliId" />
-		<result property="odDate" column="odDate" />
+		<result property="odDate" column="odDate" /> 
 		<result property="odPrice" column="odPrice" />
+		<result property="odTotal" column="odTotal" />
 		<result property="odStatus" column="odStatus" />
 		<result property="clientNum" column="cNum" />
 		
+		<result property="payDate" column="payDate" />
+		<result property="payMtd" column="payMtd" />
+		<result property="payStatus" column="payStatus" />
+
+		<result property="cpPrice" column="cpPrice" />
+		<result property="cpId" column="cpId" />
+		<result property="cpName" column="cpName" />
+
+		<result property="opId" column="opId" />
+		<result property="odProCnt" column="odProCnt" />
+
+		<result property="usedPoint" column="usedPoint" />
 		
 	</resultMap>
 
@@ -51,25 +63,51 @@
 	</update>
 
 
-	<!-- 데이터 목록 조회 -->
+	<!-- 날짜 지정하여 데이터 목록 조회 -->
 	<select id="getAdminOrderList" resultMap="adminOrderResult"
 		parameterType="adminOrderVO">
-		SELECT od.*,cl.cNum
-		FROM orders AS od, client AS cl
-		<where>
-			<if test="beginDateU != null and endDateU == null">
-				<![CDATA[  od.odDate >= #{beginDateU}]]> <!-- 시작 값만 지정했을 때 -->
-			</if>
-			<if test="beginDateU == null and endDateU != null">
-				<![CDATA[ AND od.odDate <= #{endDateU}]]> <!-- 종료 값만 지정했을 때 -->
-			</if>
-			<if test="beginDateU != null and endDateU != null">
-				od.odDate BETWEEN #{beginDateU} AND #{endDateU} <!-- 시작,종료 값 모두 지정했을 때 -->
-			</if>
-		</where>
-			AND cl.cId=od.cId
-			ORDER BY od.odDate DESC;
-			
+
+		SELECT od.*, cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus
+	FROM orders AS od
+    LEFT JOIN client AS cl ON cl.cId=od.cId
+    LEFT JOIN coupon_info AS cp_i ON cp_i.cpId = od.cpId
+    LEFT JOIN orders_info AS od_i ON od.odid = od_i.odid
+    LEFT JOIN payment_info AS pay ON pay.odid = od.odid
+    WHERE od.odDate BETWEEN #{beginDateU} AND #{endDateU}
+	ORDER BY pay.payDate DESC;
 	</select>
+
+	<!-- 날짜 지정없이 데이터 목록 조회 -->
+	<select id="getAdminOrderListAll" resultMap="adminOrderResult"
+		parameterType="adminOrderVO">
+
+			SELECT DISTINCT od.*, cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus,
+				group_concat(od_i.opId) AS '상품'
+	FROM orders AS od
+    LEFT JOIN client AS cl ON cl.cId=od.cId
+    LEFT JOIN coupon_info AS cp_i ON cp_i.cpId = od.cpId
+    LEFT JOIN orders_info AS od_i ON od.odid = od_i.odid
+    LEFT JOIN payment_info AS pay ON pay.odid = od.odid
+    GROUP BY od.odid
+	ORDER BY pay.payDate DESC;
+
+
+		<!--  SELECT od.*, cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus,opId,odProCnt
+	FROM orders AS od
+    LEFT JOIN client AS cl ON cl.cId=od.cId
+    LEFT JOIN coupon_info AS cp_i ON cp_i.cpId = od.cpId
+    LEFT JOIN orders_info AS od_i ON od.odid = od_i.odid
+    LEFT JOIN payment_info AS pay ON pay.odid = od.odid
+	ORDER BY pay.payDate DESC; -->
+	</select>
+	
+	<!-- 상품 정보
+	<select id="getAdminOrderInfo" resultMap="adminOrderResult"
+		parameterType="adminOrderVO">
+	SELECT opId,odProCnt
+	FROM orders_info
+	WHERE odId = #{odid};
+	</select>  -->
+	
 
 </mapper>

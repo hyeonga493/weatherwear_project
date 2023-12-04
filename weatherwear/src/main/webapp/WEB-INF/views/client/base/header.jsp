@@ -17,7 +17,7 @@ li {
         <p>
         <br><br>
 			<c:if test="${ client != null }"> <!-- 로그인한 경우 -->
-				<h5 id="top_menu">${ client.clientName } | <a href="clientMypage.do">MYPAGE</a> | <a href="clientCart.do">CART</a> | <a href="clientLogout.do">LOGOUT</a></h5>
+				<h5 id="top_menu">${ client.clientName } | <a href="clientMypage.do">MYPAGE</a> | <a href="clientCart.do?clientId=${ client.clientId}">CART</a> | <a href="clientLogout.do">LOGOUT</a></h5>
 			</c:if>
 			<c:if test="${ client == null }"> <!-- 익명 사용자인 경우 -->
 				<h5 id="top_menu"><a href="clientLogin.do">LOGIN</a> | <a href="clientJoin.do">JOIN</a> | <a href="clientCart.do">CART</a></h5>

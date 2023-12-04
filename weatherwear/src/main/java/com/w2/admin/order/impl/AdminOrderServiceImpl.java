@@ -17,6 +17,13 @@ public class AdminOrderServiceImpl implements AdminOrderService{
 	@Autowired
 	private AdminOrderDAO adminOrderDAO;
 	
+	@Override
+	public List<AdminOrderVO> getAdminOrderListAll(AdminOrderVO adminOrderVO) throws Exception {
+		System.err.println("[OrderServiceImpl] : getAdminOrderListAll");
+		System.err.println("---------------[ adminOrderVO ] : " + adminOrderVO.toString());
+		return adminOrderDAO.getAdminOrderListAll(adminOrderVO);
+	}
+
 	
 	@Override
 	public List<AdminOrderVO> getAdminOrderList(AdminOrderVO adminOrderVO) throws Exception {

@@ -99,7 +99,7 @@ public class CartServiceImpl implements CartService {
 	//장바구니에서 선택된 상품 삭제
 	public void deleteCheckedCart(CartVO cartVO) {
 		System.err.println("[CartServiceImpl] : deleteCheckedCart");
-		cartDAO.deleteCheckedCart(cartVO);
+		cartDAO.deleteCart(cartVO);
 	}
 
 

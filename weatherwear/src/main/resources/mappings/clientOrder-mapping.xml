@@ -77,6 +77,8 @@
 		
 		<result property="payId" column="payId"/>
 		<result property="payMtd" column="payMtd"/>
+		<result property="payDate" column="payDate"/>
+		<result property="payStatus" column="payStatus"/>
 		 
 		<result property="addColumn" column="addColumn"/><!-- 리스트 select구문에서 추가한 별칭컬럼 -->
 		<result property="plusPoint" column="plusPoint"/><!-- 상세 select구문에서 추가한 별칭컬럼 -->
@@ -111,13 +113,14 @@
 <!-- 사용자 주문 내역 조회 --> <!-- 상품이 여러 종류일 때, __ 외 _ 의 형식으로 / 1종류일 때, (상품명)으로 출력  -->
  	<select id="getOrderList" resultMap="orderVO" parameterType="orderVO">
 		
-		SELECT od.odid, od.cId, od.odStatus, od.odPrice,od.odDate,pro.proId, pro.proName,count(*),
+		SELECT od.odid, od.cId, od.odStatus, od.odPrice,pay.payDate,pay.payStatus,pay.payMtd,pro.proId, pro.proName,count(*),
 		CASE
 		WHEN count(*) = 1 THEN pro.proName
 		ELSE concat(pro.proName,' 외 ',count(*)-1,'개')
 		END AS 'addColumn'
 		FROM orders od
 		JOIN product pro ON od.opIdList LIKE CONCAT('%', pro.proId, '%')
+        JOIN payment_info pay ON pay.odid = od.odid
 		WHERE od.cId=#{clientId}
 		GROUP BY od.odid;
 	</select>
@@ -146,13 +149,14 @@
 	
 	<!-- 조회 - 주문 상태 -->
 	<select id="getOdStatus" resultMap="orderVO" parameterType="orderVO">
-		SELECT odStatus,odid
-		FROM orders
-		WHERE odid =#{odid};
+		SELECT od.odStatus,od.usedPoint,od.odid,pay.payMtd,pay.payStatus,pay.payDate
+		FROM orders od
+		LEFT JOIN payment_info pay ON pay.odid = od.odid
+		WHERE od.odid =#{odid};
 	</select>
 	<!-- 조회 - 상품정보 -->
 	<select id="getOdInfo" resultMap="orderVO" parameterType="orderVO">
-		SELECT cl.cId, pro.proName,op.opColor, op.opSize,od_i.odProCnt
+SELECT DISTINCT cl.cId, pro.proName,op.opColor, op.opSize,od_i.odProCnt
 		FROM option_info op
 		LEFT JOIN product pro ON op.proId = pro.proId
 		LEFT JOIN orders_info od_i ON od_i.opid=op.opId
@@ -161,7 +165,7 @@
 		WHERE op.opId IN (
 		SELECT od_i.opId
 		FROM orders od
-		JOIN orders_info od_i ON od.opIdList LIKE CONCAT('%', od_i.opId, '%')
+		JOIN orders_info od_i ON od.opIdList LIKE CONCAT('%', od_i.opId, '%') 
 		WHERE od.odid =#{odid}); 
 	</select>
 	
@@ -177,16 +181,14 @@
 	
 	<!-- 조회 - 금액정보 -->
 	<select id="getPrice" resultMap="orderVO" parameterType="orderVO">
-		SELECT od.odid, od.odPrice,od_i.odTotal, deli_i.deliPrice, od_i.cpId, cp_i.cpName, cp_i.cpPrice
+SELECT DISTINCT od.odid, od.odPrice,od_i.odTotal, deli_i.deliPrice, od.cpId, cp_i.cpName, cp_i.cpPrice
 		FROM orders od
 		LEFT JOIN deliver_info deli_i ON deli_i.odid = od.odid
 		LEFT JOIN orders_info od_i ON od_i.odid = od.odid
-		LEFT JOIN coupon_info cp_i ON cp_i.cpId = od_i.cpId
+		LEFT JOIN coupon_info cp_i ON cp_i.cpId = od.cpId
 		WHERE od.odid = #{odid}
 		GROUP BY odid;
 	</select>
-	<!-- 조회 - 결제정보 -->
-	
 	<!-- 조회 - 포인트정보 -->
 	
 
@@ -226,7 +228,7 @@ VALUES(#{addId},#{clientId},#{addName},#{addNum},#{addPostNum},#{address1},#{add
 	SELECT cId, cName, cNum, cEmail,cPoint FROM client WHERE cId=#{clientId}; 
 </select>
 
-<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 -->
+<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 --><!-- 장바구니로부터 -->
 <select id="toOrder_get_cart" resultMap="orderVO" parameterType="orderVO">
 SELECT p.proName,op.opColor,op.opSize,op.opId,ca.caCnt,ca.caId
 FROM cart ca
@@ -235,12 +237,27 @@ LEFT JOIN option_info op ON ca.opId= op.opId
 WHERE ca.caId = #{caId};
 </select>
 
-<!-- 처음에 나올 총 금액(실결제 아님) --><!-- java에서 for문으로 반복 -->
+<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<select id="toOrder_get_product" resultMap="orderVO" parameterType="orderVO">
+	SELECT p.proName, p.proId
+	FROM product
+	WHERE p.proId = #{proId};
+</select>
+
+
+<!-- 처음에 나올 총 금액(실결제 아님) --><!-- java에서 for문으로 반복 --><!-- 장바구니로부터 -->
 <select id="toOrder_get_Price" resultMap="orderVO" parameterType="orderVO">
 	SELECT c.caCnt*p_p.proPrice AS odTotal FROM cart c 
 	LEFT JOIN product_price p_p ON p_p.proId = c.proId 
 	WHERE c.caId = #{caId}; 	
 </select> 
+
+<!-- 처음에 나올 총 금액 계산을 위한 상품 금액 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  -->
+<select id="toOrder_get_Price_product" resultMap="orderVO" parameterType="orderVO">
+	SELECT p_p.proPrice, p.proId
+	FROM product_price p_p
+	LEFT JOIN product p ON p.proId = p_p.proId;
+</select>
 
 <!-- 회원의 등급에 해당하는 포인트% -->
 <select id="toOrder_get_Point" resultMap="orderVO" parameterType="orderVO">
@@ -295,7 +312,7 @@ VALUES (
 	
 <!-- 주문 상품 정보(장바구니로부터)  -->
 <insert id="toOrder_insert_into_orders_info" parameterType="orderVO">
-INSERT INTO orders_info (odid,opId,odProCnt,odTotal)
+INSERT IGNORE INTO orders_info (odid,opId,odProCnt,odTotal)
 VALUES (
 		#{odid}, 
 		(SELECT opId FROM cart WHERE cId=#{clientId} AND caId=#{caId}),
@@ -304,7 +321,19 @@ VALUES (
 	);
 </insert>	
 
-<!-- 주문한 cart 삭제 -->
+<!-- 주문 상품 정보  --><!-- 상품상세로부터!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+<insert id="toOrder_insert_into_orders_info_product" parameterType="orderVO">
+	INSERT IGNORE iNTO orders_info  (odid,opId,odProCnt,odTotal)
+	VALUES (
+			#{odid}, 
+			#{opid},
+			#{odProCnt},
+			#{odTotal}
+	);
+</insert>
+
+
+<!-- 주문한 cart 삭제 --><!-- 장바구니로부터만 사용 -->
 <delete id="toOrder_delete_usedcaId"><!-- java에서 for문으로 반복 -->
 	DELETE FROM cart WHERE caId=#{caId};	
 </delete>	

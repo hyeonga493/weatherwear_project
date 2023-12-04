@@ -67,6 +67,8 @@ public class OrderVO {
 	private int minPrice; // 쿠폰 상태 - coupon_list // 주문하기
 	
 	
+	private String payStatus; // 결제상태 - payment_info // 주문하기,주문내역
+	private String payDate; // 결제일자 - payment_info // 주문하기,주문내역
 	private String payId; // 결제번호 - payment_info // 주문하기,주문내역
 	private String payMtd; // 결제방법 - payment_info // 주문하기, 주문내역
 	

@@ -1,6 +1,7 @@
 package com.w2.admin.order.controller;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -51,21 +52,18 @@ public class AdminOrderController {
 	}	
 
 	//주문 상태 수정 - 각각
-	@RequestMapping(value="/updateOdStatus.mdo" ,method={RequestMethod.POST})
-	public ResponseEntity updateAdminOrderStatus(@RequestParam Map<String, String> odStatusMap, 
-			                        HttpServletRequest request, HttpServletResponse response)  throws Exception {
+	@RequestMapping(value = "/updateOdStatus.mdo", method = { RequestMethod.POST })
+	public ResponseEntity<String> updateAdminOrderStatus(@RequestParam Map<String, String> odStatusMap,
+	        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		adminOrderService.updateAdminOrderStatus(odStatusMap);
-		System.err.println("[controller][updateAdminOrderStatus] ");
-		
-		String message = null;
-		ResponseEntity entity = null;
-		HttpHeaders responseHeaders = new HttpHeaders();
-		message  = "mod_success";
-		entity =new ResponseEntity(message, responseHeaders, HttpStatus.OK);
-		System.err.println("entity : "+entity);
-		return entity;
-		
+	    adminOrderService.updateAdminOrderStatus(odStatusMap);
+	    System.err.println("[controller][updateAdminOrderStatus] ");
+
+	    String message = "mod_success";
+	    HttpHeaders responseHeaders = new HttpHeaders();
+	    ResponseEntity<String> entity = new ResponseEntity<>(message, responseHeaders, HttpStatus.OK);
+	    System.err.println("entity : " + entity);
+	    return entity;
 	}
 	
 	
