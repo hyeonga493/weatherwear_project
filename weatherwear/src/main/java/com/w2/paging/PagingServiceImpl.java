@@ -112,19 +112,24 @@ public class PagingServiceImpl implements PagingService{
 		} else { 
 			currentPage = page;
 		}
+		System.err.println("ps currentPage: " + currentPage);
 
 		int totalCount = productDAO.searchCount(pro);
 		
 		Paging paging = new Paging(totalCount, currentPage, pro);
-		
+
 		int postStart = ((paging.getCurrentPage() -1) * 10) + 1;
 		
-		int postEnd = paging.getCurrentPage() * 10;
+		int postEnd = postStart + 20;
 		
 		pro.setStartPage(paging.getStartPage());
 		pro.setEndPage(paging.getEndPage());
 		pro.setPostStart(postStart);
 		pro.setPostEnd(postEnd);
+		System.err.println("ps 페이지 st: " + pro.getStartPage());
+		System.err.println("ps 페이지 st: " + pro.getEndPage());
+		System.err.println("postStart: " + postStart);
+		System.err.println("postEnd : " + postEnd);
 
 		model.addAttribute("paging", paging);
 		

@@ -99,7 +99,7 @@ public class ProductDAO {
 	// 상품 목록 조회(사용자)
 	public List<ProductVO> getProductListClient(ProductVO pro) {
 		System.out.println("[ ProductDAO ] : getProductListClient");
-		
+
 		return sqlSessionTemplate.selectList("ProductDAO.getProductListClient", pro);
 	}
 	

@@ -121,11 +121,11 @@
 		</where>
 		ORDER BY cId DESC
 		<choose>
-			<when test="#{ postStart == 1}">
-				LIMIT 0,10
+			<when test="postStart == 1">
+				LIMIT 0,20
 			</when>
 			<otherwise>
-				LIMIT #{ postStart }, 10
+				LIMIT #{ postStart }, 20
 			</otherwise>
 		</choose>
 		</select>

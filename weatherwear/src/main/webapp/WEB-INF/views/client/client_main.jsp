@@ -252,7 +252,7 @@ function setProvince(province){
 			<h2>BestView</h2>
 			<c:forEach var="product" items="${ proList }" varStatus="int">
 				<ul class="product">
-					<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.mainImageDir }${ product.mainImageName }" style="width:150px; height:150px;"></a></li>
+					<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:150px; height:150px;"></a></li>
 					<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
 				</ul>
 			</c:forEach>           	
@@ -264,7 +264,7 @@ function setProvince(province){
 				<h2>BestView</h2>
 				<c:forEach var="product" items="${ proList }" varStatus="int">
 					<ul class="product">
-						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.mainImageDir }${ product.mainImageName }" style="width:150px; height:150px;"></a></li>
+						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:150px; height:150px;"></a></li>
 						<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
 					</ul>
 				</c:forEach>           	

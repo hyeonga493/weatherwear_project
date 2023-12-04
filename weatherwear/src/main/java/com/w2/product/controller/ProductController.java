@@ -235,14 +235,15 @@ public class ProductController {
 			pro.setOrdertype("");
 		}
 		
-		System.out.println("[ ClientController ] : product_list");
-		
+		System.out.println("[ ProductController ] : product_list");
+
+		System.err.println("@@@@@@@@@@ 페이지 : " + page);
 		List<ProductVO> productList = pagingService.productListClient(page, pro, model);
 		//List<ImageVO> mainList = productService.getProductMain(pro);
-		List<ImageVO> mainList = pagingService.getProductMain(page, pro, model);
+		//List<ImageVO> mainList = pagingService.getProductMain(page, pro, model);
 		
 		model.addAttribute("productList", productList);
-		model.addAttribute("mainList", mainList);
+		//model.addAttribute("mainList", mainList);
 		
 		return "client/product/product_list";
 	}

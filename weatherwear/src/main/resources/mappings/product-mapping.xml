@@ -83,45 +83,35 @@
 	</select>
 	
 	<select id="getProductCount" resultType="int">
+		SELECT COUNT(*) FROM product
+		JOIN product_image ON product.proId = product_image.imageBy
+		WHERE  imageStatus='대표'
 		<choose>
 			<when test="searchtype == 'proId'">
-				SELECT COUNT(*) FROM product
-				WHERE proId LIKE CONCAT('%', #{ keyword }, '%')
+				AND proId LIKE CONCAT('%', #{ keyword }, '%')
 			</when>
 			<when test="searchtype == 'proName'">
-				SELECT COUNT(*) FROM product
-				WHERE proName LIKE CONCAT('%', #{ keyword }, '%')
+				AND proName LIKE CONCAT('%', #{ keyword }, '%')
 			</when>
 			<when test = "gubun == 'outer'">
-				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('11', '%')
+				AND product.proCate LIKE CONCAT('11', '%')
 			</when>
 			<when test = "gubun == 'top'">
-				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('12', '%')
+				AND product.proCate LIKE CONCAT('12', '%')
 			</when>
 			<when test = "gubun == 'pants'">
-				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('13', '%')
+				AND product.proCate LIKE CONCAT('13', '%')
 			</when>
 			<when test = "gubun == 'skirts'">
-				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('14', '%')
+				AND product.proCate LIKE CONCAT('14', '%')
 			</when>
 			<when test = "gubun == 'dress'">
-				SELECT COUNT(*) FROM product
-				WHERE product.proCate LIKE CONCAT('15', '%')
+				AND product.proCate LIKE CONCAT('15', '%')
 			</when>
-			<when test = "gubun == 'all'">
-				SELECT COUNT(*) FROM product
-			</when>
-			<otherwise>
-				SELECT COUNT(*) FROM product
-			</otherwise>
 		</choose>
 	</select>
 	
-	<select id="getMainList" resultType="com.w2.file.ImageVO" parameterType="product">
+	<select id="getMainList" resultType="com.w2.file.ImageVO" parameterType="com.w2.product.ProductVO">
 		SELECT * 
 		FROM product_image
 		JOIN product ON product.proId = product_image.imageBy
@@ -173,7 +163,7 @@
 			</otherwise>
 		</choose>
 		<choose>
-			<when test="#{ postStart == 1}">
+			<when test="postStart == 1">
 				LIMIT 0,20
 			</when>
 			<otherwise>
@@ -182,7 +172,7 @@
 		</choose>
 	</select>
 	
-	<select id="getProductListClient" resultType="product">
+	<select id="getProductListClient" resultType="com.w2.product.ProductVO" parameterType="com.w2.product.ProductVO">
 		SELECT * FROM product
 		JOIN product_price ON product.proId = product_price.proId
 		JOIN category ON product.proCate = category.cateId
@@ -236,7 +226,7 @@
 			</otherwise>
 		</choose>
 		<choose>
-			<when test="#{ postStart == 1}">
+			<when test="postStart == 1">
 				LIMIT 0,20
 			</when>
 			<otherwise>
@@ -245,7 +235,7 @@
 		</choose>
 	</select>
 	
-	<select id="getProductListAdmin" resultType="product">
+	<select id="getProductListAdmin" resultType="com.w2.product.ProductVO" parameterType="com.w2.product.ProductVO">
 		SELECT
 		product.proId, product.proName, category.cateName, LEFT(product.proContent, 20) AS proContent,
 		product_price.proPrimeCost, product_price.proCost, product_price.proPrice,
@@ -285,7 +275,7 @@
 			</otherwise>
 		</choose>
 		<choose>
-			<when test="#{ postStart == 1}">
+			<when test="postStart == 1">
 				LIMIT 0, 10
 			</when>
 			<otherwise>
@@ -308,7 +298,7 @@
 	
 	<!-- BestCollection -->
 	<select id="getBestProduct" resultType="product">
-		SELECT p.proId, p.proName, i.imagedir mainImageDir, i.imageName mainImageName, p.proView
+		SELECT p.proId, p.proName, i.imagedir, i.imageName, p.proView
 		FROM product p 
 		JOIN product_image i ON (p.proId = i.imageBy)
 		WHERE i.imageStatus = '대표'
