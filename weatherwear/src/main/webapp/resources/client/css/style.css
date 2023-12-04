@@ -1,4 +1,4 @@
-div#container{
+/* div#container{ */
     border : 3px solid green;
     padding : 1%;
 
@@ -10,7 +10,7 @@ div#product_content{
 	margin: 0 auto;
 	text-align: center;
 }
- 
+
 img#main_logo{
     width: 30px;
     float:left;
@@ -43,8 +43,9 @@ header#header > a > img#banner_logo{
     margin: 0 15px;
 }
 nav#menubar{
+	display:flex;
     width: 95%;
-    background-color: grey;
+    background-color: #b8b8b8;
     padding: 1%;
     margin: 0 0 10px 0;
     
@@ -55,13 +56,7 @@ nav#menubar{
 /* 메인메뉴 효과 설정 */
 nav#menubar > ul {
     padding-left: 0;
-    margin: 0 0 0 0.005%;
-}
-
-nav#menubar > ul > li {
-    display: inline;
-    margin: 0 0 0 3%;
-    width : 80px;
+    margin: 0 0 0 auto;
 }
 
 nav#menubar > ul > li > a {
@@ -125,9 +120,9 @@ aside#side > h5 {
 }
 
 section#contents {
-    width: 73%;
+    width: 95%;
     height: 400px;
-    margin: 0.1% 0.1%;
+    margin: auto;
     border: 3px solid green;
     background-color: ivory;
 
@@ -154,8 +149,7 @@ div#footer{
     width: 95%;
     height: 200px;
     padding: 1%;
-    border: 3px solid green;
-    background-color: grey;
+    background-color: #b8b8b8;
 
     /* float 초기화 */
     clear: both;

@@ -1,16 +1,12 @@
 package com.w2.client.controller;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.w2.client.ClientVO;
-import com.w2.weather.Utility;
+import com.w2.product.ProductService;
+import com.w2.product.ProductVO;
 import com.w2.weather.WeatherService;
 import com.w2.weather.WeatherVO;
 
@@ -32,7 +29,10 @@ public class ClientGetController {
 
 	@Autowired
 	private WeatherService weatherService;
-	 
+
+	@Autowired
+	private ProductService productService;
+	
 	public void checkTime() {
 		Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
@@ -47,7 +47,7 @@ public class ClientGetController {
 	
 	// 메인페이지 호출
 	@RequestMapping("/clientMain.do")
-	public ModelAndView clientMain(WeatherVO vo, Model model, HttpServletRequest request) {
+	public ModelAndView clientMain(WeatherVO vo, ProductVO pro,Model model, HttpServletRequest request) {
 		System.out.println("[ ClientGetController ] : clientMain");
 		log.debug(null);
 		
@@ -59,6 +59,7 @@ public class ClientGetController {
 			vo.setProvince("seoul");
 		}
 		
+		List<ProductVO> proList = productService.getBestProduct(pro);
 		List<WeatherVO> wList = weatherService.getWeatherList(vo);
 		System.err.println("weatherList : " + wList);
 		mv.addObject("weather3_id", wList.get(2).getWeather_id());
@@ -67,6 +68,7 @@ public class ClientGetController {
 		model.addAttribute("weather2", wList.get(1));
 		model.addAttribute("weather4", wList.get(3));
 		model.addAttribute("weather5", wList.get(4));
+		model.addAttribute("proList", proList);
 
 		checkTime();
 		System.err.println("지역 : " + vo.getProvince());

@@ -91,16 +91,12 @@ function order() {
 		<div class="clearfixed"></div>
 		<div class="products" style="margin-right:20px">
 				<c:forEach var="product" items="${productList}">
-					<c:forEach var="main" items="${mainList}">
-					<c:if test="${ product.proId == main.imageBy }">
 					<ul class="product">
-						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ main.imageDir }${ main.imageName }" style="width:300px; height:300px;"></a></li>
+						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:300px; height:300px;"></a></li>
 						<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
 						<li class="price">${product.proPrice}</li>
 						<li class="review">리뷰 0건</li>
 					</ul>
-					</c:if>
-					</c:forEach>
 				</c:forEach>
 		</div>
 		<div class="clearfixed"></div>

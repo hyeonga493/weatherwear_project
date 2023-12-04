@@ -67,7 +67,6 @@ function order() {
 				<tr>
 					<td>
 					<select class="box" id="searchtype" name="searchtype">
-								<option value="SELECT">선택</option>
 								<option ${ param.searchtype == null ? 'selected' : '' }  value="proId">상품번호</option>
 								<option ${ param.searchtype == 'proId' ? 'selected' : '' }  value="proId">상품번호</option>
 								<option ${ param.searchtype == 'proName' ? 'selected' : '' } value="proName">상품명</option>		                  

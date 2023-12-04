@@ -155,8 +155,6 @@ public class ProductController {
 		}
 
 		String oriFilePath = request.getServletContext().getRealPath("/");
-		System.err.println("m : " + httpre.getParameter("mainimg"));
-		System.err.println("d : " + httpre.getParameter("detailimg"));
 		
 		if(httpre.getParameter("main_imageList") != null) {
 			List<MultipartFile> mainList = request.getFiles("main_Changeimg[]");
@@ -300,6 +298,7 @@ public class ProductController {
 		mv.addObject("opSizeList", pro.getOpSizeList());
 		mv.addObject("stCntList", pro.getStCntList());
 		
+		System.err.println("다 찾았다");
 		return mv;
 	}
 	

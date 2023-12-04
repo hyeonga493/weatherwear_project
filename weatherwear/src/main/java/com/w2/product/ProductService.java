@@ -55,4 +55,8 @@ public interface ProductService {
 	
 	// 대량 데이터 삽입
 	void test() throws IOException, FileNotFoundException, ParseException ;
+	
+
+	// 상위 조회수 TOP5
+	public List<ProductVO> getBestProduct(ProductVO pro);
 }

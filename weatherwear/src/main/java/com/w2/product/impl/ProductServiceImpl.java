@@ -297,4 +297,10 @@ public class ProductServiceImpl implements ProductService {
 			}
 	    }
 	}
+
+	// 상위 조회수 TOP5
+	@Override
+	public List<ProductVO> getBestProduct(ProductVO pro){
+		return productDAO.getBestProduct(pro);
+	}
 }

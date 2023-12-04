@@ -53,8 +53,8 @@ public class ProductVO {
 	private int startPage;
 	private int endPage;
 	
-	private String mainImageDir;
-	private String mainImageName;
+	private String imageDir;
+	private String imageName;
 
 	
 }
