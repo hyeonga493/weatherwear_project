@@ -10,7 +10,7 @@ import lombok.ToString;
 public class Paging {
  	
 	// 한 페이지당 보여 줄 게시글의 수
-	private static final int VIEW_POST_NUM = 10;
+	private static final int VIEW_POST_NUM = 20;
 	
 	// 한 페이지당 보여줄 페이지의 수
 	private static final int VIEW_PAGE_NUM = 7;
