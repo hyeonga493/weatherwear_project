@@ -11,8 +11,6 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
-<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css">
-<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
  
 </head>
 <body class="sb-nav-fixed">
@@ -44,7 +42,7 @@
 									<table>
 										<thead>
 											<tr>
-												<th>ㅁ<input type="checkbox" name="checkProduct" value="checkAll"></th>
+												<th><input type="checkbox" name="checkProduct" value="checkAll"></th>
 												<th>아이디</th>
 												<th>닉네임</th>
 												<th>이름</th>
@@ -61,7 +59,7 @@
 											<c:forEach var="client" items="${ clientList }">
 												<tr>
 													<td>
-														ㅁ<input type="checkbox" name="checkProduct" value="check">
+														<input type="checkbox" name="checkProduct" value="check">
 													</td>
 													<td>${ client.clientId }</td>
 													<td>${ client.clientNickName }</td>

@@ -17,7 +17,6 @@
 		<result property="cpProList" column="cpProList"/>
 		<result property="cpStatus" column="cpStatus"/>
 		<result property="minPrice" column="minPrice"/> 
-		<!-- <result property="chClientType" column="grId"/> -->
 		<result property="chClientType" column="grId"/>
 	</resultMap>
 	 

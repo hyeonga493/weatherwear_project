@@ -24,17 +24,17 @@
 			<!-- gnb -->
 			<nav id="gnb">
 				<ul>
-					<li><a class="dp1" href="/w2/stoke.mdo">물류관리</a></li>
+					<!-- <li><a class="dp1" href="/w2/stoke.mdo">물류관리</a></li> -->
 					<li><a class="dp1" href="/w2/productList.mdo">상품관리</a></li>
 					<li><a class="dp1" href="/w2/adminOrder.mdo">주문관리</a></li>
-					<li><a class="dp1" href="/w2/swap.mdo">교환/환불</a></li>
+					<!-- <li><a class="dp1" href="/w2/swap.mdo">교환/환불</a></li> -->
 					<!-- <li><a class="dp1" href="/w2/balance.mdo">정산관리</a></li> -->
-					<li><a class="dp1" href="/w2/reviewList.do">결제내역(리뷰)</a></li>
+					<li><a class="dp1" href="/w2/reviewOrderList.do">결제내역(리뷰)</a></li>
 					<li><a class="dp1" href="/w2/couponAdminList.mdo">쿠폰관리</a></li>
 					<li><a class="dp1" href="/w2/client.mdo">회원관리</a></li>
 					<li><a class="dp1" href="/w2/noticeList.mdo?gubun=notice">공지/문의사항</a></li>
-					<li><a class="dp1" href="/w2/product.mdo">상품관리</a></li>
-					<li><a class="dp1" href="/w2/total.mdo">통계</a></li>
+					<!-- <li><a class="dp1" href="/w2/product.mdo">상품관리</a></li> -->
+					<!-- <li><a class="dp1" href="/w2/total.mdo">통계</a></li> -->
 				</ul>
 			</nav>
 			<!-- gnb 끝 -->

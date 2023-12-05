@@ -24,5 +24,19 @@ public class QnaBoardDAO {
 	public QnaBoardVO qnaDetail(QnaBoardVO qna) {
 		return sqlSessionTemplate.selectOne("QnaBoardDAO.qnaDetail", qna);
 	}
+
+	public List<QnaBoardVO> qnaBoardList(QnaBoardVO qna) {
+		System.out.println("[ qnaBoardDAO ] : qnaBoardList");
+		return sqlSessionTemplate.selectList("QnaBoardDAO.qnaBoardList", qna); 
+	}
+
+	public int searchCount(QnaBoardVO qna) {
+		System.out.println("[ NoticeBoardDAO ] : searchCount");
+		return sqlSessionTemplate.selectOne("QnaBoardDAO.getQnaBoardCount", qna);
+	}
+
+//	public List<QnaBoardVO> getQnaList(QnaBoardVO qna) {
+//		return null;
+//	}
 	
 }

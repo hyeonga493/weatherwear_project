@@ -12,7 +12,6 @@
 	<%@ include file="./base/header.jsp"%>
 
 	<div id="wrap">
-		<!-- container -->
 		<div id="container"> 
 			<section id="content">
 				<div class="sub-type notice">
@@ -64,28 +63,13 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="pagination">
-										<ol>
-											<c:if test="${noticePageMaker.prev}">
-												<li><a href="noticeList.do${noticePageMaker.makeQuery(noticePageMaker.startPage - 1)}">이전</a></li>
-											</c:if>
-											<c:forEach begin="${noticePageMaker.startPage}" end="${noticePageMaker.endPage}" var="idx">
-												<li><a href="noticeList.do${noticePageMaker.makeQuery(idx)}">${idx}</a></li>
-											</c:forEach>
-											<c:if test="${noticePageMaker.next && noticePageMaker.endPage > 0}">
-												<li><a href="noticeList.do${noticePageMaker.makeQuery(noticePageMaker.endPage + 1)}">다음</a></li>
-											</c:if>
-										</ol>
-									</div>
 								</form>
 							</div>
 						</article>
 					</div>
 				</div>
 			</section>
-		
 		</div>
-		<!-- //container -->
 	</div>
 	
 	<%@ include file="./base/footer.jsp"%>

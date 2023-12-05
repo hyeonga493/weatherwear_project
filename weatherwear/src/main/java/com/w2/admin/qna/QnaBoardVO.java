@@ -27,6 +27,13 @@ public class QnaBoardVO {
 	private String qnaSelectType;
 	private String qnaKeyword;
 	
+	// 페이징 정보(글 번호)
+	private int postStart;
+	private int postEnd;
+	
+	private int startPage;
+	private int endPage;
+	
 	public String getQnaId() {
 		return qnaId;
 	}
@@ -105,12 +112,37 @@ public class QnaBoardVO {
 	public void setQnaKeyword(String qnaKeyword) {
 		this.qnaKeyword = qnaKeyword;
 	}
+	public int getPostStart() {
+		return postStart;
+	}
+	public void setPostStart(int postStart) {
+		this.postStart = postStart;
+	}
+	public int getPostEnd() {
+		return postEnd;
+	}
+	public void setPostEnd(int postEnd) {
+		this.postEnd = postEnd;
+	}
+	public int getStartPage() {
+		return startPage;
+	}
+	public void setStartPage(int startPage) {
+		this.startPage = startPage;
+	}
+	public int getEndPage() {
+		return endPage;
+	}
+	public void setEndPage(int endPage) {
+		this.endPage = endPage;
+	}
 	@Override
 	public String toString() {
 		return "QnaBoardVO [qnaId=" + qnaId + ", clientId=" + clientId + ", qnaTitle=" + qnaTitle + ", qnaContent="
 				+ qnaContent + ", qnaImage=" + qnaImage + ", qnaDate=" + qnaDate + ", qnaSecCheck=" + qnaSecCheck
 				+ ", qnaSecPwd=" + qnaSecPwd + ", qnaStatus=" + qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaType="
-				+ qnaType + ", qnaSelectType=" + qnaSelectType + ", qnaKeyword=" + qnaKeyword + "]";
+				+ qnaType + ", qnaSelectType=" + qnaSelectType + ", qnaKeyword=" + qnaKeyword + ", postStart="
+				+ postStart + ", postEnd=" + postEnd + ", startPage=" + startPage + ", endPage=" + endPage + "]";
 	}
 	
 }

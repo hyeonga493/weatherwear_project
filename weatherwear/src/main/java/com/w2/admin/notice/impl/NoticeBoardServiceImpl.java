@@ -14,11 +14,6 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
 	@Autowired
 	private NoticeBoardDAO dao;
-	
-	@Override
-	public List<NoticeBoardVO> getNoticeList(NoticeBoardVO notice) {
-		return dao.getNoticeList(notice);
-	}
 
 	@Override
 	public void writeNotice(NoticeBoardVO notice) {
@@ -38,6 +33,11 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 	@Override
 	public NoticeBoardVO noticeDetail(NoticeBoardVO notice) {
 		return dao.noticeDetail(notice);
+	}
+
+	@Override
+	public List<NoticeBoardVO> getNoticeList(NoticeBoardVO notice) {
+		return dao.noticeBoardList(notice);
 	}
 
 }

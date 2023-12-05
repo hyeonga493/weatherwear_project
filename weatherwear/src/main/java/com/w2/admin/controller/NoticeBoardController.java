@@ -3,6 +3,7 @@ package com.w2.admin.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.w2.admin.notice.NoticeBoardDAO;
 import com.w2.admin.notice.NoticeBoardService;
 import com.w2.admin.notice.NoticeBoardVO;
+import com.w2.paging.PagingService;
 
 import jdk.jfr.Description;
 
@@ -23,15 +26,18 @@ public class NoticeBoardController {
 	
 	@Autowired
 	private NoticeBoardService noticeBoardService;
+	@Autowired
+	private PagingService pagingService;
 	
 	@RequestMapping("/noticeList.mdo")
 	@Description("공지사항 목록 페이지로 이동")
-	public String getNoticeList(NoticeBoardVO notice, NoticeBoardDAO dao, Model model) {
+	public String getNoticeList(@RequestParam(value="page", required=false)Integer page, NoticeBoardVO notice, Model model) {
 		
 		if(notice.getNoType() == null) notice.setNoType("subject");
 		if(notice.getNoKeyword() == null) notice.setNoKeyword("");
 		
-		model.addAttribute("noticeBoardList", noticeBoardService.getNoticeList(notice));
+		List<NoticeBoardVO> NoticeBoardList = pagingService.NoticeBoardList(page, notice, model);
+		model.addAttribute("noticeBoardList", NoticeBoardList);
 		System.err.println("model : " + model.toString());
 		return "/admin/notice/notice_list";
 	}

@@ -42,15 +42,42 @@
     </select>
 
 <!-- 데이터 목록 조회 resultType으로 작성해도 됩니다.-->
-    <select id="getNoticeList" resultMap="boardResult" parameterType="notice">
+    <select id="noticeBoardList" resultMap="boardResult">
         SELECT * FROM notice
-        WHERE 1=1
+        <where>
         <if test="noType=='subject'">
 			AND noTitle LIKE CONCAT('%', #{noKeyword}, '%')
 		</if>
 		<if test="noType=='content'">
 			AND noContent LIKE CONCAT('%', #{noKeyword}, '%')
 		</if> 
+		</where>
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+				<!-- LIMIT 0,10 -->
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20 
+				<!-- LIMIT #{ postStart }, 10 -->
+			</otherwise>
+		</choose>
     </select>
+    
+ 	<select id="getNoticeBoardCount" resultType="int">
+   		<choose>
+			<when test="noType== 'subject'">
+				SELECT COUNT(*) FROM notice
+				WHERE noTitle LIKE CONCAT('%', #{noKeyword}, '%')
+			</when>
+			<when test="noType=='content'">
+				SELECT COUNT(*) FROM notice
+				WHERE noContent LIKE CONCAT('%', #{noKeyword}, '%')
+			</when>
+			<otherwise>
+				SELECT COUNT(*) FROM notice
+			</otherwise>
+		</choose>
+	</select>
     
 </mapper>

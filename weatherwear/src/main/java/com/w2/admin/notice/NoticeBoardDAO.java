@@ -12,10 +12,6 @@ public class NoticeBoardDAO {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
-	public List<NoticeBoardVO> getNoticeList(NoticeBoardVO notice){
-		return sqlSessionTemplate.selectList("NoticeBoardDAO.getNoticeList", notice);
-	}
 
 	public void writeNotice(NoticeBoardVO notice) {
 		sqlSessionTemplate.insert("NoticeBoardDAO.writeNotice", notice);
@@ -33,4 +29,14 @@ public class NoticeBoardDAO {
 		return sqlSessionTemplate.selectOne("NoticeBoardDAO.noticeDetail", notice);
 	}
 	
+	// 공지글 수 조회 
+	public int searchCount(NoticeBoardVO notice) {
+	System.out.println("[ NoticeBoardDAO ] : searchCount");
+	return sqlSessionTemplate.selectOne("NoticeBoardDAO.getNoticeBoardCount", notice); 
+	}
+	// 공지글 리스트 조회
+	public List<NoticeBoardVO> noticeBoardList(NoticeBoardVO notice) { 
+	System.out.println("[ noticeBoardDAO ] : noticeBoardList");
+	return sqlSessionTemplate.selectList("NoticeBoardDAO.noticeBoardList", notice); 
+	}
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.w2.admin.coupon.CouponAdminService;
 import com.w2.admin.coupon.CouponAdminVO;
+import com.w2.paging.PagingService;
 
 import jdk.jfr.Description;
 
@@ -25,7 +26,6 @@ public class CouponAdminController {
 	
 	@Autowired
 	private CouponAdminService couponAdminService;
-	
 	
 	@RequestMapping(value = "/couponAdminList.mdo")
 	@Description("쿠폰 관리페이지(관리자)")

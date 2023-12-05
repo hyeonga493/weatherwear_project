@@ -11,8 +11,6 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
-<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css"> 
-<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
  
 <script>
 
@@ -26,16 +24,12 @@
 				<div class="sub-type notice">
 					 <div class="inner-box"> 
 						<article class="notice-area"> 
-							 <div class="menu-nav-wrap">
-							 	<h2>쿠폰관리페이지</h2> 
-								</div>
+						 	<h2 style="margin-top:10px;">쿠폰관리페이지</h2> 
 							<div class="notice-wrap">
 								<form id="searchForm" name="searchForm" action="couponList.mdo" method="post">
 									<input type="hidden" id="type" name="type" value="N" /> 
 									<input type="hidden" id="pageNo" name="pageNo" value="1" />
 									<div class="table-type3" style = "position: relative; margin-top: 28px; padding-bottom: 15px; border-bottom: 2px solid #111;">
-										<p class="side">총 ${countNoticeBoard }건</p>
-										
 										<table>
 											<colgroup>
 												<col style="width: 230px">
@@ -70,21 +64,6 @@
 											</tbody>
 										</table>
 										<input type="button" class="btn-write" style="width:150px; height:40px; margin-left:950px;"value="쿠폰 등록" onclick="location.href='coupon.mdo'">
-									</div>
-									<div class="pagination">
-										<ol>
-										 	<c:if test="${noticePageMaker.prev}">
-										 		<li><a href="noticeList.do${noticePageMaker.makeQuery(noticePageMaker.startPage - 1)}">이전</a></li>
-										    </c:if> 
-										    
-											<c:forEach begin="${noticePageMaker.startPage}" end="${noticePageMaker.endPage}" var="idx">
-												<li><a href="noticeList.do${noticePageMaker.makeQuery(idx)}">${idx}</a></li>
-											</c:forEach>
-										    
-										    <c:if test="${noticePageMaker.next && noticePageMaker.endPage > 0}">
-										    	<li><a href="noticeList.do${noticePageMaker.makeQuery(noticePageMaker.endPage + 1)}">다음</a></li>
-										    </c:if> 
-										</ol>
 									</div>
 								</form>
 							</div> 

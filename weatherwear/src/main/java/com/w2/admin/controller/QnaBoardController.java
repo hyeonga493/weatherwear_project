@@ -1,14 +1,18 @@
 package com.w2.admin.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.w2.admin.qna.QnaBoardDAO;
 import com.w2.admin.qna.QnaBoardService;
 import com.w2.admin.qna.QnaBoardVO;
+import com.w2.paging.PagingService;
 
 import jdk.jfr.Description;
 
@@ -17,15 +21,18 @@ public class QnaBoardController {
 	
 	@Autowired
 	private QnaBoardService qnaBoardService;
+	@Autowired
+	private PagingService pagingService;
 	
 	@RequestMapping("/qnaList.mdo")
 	@Description("문의사항 목록 페이지로 이동")
-	public String getQnaList(QnaBoardVO qna, QnaBoardDAO dao, Model model) {
+	public String getQnaList(@RequestParam(value="page", required=false)Integer page, QnaBoardVO qna, Model model) {
 		
 		if(qna.getQnaSelectType() == null) qna.setQnaSelectType("subject");
 		if(qna.getQnaKeyword() == null) qna.setQnaKeyword("");
 		
-		model.addAttribute("qnaBoardList", qnaBoardService.getQnaList(qna));
+		List<QnaBoardVO> qnaBoardList = pagingService.qnaBoardList(page, qna, model);
+		model.addAttribute("qnaBoardList", qnaBoardList);
 		System.err.println("qnaList model : " + model.toString());
 		return "/admin/qna/qna_list";
 	}
