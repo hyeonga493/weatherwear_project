@@ -37,10 +37,10 @@ public class AdminOrderDAO {
 		return sqlsessionTemplate.selectList("AdminOrderDAO.getAdminOrderList", adminOrderVO);
 	}
 	
-	public void  updateAdminOrderStatus(Map odStatusMap) throws DataAccessException{
-		System.err.println("[dao][ updateAdminOrderStatus ] : " + odStatusMap.toString());
-		System.err.println("[ tem ] : " + sqlsessionTemplate.selectList("AdminOrderDAO.updateAdminOrderStatus",odStatusMap));
-		sqlsessionTemplate.update("AdminOrderDAO.updateAdminOrderStatus",odStatusMap);
+	public void  updateAdminOrderStatus(AdminOrderVO adminOrderVO) throws DataAccessException{
+		System.err.println("[dao][ updateAdminOrderStatus ] : " + adminOrderVO.toString());
+		System.err.println("[ tem ] : " + sqlsessionTemplate.selectList("AdminOrderDAO.updateAdminOrderStatus",adminOrderVO));
+		sqlsessionTemplate.update("AdminOrderDAO.updateAdminOrderStatus",adminOrderVO);
 	}
 	
 }

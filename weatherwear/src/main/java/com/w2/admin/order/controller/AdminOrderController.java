@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.w2.admin.order.AdminOrderService;
 import com.w2.admin.order.AdminOrderVO;
@@ -53,17 +54,28 @@ public class AdminOrderController {
 
 	//주문 상태 수정 - 각각
 	@RequestMapping(value = "/updateOdStatus.mdo", method = { RequestMethod.POST })
-	public ResponseEntity<String> updateAdminOrderStatus(@RequestParam Map<String, String> odStatusMap,
+	public String updateAdminOrderStatus(AdminOrderVO adminOrderVO, RedirectAttributes rtt,
 	        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-	    adminOrderService.updateAdminOrderStatus(odStatusMap);
-	    System.err.println("[controller][updateAdminOrderStatus] ");
+		System.err.println("[controller][updateAdminOrderStatus] ");
 
-	    String message = "mod_success";
-	    HttpHeaders responseHeaders = new HttpHeaders();
-	    ResponseEntity<String> entity = new ResponseEntity<>(message, responseHeaders, HttpStatus.OK);
-	    System.err.println("entity : " + entity);
-	    return entity;
+		if(request.getParameter("orderStatusAll")!=null && request.getParameter("checkList")!=null) {
+		    System.err.println("selectBox 값 : "+request.getParameter("orderStatusAll"));
+		    System.err.println("checkList 값 : "+request.getParameter("checkList"));
+		    
+		  
+		    adminOrderVO.setCheckList(request.getParameter("checkList"));
+		    adminOrderVO.setOdStatus(request.getParameter("orderStatusAll"));
+
+		}else if( request.getParameter("odStatus")!=null) {
+			System.err.println("odStatus : "+ request.getParameter("odStatus"));
+			System.err.println("odid : "+ request.getParameter("odid"));
+	    	adminOrderVO.setOdStatus(request.getParameter("odStatus"));
+	    	adminOrderVO.setOdid(request.getParameter("odid"));
+		}
+	
+		adminOrderService.updateAdminOrderStatus(adminOrderVO);
+	    return "redirect:/adminOrder.mdo";
 	}
 	
 	

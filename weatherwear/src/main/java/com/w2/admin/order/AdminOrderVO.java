@@ -26,6 +26,8 @@ public class AdminOrderVO {
 	private int odPrice; //주문 가격
 	private String odStatus; //주문 상태
 	private String clientNum; //회원 연락처
+
+	private String checkList;
 	
 	private int odTotal; //총 가격
 	private int odProCnt; 

@@ -40,9 +40,23 @@ public class AdminOrderServiceImpl implements AdminOrderService{
 
 
 	@Override
-	public void updateAdminOrderStatus(Map odStatusMap) throws Exception{
-		System.err.println("[impl][ updateOrder ] : " + odStatusMap.toString());
-		adminOrderDAO.updateAdminOrderStatus(odStatusMap);
+	public void updateAdminOrderStatus(AdminOrderVO adminOrderVO) throws Exception{
+		System.err.println("[impl][ updateOrder ] : " + adminOrderVO.toString());
+		
+		if(adminOrderVO.getCheckList()!=null) {
+			String[] check = (adminOrderVO.getCheckList().split(","));
+			for(int i=0; i<check.length; i++) {
+				
+				adminOrderVO.setOdid(check[i]);
+				System.err.println(adminOrderVO.getOdid());
+				System.err.println(adminOrderVO.getOdStatus());
+				adminOrderDAO.updateAdminOrderStatus(adminOrderVO);
+			}
+		}else if(adminOrderVO.getOdid()!=null) {
+			System.err.println("odid: "+adminOrderVO.getOdid());
+			System.err.println("odStatus: "+adminOrderVO.getOdStatus());
+			adminOrderDAO.updateAdminOrderStatus(adminOrderVO);
+		}
 	}
 	
 	
