@@ -23,7 +23,7 @@
 			<table>
 				<tr>
 					<th>아이디 : </th>
-					<td><input type="text" name="clientId" id="clientId" placeholder="아이디를 입력해주세요" value="client01"></td>
+					<td><input type="text" name="clientId" id="clientId" placeholder="아이디를 입력해주세요" value="client02"></td>
 				</tr>
 				<tr>
 					<th>비밀번호 : </th>

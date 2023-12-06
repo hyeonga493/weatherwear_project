@@ -24,6 +24,7 @@
         <typeAlias type="com.w2.admin.order.AdminOrderVO" alias="adminOrderVO" />
         <typeAlias type="com.w2.client.coupon.CouponVO" alias="coupon" />
         <typeAlias type="com.w2.admin.coupon.CouponAdminVO" alias="couponAdmin" />
+        <typeAlias type="com.w2.client.review.ReviewVO" alias="review" /> 
     </typeAliases>
 
     <!-- SQL 작성문을 지정하여 mapper 파일 경로 알려주는 역할입니다. -->
@@ -37,9 +38,10 @@
         <mapper resource="mappings/weather-mapping.xml"/>
         <mapper resource="mappings/product-mapping.xml"/>         
         <mapper resource="mappings/cart-mapping.xml"/>
-        <mapper resource="mappings/order-mapping.xml"/>
+        <mapper resource="mappings/clientOrder-mapping.xml"/>
         <mapper resource="mappings/adminOrder-mapping.xml"/> 
         <mapper resource="mappings/clientCoupon-mapping.xml"/> 
         <mapper resource="mappings/coupon-mapping.xml"/> 
+        <mapper resource="mappings/review-mapping.xml"/> 
     </mappers>
 </configuration>

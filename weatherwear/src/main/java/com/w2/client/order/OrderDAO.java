@@ -29,6 +29,16 @@ public class OrderDAO {
 //		return sqlSessionTemplate.selectList("OrderDAO.getOrderDetail",orderVO);
 //	}
 
+	public OrderVO getOrderDetail(OrderVO order) {
+		order = sqlSessionTemplate.selectOne("OrderDAO.getOdStatus",order);
+		System.err.println("1 : " + order.toString());
+		order = sqlSessionTemplate.selectOne("OrderDAO.getAdress",order);
+		System.err.println("2 : " + order.toString());
+		order = sqlSessionTemplate.selectOne("OrderDAO.getPrice",order);
+		System.err.println("3 : " + order.toString());
+		
+		return order;
+	}
 	
 	public OrderVO getOdStatus(OrderVO orderVO) {
 		System.err.println("[tem] : "+sqlSessionTemplate.selectOne("OrderDAO.getOdStatus",orderVO));
@@ -42,7 +52,8 @@ public class OrderDAO {
 
 	public OrderVO getAdress(OrderVO orderVO) {
 		System.err.println("[tem] : "+sqlSessionTemplate.selectOne("OrderDAO.getAdress",orderVO));
-		return sqlSessionTemplate.selectOne("OrderDAO.getAdress",orderVO);	}
+		return sqlSessionTemplate.selectOne("OrderDAO.getAdress",orderVO);
+	}
 
 	public OrderVO getPrice(OrderVO orderVO) {
 		System.err.println("[tem] : "+sqlSessionTemplate.selectOne("OrderDAO.getPrice",orderVO));
@@ -175,11 +186,8 @@ public class OrderDAO {
 		System.err.println("[OrderDAO] [toOrder_insert_into_orders_info_product] : "+orderVO.toString());
 		System.err.println("[tem] : "+sqlSessionTemplate.insert("toOrder_insert_into_orders_info_product", orderVO));
 		sqlSessionTemplate.insert("toOrder_insert_into_orders_info_product", orderVO);
-		
+
 	}
-
-
-	
 	
 	
 }

@@ -147,7 +147,17 @@ public class ProductDAO {
 	}
 
 	// 상위 조회수 TOP5
-	public List<ProductVO> getBestProduct(ProductVO pro){
-		return sqlSessionTemplate.selectList("ProductDAO.getBestProduct", pro);
+	public List<ProductVO> getBestViewProduct(ProductVO pro){
+		return sqlSessionTemplate.selectList("ProductDAO.getBestViewProduct", pro);
+	}
+
+	// 상위 판매수 TOP5
+	public List<ProductVO> getBestSellProduct(ProductVO pro){
+		return sqlSessionTemplate.selectList("ProductDAO.getBestSellProduct", pro);
+	}
+		
+	// 신상 TOP10
+	public List<ProductVO> getNewProductList(ProductVO pro){
+		return sqlSessionTemplate.selectList("ProductDAO.getNewProductList", pro);
 	}
 }

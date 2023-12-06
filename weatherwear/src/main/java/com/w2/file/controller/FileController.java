@@ -78,7 +78,6 @@ public class FileController {
 		if(where.equals("client")) {
 			uploadDir += "client_image/";
 			folder = "client_image/";
-			imvo.setWho("client");
 			
 		} else if(where.equals("admin")) {
 			uploadDir += "admin_image/";
@@ -189,9 +188,6 @@ public class FileController {
 	public void updateProductImage(List<MultipartFile> fileList, String orgFilePath, ImageVO imvo) throws IllegalStateException, IOException {
 		System.out.println("[ FileController ] : updateProductImage/post");
 
-		// 업로드할 파일 기본 저장 위치
-		String rootUploadDir = "C:" + File.separator + "Weatherwear";
-		
 		// 업로드할 파일 저장 위치
 		String uploadDir = "https://hyeongabucket.s3.ap-northeast-2.amazonaws.com/product_image/";
 		String folder = "product_image/";
@@ -208,6 +204,53 @@ public class FileController {
 		sysFileName = simpleDateFormat.format(calendar.getTime());
 
 		uploadProductImage(fileList, sysFileName, orgFilePath, folder, imvo);
+	}
+
+	// 사진 업로드(사용자 리뷰/문의)
+	public void updateClientImage(List<MultipartFile> fileList, String orgFilePath, ImageVO imvo, String sysFileName) throws IllegalStateException, IOException {
+		System.out.println("[ FileController ] : updateClientImage/post");
+
+		// 업로드할 파일 저장 위치
+		String uploadDir = "https://hyeongabucket.s3.ap-northeast-2.amazonaws.com/client_image/";
+		String folder = "client_image/";
+
+		imvo.setImageDir(uploadDir);
+
+		sysFileName += '_';
+		
+		// 리스트로 받아온 파일을 하나씩 저장
+		for(MultipartFile file : fileList){
+			System.out.println(file.getOriginalFilename());
+			
+			// 순서 정렬을 위한 인덱스 추가 (날짜 + 인덱스)
+			sysFileName += fileList.indexOf(file);
+			
+			// 기본 이름
+			// String orgFileName = file.getOriginalFilename();
+			
+			// 변경된 파일 이름으로 지정
+			file.transferTo(new File(orgFilePath + File.separator + sysFileName + ".jpg"));
+			
+			// S3에 저장할 파일 생성
+			File result = new File(orgFilePath + File.separator + sysFileName + ".jpg");
+
+			// 업로드 위치 (S3 주소)
+			awsS3.upload(result, folder + sysFileName + ".jpg");	
+			
+			imvo.setImageId(sysFileName);
+			imvo.setImageName(sysFileName + ".jpg");
+			
+			// 테이블에 정보 삽입
+			if(fileService.insertImage(imvo) > 0 ) {
+				System.out.println("이미지 삽입 성공");
+			} else {
+				System.out.println("이미지 삽입 실패");
+			}
+			
+			// 이름에 추가한 인덱스 제거
+			sysFileName = sysFileName.substring(0, sysFileName.length() -1);
+		}
+		
 	}
 	
 	// 상품 : 메인/상세 이미지 저장 호출

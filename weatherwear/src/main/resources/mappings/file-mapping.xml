@@ -41,4 +41,8 @@
 	<delete id="deleteImage" parameterType="String">
 		DELETE FROM product_image WHERE imageName = #{ imageName }
 	</delete>
+	
+	<select id="getImageId" parameterType="imvo" resultType="String">
+		SELECT imageId FROM client_image WHERE imageBy = #{ imageBy } AND imageStatus = #{ imageStatus }
+	</select>
 </mapper>

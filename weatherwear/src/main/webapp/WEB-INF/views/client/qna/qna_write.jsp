@@ -51,7 +51,7 @@
 							<tr>
 								<td colspan="2" class="center-group">
 									<input type="submit" class="btn-write" value="문의글 등록">
-									<input type="button" class="btn-write" value="취소" onclick="location.href='clientQnaMyPageList.do?clientId=${clientId.clinetId}'"/>
+									<input type="button" class="btn-write" value="취소" onclick="location.href='clientQnaMyPageList.do'"/>
 								</td>
 							</tr>
 						</table>

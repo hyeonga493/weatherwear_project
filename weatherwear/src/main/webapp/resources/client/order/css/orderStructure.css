@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
  body{
-    background-color: rgb(222, 218, 218);
     font-size: 1em;
     overflow-x: hidden;
 }
@@ -9,12 +8,6 @@
 	display: inline-block;
 	half-leading: center;    
 }
-/* header{ 
-    width: 100vw;
-    height: 5vh;
-   	padding: 5px 42%;
-   	border: 1px solid black; 
-}*/
 
 details{
 	visibility: visible;
@@ -49,30 +42,25 @@ table.contentTable{
     
     width: 60vw;
     height: 7vh;
-    background-color:white ;
 }
 table.sideTable{
     width: 30vw;
     height: 7vh;
-    background-color:white ;
 }
 
 table.detailTable{
     height: 4.5vh;
     width: 60vw;
-    background-color:white ;
 }
 
 table.sideDetailTable{
     height: 4.5vh;
     width: 30vw;
-    background-color:white ;
 }
 
 table.permitTable{
     height: 3vh;
     width: 60vw;
-    background-color:white ;
 }
 
 article{

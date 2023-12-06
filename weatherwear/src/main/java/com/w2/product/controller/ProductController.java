@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -309,12 +308,12 @@ public class ProductController {
 	}
 	
 	// 상품 대량 등록 실행
-	@PostMapping("/dododo.do")
-	public String input() throws IOException, ParseException {
-		
-		productService.test();
-		
-		return "test/success";
-	}
+//	@PostMapping("/dododo.do")
+//	public String input() throws IOException, ParseException {
+//		
+//		productService.test();
+//		
+//		return "test/success";
+//	}
 	
 }

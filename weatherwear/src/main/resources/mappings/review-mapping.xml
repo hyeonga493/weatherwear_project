@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- MyBatis 다운 파일 PDF 에서 붙여넣은 내용입니다. -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+				"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+				
+<!-- mapper를 루트 엘리먼트로 사용합니다. -->
+<mapper namespace="ReviewDAO">
+	
+	<resultMap type="review" id="reviewResult">
+		<id property="reId" column="reId"/>
+		<result property="clientId" column="cId"/>
+		<result property="odId" column="odId"/>
+		<result property="opId" column="opId"/> 
+		<result property="reContent" column="reContent"/> 
+		<result property="reImage" column="reImage"/> 
+		<result property="reStar" column="reStar"/> 
+		<result property="reDate" column="reDate"/> 
+		<result property="rePlus" column="rePlus"/> 
+		<result property="reMinus" column="reMinus"/> 
+		<result property="reStatus" column="reStatus"/>
+		<result property="odStatus" column="odStatus"/>
+		<result property="opIdList" column="opIdList"/>
+		<result property="opPrice" column="opPrice"/>
+	</resultMap>
+	
+	<!-- 결제내역 -->
+	<select id="getReviewOrderList" resultMap="reviewResult" parameterType="review">
+		SELECT DISTINCT od.odId, od.cId, od.odStatus, od.odPrice, od.opIdList, od.opId, pro.proId, pro.proName, os.opColor, os.opSize, os.opId, re.reId, re.reContent, re.reStar
+		FROM orders_sample od
+		LEFT JOIN product pro ON od.opId LIKE CONCAT('%', pro.proId, '%')
+		LEFT JOIN option_info os ON od.opId = os.opId 
+        LEFT JOIN review re ON re.opId = od.opId AND od.odId=re.odId
+		WHERE od.cId='client02';
+		<!-- SELECT od.odId, od.cId, od.odStatus, od.odPrice, od.opIdList, pro.proId, pro.proName, os.opColor, os.opSize, os.opId, re.reId
+		FROM orders od
+		LEFT JOIN product pro ON od.opIdList IN('%', pro.proId, '%')
+		LEFT JOIN option_sample os ON od.opIdList IN('%', os.opId, '%')
+		LEFT JOIN review re ON re.opId IN('%', os.opId, '%')
+		WHERE od.cid = 'client02'; -->
+    </select> 
+	
+	<!-- 내가쓴 리뷰리스트 확인 -->
+    <select id="getReviewList" resultMap="reviewResult" parameterType="review">
+        SELECT re.reId, re.odId, re.opId, re.reContent, re.reStar, re.reDate, re.reStatus, pro.proId, pro.proName, os.opColor, os.opSize
+		FROM review re
+		RIGHT JOIN product pro ON re.opId LIKE CONCAT('%', pro.proId, '%')
+		RIGHT JOIN option_sample os ON re.opId = os.opId
+		WHERE re.cId = 'client02';
+    </select> 
+    
+    <!-- 내가쓴 리뷰내용 확인 -->
+    <select id="reviewCheck" resultMap="reviewResult" parameterType="review">
+        SELECT * from review 
+        WHERE reId= #{ reId };
+    </select> 
+    
+    <insert id="writeReview" parameterType="review">
+    	<if test="reImage != null">
+        INSERT INTO review (reId, cId , odId , opId , reContent, reStar, reImage) 
+        VALUES(#{ reId }, #{ clientId }, #{ odId }, #{ opId }, #{ reContent }, #{ reStar }, #{ reImage });
+    	</if>
+    	<if test="reImage == null">
+    	INSERT INTO review (reId, cId , odId , opId , reContent, reStar) 
+        VALUES(#{ reId }, #{ clientId }, #{ odId }, #{ opId }, #{ reContent }, #{ reStar });
+    	</if>
+    </insert>
+    
+    <delete id="deleteReview" parameterType="review">
+        DELETE FROM review
+        WHERE reId=#{ reId }
+    </delete>
+</mapper>

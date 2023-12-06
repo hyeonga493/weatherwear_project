@@ -131,10 +131,15 @@ public class ClientPostController {
 				System.err.println(">>>> [ Controller ] : 비밀번호 일치");
 
 				session.setAttribute("client", result);
+				session.setAttribute("clientId", result.getClientId());
 				System.err.println(">>>>>> [ Controller ] : 세션 설정 " + result.toString());
 
-				System.err.println(">>>>>>>> session.getId : " + session.getId());
-				System.err.println(">>>>>>>> session.getAttributeNames : " + session.getAttributeNames());
+				//ClientVO cl = (ClientVO)session.getAttribute("client");
+				//System.err.println("________________ cl : " + cl.toString());
+				
+				// 세션 확인 가능
+				//System.err.println(">>>>>>>> session.getAttribute : " + session.getAttribute("clientId"));
+				//System.err.println(">>>>>>>> session.getValue : " + session.getValue("client"));
 
 				/*
 				 * ClientVO vo =

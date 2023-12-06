@@ -24,13 +24,16 @@ import jdk.jfr.Description;
 
 @Controller
 public class AdminController {
-	 
+
 	@Autowired
 	private AdminOrderService adminOrderService;
+	
 	@Autowired
 	private ClientService service;
+	
 	@Autowired
 	private PagingService pagingService;
+	
 	@Autowired
 	private BCryptPasswordEncoder pwden;
 	
@@ -48,14 +51,13 @@ public class AdminController {
 
 	@RequestMapping(value = "/adminOrder.mdo")
 	public String getAdminOrderList(Locale locale, Model model,AdminOrderVO adminOrderVO) throws Exception {
-				System.err.println("시작,종료 지정 없이 첫 화면");
-				List<AdminOrderVO> getAdminOrderListAll = adminOrderService.getAdminOrderListAll(adminOrderVO);
-				
-				model.addAttribute("getAdminOrderList",getAdminOrderListAll);
+		System.err.println("시작,종료 지정 없이 첫 화면");
+		List<AdminOrderVO> getAdminOrderListAll = adminOrderService.getAdminOrderListAll(adminOrderVO);
+
+		model.addAttribute("getAdminOrderList",getAdminOrderListAll);
 
 		return "/admin/order";
 	}
-
 
 	@RequestMapping(value = "/stoke.mdo")
 	@Description("물류 관리 페이지")

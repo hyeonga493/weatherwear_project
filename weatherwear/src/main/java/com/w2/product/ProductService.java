@@ -52,11 +52,16 @@ public interface ProductService {
 
 	// 카테고리 조회
 	String getCategory(String proCate);
-	
-	// 대량 데이터 삽입
-	void test() throws IOException, FileNotFoundException, ParseException ;
-	
 
 	// 상위 조회수 TOP5
-	public List<ProductVO> getBestProduct(ProductVO pro);
+	public List<ProductVO> getBestViewProduct(ProductVO pro);
+
+	// 상위 판매수 TOP5
+	public List<ProductVO> getBestSellProduct(ProductVO pro);
+	
+	// 신상 TOP10
+	public List<ProductVO> getNewProductList(ProductVO pro);
+	
+	// 대량 데이터 삽입
+	//void test() throws IOException, FileNotFoundException, ParseException ;
 }

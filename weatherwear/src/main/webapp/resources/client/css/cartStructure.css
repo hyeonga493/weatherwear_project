@@ -1,7 +1,6 @@
 @charset "UTF-8";
 
 body{
-    background-color: rgb(222, 218, 218);
     font-size: 1em;
     overflow-x: hidden;
 }
@@ -46,25 +45,23 @@ section.main{
 }
 
 .line{
-    background-color: #8c8c8c;
     height: 3vh;
     width: 100vw;
 }
 .hiddenType{
 	display: none;
 	width: 20%;
-
 }
+
 label {
-            display: inline-block;
-            margin: 0 0 0px;
-            padding: 9px 13px;
+	display: inline-block;
+	margin: 0 0 0px;
+	padding: 9px 13px;
 }
 
 table{
 	height : 8vh;
 	width : 90%;
-	background-color: white;
 	align : center;
 	text-align: center;
 	margin: 3 3 3 3;
@@ -76,13 +73,11 @@ table.category{
 .box1{
 	width: 100vw;
 	height: 150px;
-	background-color: #f7de9f;
 }
 
 input:checked + label {
-              background-color: white;
-              border: 1px solid black;
-              float: left;
+	border: 1px solid black;
+	float: left;
 }
 
 .btn{
@@ -92,6 +87,5 @@ input:checked + label {
     margin-bottom: 5%;
 	width: 130px;
 	height: 40px;
-	background-color: #8c8c8c;
 	border: none;
 }

@@ -21,14 +21,17 @@
 	
 	<c:if test="${client != null}">
 		<h2>MyPage</h2>
-		<div class="client_mypage_cate">
-			<input type="button" name="cart" value="장바구니" onclick="location.href='clientCart.do'">
-			<input type="button" name="see" value="최근 본 상품" onclick="location.href='#'">
-			<input type="button" name="couponList" value="쿠폰함" onclick="location.href='couponList.do?clientId=${ client.clientId }'">
-			<input type="button" name="paymentHistory" value="구매 내역" onclick="location.href='#'">
-			<input type="button" name="wishList" value="찜한 상품" onclick="location.href='#'">
-			<input type="button" name="update" value="회원정보 수정하기" onclick="location.href='passwordCheck.do'">
-			<input type="button" name="showMyQnaList" value="내가쓴 문의글 목록 보기" onclick="location.href='clientQnaMyPageList.do?clientId=${ client.clientId }'">
+		<div class="client_mypage_cate">&nbsp;&nbsp;&nbsp;
+			<a href="clientCart.do">장바구니</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a href="couponList.do">쿠폰함</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a href="clientList.do">구매 내역</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a href="passwordCheck.do">회원 정보 수정하기</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a href="clientQnaMyPageList.do">문의 글 보기</a>
+			
+			
+			
+			
+			
 			<br><br>
 			<br><br>
 			<br><br>

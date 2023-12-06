@@ -6,18 +6,12 @@
 <link href="resources/client/css/style.css" rel="stylesheet" />
 <link href="resources/product/css/style.css" rel="stylesheet" />
 </head>
-<style>
-
-li {
-	list-style:none;
-}
-</style>
 <html>
 <div id="container" >
         <p>
         <br><br>
 			<c:if test="${ client != null }"> <!-- 로그인한 경우 -->
-				<h5 id="top_menu">${ client.clientName } | <a href="clientMypage.do">MYPAGE</a> | <a href="clientCart.do?clientId=${ client.clientId}">CART</a> | <a href="clientLogout.do">LOGOUT</a></h5>
+				<h5 id="top_menu">${ client.clientName } | <a href="clientMypage.do">MYPAGE</a> | <a href="clientCart.do">CART</a> | <a href="clientLogout.do">LOGOUT</a></h5>
 			</c:if>
 			<c:if test="${ client == null }"> <!-- 익명 사용자인 경우 -->
 				<h5 id="top_menu"><a href="clientLogin.do">LOGIN</a> | <a href="clientJoin.do">JOIN</a> | <a href="clientCart.do">CART</a></h5>
@@ -25,7 +19,7 @@ li {
         </p>
 <header id="header">
 	<a href="/w2/clientMain.do"><img src="resources/image/client/logo_pull.png" id="banner_logo"></a>
-
+	<br><br>
 	<nav id="menubar">
 		<!--<h5>[ nav : menubar ]</h5>-->
 			<div class="product_list">
@@ -96,4 +90,5 @@ li {
 <!-- 		</ul> -->
 	</nav>
 </header>
+</div>
 </html>

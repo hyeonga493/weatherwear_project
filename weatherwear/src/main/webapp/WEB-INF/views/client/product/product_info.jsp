@@ -144,11 +144,6 @@ $(document).ready(function(){
 		clear: both
 	}
 	
-	.product_content{
-		margin : 0 auto;
-		text-align : auto;
-	}
-	
 	.product {
 		position:relative;
 		padding:0 0 0 400px;
@@ -223,14 +218,14 @@ $(document).ready(function(){
 		<div style="padding: 10px 0 10px 0">
 			<c:forEach var="cate" items="${ category }">
 				<c:if test="${ cate == 'ALL' }">
-					<span><a href="/w2/clientMain.do">${ cate }</a></span>&nbsp;> 
+					<span><a href="/w2/productList.do?gubun=${ cate.toLowerCase() }">${ cate }</a></span>&nbsp;> 
 				</c:if>
 				<c:if test="${ cate != 'ALL' }">
-					<span>&nbsp;${ cate }</span>&nbsp;>
+					<span>&nbsp;<a href="/w2/productList.do?gubun=${ cate.toLowerCase() }">${ cate }</a></span>&nbsp;>
 				</c:if>
 			</c:forEach>
 			&nbsp;${ product.proName }
-		</div>
+		</div><br><br>
 		<div class="product">
 			<div class="image">
 			
@@ -238,7 +233,7 @@ $(document).ready(function(){
 				
 				<div class="clearfixed"></div>
 			</div>
-			<div class="info" style="width:350px">
+			<div class="info" style="width:500px">
 				<div style="height:50px; font-size:20px;">
 					${product.proName}<br>
 					<span style="font-size: 15px;">${ product.proId }</span>
@@ -280,7 +275,7 @@ $(document).ready(function(){
 				</div>
 				<div>
 					<div style="padding:50px 0 50px 20px;">
-						<form action="clientCart.do?clientId=${ client.clientId }" method="POST">
+						<form action="/clientCart/insert.do" method="POST">
 							<input type="hidden" name="sellList">
 						<input type="submit" class="cart" value="장바구니" onclick="addCart()">
 						<a href="clientOrder.do"><input type="button" class="order" value="구매하기"></a>

@@ -39,7 +39,12 @@
 .product .name {
 	width: 300px;
 	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%
 }
+
 </style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript">
@@ -92,10 +97,11 @@ function order() {
 		<div class="products" style="margin-right:20px">
 				<c:forEach var="product" items="${productList}">
 					<ul class="product">
-						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:300px; height:300px;"></a></li>
+						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:300px; height:auto; max-width: 100%; max-height: 100%;"></a></li>
 						<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
 						<li class="price">${product.proPrice}</li>
-						<li class="review">리뷰 0건</li>
+						<li class="price">조회수 : ${product.proView}</li>
+						<li class="review">리뷰 : 0건</li>
 					</ul>
 				</c:forEach>
 		</div>

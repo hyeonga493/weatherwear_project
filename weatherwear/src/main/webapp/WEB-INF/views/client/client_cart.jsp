@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8"> 
 <link href="resources/client/css/style.css" rel="stylesheet" />
 <link href="resources/client/css/cartStructure.css" type="text/css" rel="stylesheet" />
 <title>client_cart.jsp</title>
@@ -39,22 +39,75 @@
 	       });
 	     });
 	  
+	  /*$(document).ready(function() {
+		  $("input[name='delete_checked_submit']").click(function(){   
+				//var checked_cart_arr = [];
+				checked_value_arr 
+		  });
+		 });*/
+	  
+	  //체크박스 값 가져오기 -> post form-input-hidden-value로 전달 
+	 /*  $(document).ready(function get_checked_value() {
+		  var values = document.getElementsByName("checked_cart");
+		  var hidden_input_value = document.getElementsByName("delete_hidden_form").find("input[name='caId']"); // hidden-input-caId 찾기
+		    for(var i = 0; i < values.length; i++) {
+		      if(values[i].checked) {
+		    	  if(hidden_input.value == ""){
+		    		  hidden_input.value = values[i].value;
+		    	  }else{
+		    		  hidden_input.value += "," + values[i].value; 
+		    	  }
+		        console.log(values[i].value);  // checked 된 값을 출력
+		      }
+		    }
+		  });*/
+		  
+		  //체크된 값 //세션으로 값 받아오려고 했을 때 사용한 것
+/*		  
+		  function get_checked_value() {
+			  var checked_value_arr = [];  
+			  var values = document.getElementsByName("checked_cart");
+			  for(var i = 0; i < values.length; i++) {
+			    if(values[i].checked) {
+			     checked_value_arr.push(values[i].value);  // checked 된 값을 출력
+			    }
+			  }
+			 console.log(checked_value_arr);
+			 sessionStorage.setItem("checked_value_arr", JSON.stringify(checked_value_arr));
+		  }*/
+	  
+	  $(document).ready(function(){
+		//전체 체크하면 개별 체크도 
+		  //$("#all_check").click(function(){
+			  $("input[name='all_check']").click(function(){
+				  
+				  var values = document.getElementsByName("checked_cart");
+				  
+				  var check = $("input[name='all_check']").prop("checked");
+				  if(check){
+					    for(var i = 0; i < values.length; i++) {
+						   if(values[i].checked) {
+							   values[i].prop("checked",true);
+						  }
+				  	}
+				  }else{
+					  for(var i = 0; i < values.length; i++) {
+						   if(values[i].checked) {
+							   values[i].prop("checked",false);
+						  }
+				  	}
+				  }
+			  });
+		
+		  //전체 선택에서 하나라도 해제하면 전체 체크도 해제됨
+		  /*$(".checked_cart").click(function(){
+			  $("input[name='all_check']").prop("checked",false);
+		  });*/
+	  });
+	  //let caCnt = $(this).parent().find(".quantity_input").val();
+</script>
 
-//체크박스 전체 선택,해제 위해
-$(document).ready(function () {
-    $("#checkAllId").click(function () {
-        $(".checkClass").prop("checked", this.checked);
-    });
-
-    $(".checkClass").click(function () {
-        if ($(".checkClass:checked").length === $(".checkClass").length) {
-            $("#checkAllId").prop("checked", true);
-        } else {
-            $("#checkAllId").prop("checked", false);
-        }
-    });
-});
-
+<script>
 function submitFunction(){
 	let CaIdList = "";
 	
@@ -79,10 +132,6 @@ function submitFunction(){
 	<%@ include file="./base/header.jsp"%>
 
 <div id="product_content">
-	
-
-	
-	
 	<header>
 		<section class="process">
 			<h1>Cart</h1>
@@ -108,7 +157,7 @@ function submitFunction(){
 				</tr>
 				<tr class="category">
 					<th>
-						<input type="checkbox" id="checkAllId" name="checked_cart" >
+						<input type="checkbox" name="all_check" id="all_check" >
 					</th>
 					<th>상품명</th>
 					<th>상품 정보</th>
@@ -124,7 +173,7 @@ function submitFunction(){
 						<!-- 체크박스 form -->
 							<form method="get" name="order_form" id="order_form">
 							<!-- <label><input type="checkbox" name="checked_cart" value="${ CartDAO.caId }" onClick="get_checked_value()">이미지</label> -->
-		      					<label><input type="checkbox" id="checked_cart" class="checkClass" name="checked_cart" value="${ CartDAO.caId }" >이미지</label>
+		      					<label><input type="checkbox" id="checked_cart" name="checked_cart" value="${ CartDAO.caId }" >이미지</label>
 							</form>	
 							
 							<!-- 삭제 데이터 전송 form 
@@ -159,17 +208,11 @@ function submitFunction(){
 								
 						</td>
 						<td>${CartDAO.totalPrice}</td>
-						<td><p>
-							<form action="clientOrder.do" id="order_form" name="order_form"
-								method="get">
-								<input type="hidden" name="clientId" value="<%=clientId%>">
-								<input type="hidden" id="checked_cart" class="checked_cart"
-									name="CaIdList" value="${CartDAO.caId}"> <input
-									type="submit" name="check_order_submit" value="바로주문">
-							</form> &nbsp;&nbsp; <a
-							href="clientCart/delete.do?caId=${CartDAO.caId}&&clientId=${CartDAO.clientId}"><input
-								type="button" value="삭제"></a>
-						</p></td>
+						<td><br><input type="button" value="바로주문" >
+							<p>&nbsp;&nbsp;
+							<a href="clientCart/delete.do?caId=${CartDAO.caId}"><input type="button" value="삭제"></a>
+							<!-- <button class="delete_btn" data-proId="${CartDAO.proId }">삭제</button> -->
+						</td>
 					</tr>				
 				</c:forEach>
 		</table>
@@ -177,16 +220,17 @@ function submitFunction(){
 		<div class="wrap">
 		<p>선택한 상품 
 		<form action="clientCart/deleteChecked.do" name="delete_hidden_form" method="post">
-			<input type="hidden" name="clientId" value="${param.clientId}">
-			<input type="hidden" id="checked_cart" class="checked_cart" name="CaIdList">
-			<input type = "submit" name="delete_checked_submit" value = "삭제하기" onclick="submitFunction()">
+			<input type = "hidden" name="caId" value="" >
+			<input type="hidden" name="clientId" value="${CartDAO.clientId}">
+			<input type = "submit" name="delete_checked_submit" value = "삭제">
 		</form>
-		
+		<input type="button" value="삭제하기" style="font-size: 1em;"></p>
 		<input class="btn" type="button" value="계속 쇼핑하기" onclick="location.href='#'"> 
-	
+		<!-- <input class="btn" type="button" value="주문하기" onclick="location.href='clientOrder.do'" > -->
 		<form action="clientOrder.do" id="order_form" name="order_form" method="get">
 			<input type="hidden" name="clientId" value="<%=clientId%>">        
 			<input type="hidden" id="checked_cart" class="checked_cart" name="CaIdList">
+			<button type="button" onclick="submitFunction()">적용</button>
 			<input type="submit" name="check_order_submit" value="주문하기" onclick="submitFunction()">
 		</form>
 		</div>

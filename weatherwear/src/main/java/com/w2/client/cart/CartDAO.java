@@ -16,8 +16,6 @@ public class CartDAO {
 	//여기 콘솔에 안 찍힘//
 	public void insertCart(CartVO cartVO) { //장바구니에 상품 추가
 		System.err.println("[ CartDAO ] [insertCart] [proId]: "+cartVO.getCaId());
-//		System.err.println("[insertCart] [tem]"+sqlsessionTemplate.insert("CartDAO.insertCart", cartVO)); 
-		//윗줄 주석해제 시, 데이터 두번 삽입됨//
 		sqlsessionTemplate.insert("CartDAO.insertCart", cartVO);
 	}
 	
@@ -31,29 +29,18 @@ public class CartDAO {
 		System.err.println("[ CartDAO ] [deleteCart]: "+cartVO);
 		sqlsessionTemplate.delete("CartDAO.deleteCart",cartVO);
 		
-	}
-	
+	}	
 	
 	public List<CartVO> getCartList(CartVO cartVO){//장바구니 조회
 		System.err.println("[ CartDAO ] : 탄다");
-		System.err.println("[dao][ cartVO ] : " + cartVO.toString());
-		System.err.println("[ tem ] : " + sqlsessionTemplate.selectList("CartDAO.getCartList", cartVO));
-		
 		return sqlsessionTemplate.selectList("CartDAO.getCartList", cartVO);
 	}
-//	public int checkCart(CartVO cartVO) { // 장바구니에 항목 있는지 체크
-//		System.err.println("[ DAO ] [checkCart]");
-//		return sqlsessionTemplate.selectOne("CartDAO.checkCart", cartVO);
-//	}
-	
 	
 	public void updateCaCnt(CartVO cartVO) { // 장바구니에서 수량 변경
 		CartVO cart = new CartVO();
 		cart.setClientId(cartVO.getClientId());
 		cart.setCaId(cartVO.getCaId());
 		cart.setCaCnt(cartVO.getCaCnt());
-		System.err.println("[dao][ updateCaCnt ] [cartVO.getCaCnt] : " + cartVO.getCaCnt());
-		System.err.println("[ tem ] : " + sqlsessionTemplate.update("CartDAO.updateCaCnt", cartVO));
 		sqlsessionTemplate.update("CartDAO.updateCaCnt", cartVO);
 	}
 	

@@ -12,7 +12,7 @@ public interface OrderService {
 	public List<OrderVO> getOrderList(OrderVO orderVO); // 주문 내역 목록 조회
 
 //	public List<OrderVO> getOrderDetail(OrderVO orderVO);
-
+	
 	public OrderVO getOdStatus(OrderVO orderVO);
 
 	public List<OrderVO> getOdInfo(OrderVO orderVO);
@@ -40,11 +40,11 @@ public interface OrderService {
 	public Model toOrder_get_cart(OrderVO orderVO,Model model);
 
 	public OrderVO toOrder_get_product(OrderVO orderVO,Model model);
-
+	
 	public OrderVO toOrder_get_Price(OrderVO orderVO);
 	
 	public OrderVO toOrder_get_Price_product(OrderVO orderVO);
-	
+
 	public OrderVO toOrder_get_Point(OrderVO orderVO);
 
 //	public OrderVO toOrder_get_deliPrice(OrderVO orderVO);//삭제
@@ -60,5 +60,5 @@ public interface OrderService {
 //	public void toOrder_usedPoint(OrderVO orderVO);
 //
 //	public void toOrder_plusPoint(OrderVO orderVO); 
-	
+
 }

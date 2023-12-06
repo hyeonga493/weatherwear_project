@@ -59,7 +59,9 @@ public class ClientGetController {
 			vo.setProvince("seoul");
 		}
 		
-		List<ProductVO> proList = productService.getBestProduct(pro);
+		List<ProductVO> proBestView = productService.getBestViewProduct(pro);
+		List<ProductVO> proBestSell = productService.getBestSellProduct(pro);
+		List<ProductVO> proNew = productService.getNewProductList(pro);
 		List<WeatherVO> wList = weatherService.getWeatherList(vo);
 		System.err.println("weatherList : " + wList);
 		mv.addObject("weather3_id", wList.get(2).getWeather_id());
@@ -68,7 +70,9 @@ public class ClientGetController {
 		model.addAttribute("weather2", wList.get(1));
 		model.addAttribute("weather4", wList.get(3));
 		model.addAttribute("weather5", wList.get(4));
-		model.addAttribute("proList", proList);
+		model.addAttribute("proBestView", proBestView);
+		model.addAttribute("proBestSell", proBestSell);
+		model.addAttribute("proNew", proNew);
 
 		checkTime();
 		System.err.println("지역 : " + vo.getProvince());

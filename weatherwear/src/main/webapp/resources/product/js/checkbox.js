@@ -7,7 +7,7 @@ $(function(){
 		$(".checkClass").prop("checked", this.checked);
 	});
 });
-
+ 
 // 삭제 기능
 function deleteFunction(){
 	let deleteList = "";
@@ -41,4 +41,5 @@ function submitFunction(){
 	});
 	$("input[name='selectList']").val(selectList);
 	console.log("선택 리스트 : " + selectList);
+	
 }

@@ -29,23 +29,9 @@ public class OrderServiceImpl implements OrderService {
 		System.err.println("[orderVO.toString] : "+order.toString());
 		return order;
 	}
-
-//	@Override
-//	public List<OrderVO> getOrderDetail(OrderVO orderVO) {
-//		
-//		System.err.println("[OrderServiceImpl] : getOrderDetail ");
-//		System.err.println("[clientId] : "+orderVO.getClientId());
-//		System.err.println("[odId] : "+orderVO.getOdid());
-//		System.err.println("[orderVO.toString] : "+orderVO.toString());
-//		
-//		List<OrderVO> order = orderDAO.getOrderDetail(orderVO);
-//		
-//		return order;
-//	}
-
+	
 	@Override //주문내역 상세 - 상태
 	public OrderVO getOdStatus(OrderVO orderVO) {
-
 		return orderDAO.getOdStatus(orderVO);
 	}
 
@@ -67,7 +53,6 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getPrice(orderVO);
 	}
 
-	////
 	@Override
 	public List<OrderVO> toOrder_get_AddList(OrderVO orderVO) {
 		System.err.println("[OrderServiceImpl] : toOrder_get_AddList");
@@ -80,16 +65,6 @@ public class OrderServiceImpl implements OrderService {
 		System.err.println("[OrderServiceImpl] : toOrder_get_AddBase");
 		return orderDAO.toOrder_get_AddBase(orderVO);
 	}
-
-//	@Override
-//	public void toOrder_add_address_update(OrderVO orderVO) {
-//		orderDAO.toOrder_add_address_update(orderVO);
-//	}
-//
-//	@Override
-//	public void toOrder_add_address_insert(OrderVO orderVO) {
-//		orderDAO.toOrder_add_address_insert(orderVO);
-//	}
 
 	@Override
 	public OrderVO toOrder_get_client(OrderVO orderVO) {
@@ -130,23 +105,21 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	public OrderVO toOrder_get_Price(OrderVO orderVO) {
-			System.err.println("[OrderServiceImpl] : toOrder_get_AddList");
-			System.err.println("^^^^^^^^^^^orderVO.toString"+orderVO.toString());
-			int sum = 0;
-			for(int i=0; i<orderVO.getCaIdList().size(); i++) {
-				orderVO.setCaId(orderVO.getCaIdList().get(i));
-				System.err.println("^^^^^^^^^^orderVO.getCaId"+orderVO.getCaId());
-				System.err.println("%%%%OrderVO.getOdTotal"+orderDAO.toOrder_get_Price(orderVO).getOdTotal());
-				sum += orderDAO.toOrder_get_Price(orderVO).getOdTotal();
-				//그냥 여기서 주문하기 관련 caId,caCnt 가져감
-			}
-			orderVO.setOdTotal(sum);
-			System.err.println("^^^^^^^^^^^sum : "+sum);
-
-			return orderVO;
-		
-	}
+		System.err.println("[OrderServiceImpl] : toOrder_get_AddList");
+		System.err.println("^^^^^^^^^^^orderVO.toString"+orderVO.toString());
+		int sum = 0;
+		for(int i=0; i<orderVO.getCaIdList().size(); i++) {
+			orderVO.setCaId(orderVO.getCaIdList().get(i));
+			System.err.println("^^^^^^^^^^orderVO.getCaId"+orderVO.getCaId());
+			System.err.println("%%%%OrderVO.getOdTotal"+orderDAO.toOrder_get_Price(orderVO).getOdTotal());
+			sum += orderDAO.toOrder_get_Price(orderVO).getOdTotal();
+			//그냥 여기서 주문하기 관련 caId,caCnt 가져감
+		}
+		orderVO.setOdTotal(sum);
+		System.err.println("^^^^^^^^^^^sum : "+sum);
 	
+		return orderVO;
+	}
 	
 	@Override
 	public OrderVO toOrder_get_product(OrderVO orderVO, Model model) {
@@ -157,56 +130,20 @@ public class OrderServiceImpl implements OrderService {
 	public OrderVO toOrder_get_Price_product(OrderVO orderVO) {
 		return orderDAO.toOrder_get_Price_product(orderVO);
 	}
-
+	
 	public OrderVO toOrder_get_coupon_choose(OrderVO orderVO) {
 		return orderDAO.toOrder_get_coupon_choose(orderVO);
 		
 	}
+	
 	public OrderVO toOrder_get_Point(OrderVO orderVO) {
 		return orderDAO.toOrder_get_Point(orderVO);
-		
 	}
-	
-
-	/* 삭제
-	@Override
-	public OrderVO toOrder_get_deliPrice(OrderVO orderVO) {
-		return orderDAO.toOrder_get_deliPrice(orderVO);
-	}*/
-
-//	@Override
-//	public void toOrder_insert_into_orders(OrderVO orderVO) {
-//		orderDAO.toOrder_insert_into_orders(orderVO);
-//	}
-//
-//	@Override
-//	public void toOrder_insert_into_orders_info(OrderVO orderVO) {
-//		orderDAO.toOrder_insert_into_orders_info(orderVO);
-//	}
-//
-//	@Override
-//	public void toOrder_delete_usedcaId(OrderVO orderVO) {
-//		orderDAO.toOrder_delete_usedcaId(orderVO);
-//	}
-//
-//	@Override
-//	public void toOrder_usedPoint(OrderVO orderVO) {
-//		orderDAO.toOrder_usedPoint(orderVO);
-//	}
-//
-//	@Override
-//	public void toOrder_plusPoint(OrderVO orderVO) {
-//		orderDAO.toOrder_plusPoint(orderVO);
-//	}
-
-
 
 	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override //주문하기 - 장바구니로부터
 	public void orderFromCart(OrderVO orderVO) {
 		System.err.println("[OrderServiceImpl] : orderFromCart");
-//		orderDAO.toOrder_add_address_update(orderVO); //- 추가 배송지 관련이므로 일단 제외
-//		orderDAO.toOrder_add_address_insert(orderVO); //- 추가 배송지 관련이므로 일단 제외
 		orderDAO.toOrder_insert_into_orders(orderVO);
 		System.err.println("##########3orderVO.toString"+orderVO.toString());
 		for(int i=0; i<orderVO.getCaIdList().size(); i++) {
@@ -228,11 +165,4 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.toOrder_usedPoint(orderVO);
 		orderDAO.toOrder_plusPoint(orderVO);
 	}
-	
-	
-	
-
-	
-	
-
 }

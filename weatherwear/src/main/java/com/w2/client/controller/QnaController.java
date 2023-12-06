@@ -42,13 +42,21 @@ public class QnaController {
 	
 	@RequestMapping("/clientQnaMyPageList.do")
 	@Description("마이페이지 문의사항 목록 페이지로 이동")
-	public String getQnaMyPageList(QnaVO clientQna, Model model) {
-		System.err.println("~~~~~~~~~~~~~clientQna : " + clientQna);
-		if(clientQna.getQnaSelectType() == null) clientQna.setQnaSelectType("subject");
-		if(clientQna.getQnaKeyword() == null) clientQna.setQnaKeyword("");
+	public String getQnaMyPageList(QnaVO clientQna, Model model, HttpSession session) {
+		clientQna.setClientId((String)session.getAttribute("clientId"));
+		System.err.println("clientQna : " + clientQna.toString());
+		
+		if(clientQna.getQnaSelectType() == null) {
+			clientQna.setQnaSelectType("subject");
+		}
+		
+		if(clientQna.getQnaKeyword() == null) {
+			clientQna.setQnaKeyword("");
+		}
 		
 		model.addAttribute("qnaBoardMyPageList", qnaService.getQnaMyPageList(clientQna));
 		System.err.println("qnaBoardMyPageList model : " + model.toString());
+
 		return "/client/qna/qna_myPageList";
 	}
 	
@@ -125,7 +133,7 @@ public class QnaController {
 		
 		qnaService.updateQna(clientQna);
 		
-		return "redirect:clientQnaMyPageList.do?clientId="+clientQna.getClientId();
+		return "redirect:clientQnaMyPageList.do";
 	}
 	
 	@RequestMapping("/deleteQna.do")
@@ -143,7 +151,7 @@ public class QnaController {
 		
 		qnaService.deleteQna(clientQna);
 		
-		return "redirect:clientQnaMyPageList.do?clientId="+clientQna.getClientId();
+		return "redirect:clientQnaMyPageList.do";
 	}
 	
 }

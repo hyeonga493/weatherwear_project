@@ -9,34 +9,18 @@
 <!-- mapper를 루트 엘리먼트로 사용합니다. -->
 <mapper namespace="OrderDAO">
 	
-	<!-- resultMap
-  		- select 한 결과가 조인과 같은 효과로 필드명과 컬럼이 다른 경우에 사용합니다.
-  		- sequence는 id로 주어야 합니다.
-  		
-  		result property="변수이름" column="컬럼명"
-		 작성한 Java 파일과 데이터베이스 컬럼명과 다를 경우 매칭하는 태그입니다.
-		<resultMap id="list에서 호출할 이름" type="typeAlias 에서 지정한 빈 이름">
-			<result property="VO에서 작성한 멤버 변수 이름" column="데이터베이스에서 지정한 컬럼 이름" />
-		</resultMap>
-	 -->
-	 <!-- -->
 	<resultMap type="orderVO" id="orderVO">
 		<id property="odid" column="odid"/><!-- pk에 사용 --> 
-		
 		<result property="clientId" column="cId"/><!-- orders에는 소문자인 cid로 생성되어있음 -->
 		<result property="clientNum" column="cNum"/>
 		<result property="clientEmail" column="cEmail"/>
 		<result property="clientName" column="cName"/>
 		<result property="clientPoint" column="cPoint"/>
 		<result property="cpList" column="cpList"/>
-		
-		
 		<result property="pmId" column="pmId"/> 
 		<result property="proId" column="proId"/> 
 		<result property="proName" column="proName"/> 
 		<result property="proPrice" column="proPrice"/> 
-
-		
 		<result property="opIdList" column="opIdList"/> 
 		<result property="opId" column="opId"/> 
 		<result property="opSize" column="opSize"/> 
@@ -45,16 +29,11 @@
 		<result property="odStatus" column="odStatus"/>
 		<result property="odPrice" column="odPrice"/> 
 		<result property="odDate" column="odDate"/> 
-
 		<result property="odTotal" column="odTotal"/> 
 		<result property="cpId" column="cpId"/> 
-
-		
 		<result property="deliId" column="deliId"/> 
 		<result property="deliNum" column="deliNum"/> 
 		<result property="deliPrice" column="deliPrice"/> 
-
-
 		<result property="addId" column="addId"/> 
 		<result property="addName" column="addName"/> 
 		<result property="addNum" column="addNum"/> 
@@ -63,89 +42,60 @@
 		<result property="address2" column="address2"/> 
 		<result property="addMemo" column="addMemo"/> 
 		<result property="addBase" column="addBase"/> 
-
-
 		<result property="grId" column="grId"/>
 		<result property="grPoint" column="grPoint"/>
-		
 		<result property="cpName" column="cpName"/>
 		<result property="cpPrice" column="cpPrice"/>
 		<result property="cpStDate" column="cpStDate"/>
 		<result property="cpEndDate" column="cpEndDate"/>
 		<result property="cpStatus" column="cpStatus"/>
 		<result property="minPrice" column="minPrice"/>
-		
 		<result property="payId" column="payId"/>
 		<result property="payMtd" column="payMtd"/>
 		<result property="payDate" column="payDate"/>
 		<result property="payStatus" column="payStatus"/>
-		 
 		<result property="addColumn" column="addColumn"/><!-- 리스트 select구문에서 추가한 별칭컬럼 -->
 		<result property="plusPoint" column="plusPoint"/><!-- 상세 select구문에서 추가한 별칭컬럼 -->
-
 		<result property="usedPoint" column="usedPoint"/><!-- 상세 select구문에서 추가한 별칭컬럼 -->
-		
 		<!-- cart 테이블로부터 가져오기 위해 -->
 		<result property="caId" column="caId"/>
 		<result property="caCnt" column="caCnt"/>
-		
-		
+		<result property="imageName" column="imageName"/>
+		<result property="imageDir" column="imageDir"/>
+		<result property="reStar" column="reStar"/>
+		<result property="reId" column="reId"/>
+		<result property="reContent" column="reContent"/>
+		<result property="reContent" column="reContent"/>
+		<result property="reImageName" column="reImageName"/>
+		<result property="reImageDir" column="reImageDir"/>
+		<result property="reDate" column="reDate"/>
 	</resultMap>
-	 
-	 
-	 
-	<!-- id : DAO에서 호출하는 이름 -->
-	<!-- parameterType : 구문에서 인자로 넘어오는 데이터 타입 -->
-		<!-- #{} 받아온 데이터가 getter가 있는 경우 멤버변수나 키 값을 이용하여 값을 저장 -->
-	<!-- resultMap : 반환 레코드를 저장합니다. -->
-		<!-- setter가 존재하는 경우 멤버 변수의 이름과 일치하는 컬럼명의 데이터를 반환 -->
-		<!-- $ : 보안상의 이유가 있으므로 인젝션을 하는 경우 문제가 발생할 수 있음 -->
-		<!-- # : 타입에 맞춰 ""로 감싼 값이 출력 -->
-    
-    <!-- id를 사용하여 DAO에서 호출합니다. resultMap에 반환 레코드를 저장합니다. --> 
-<!-- 데이터 삽입 
-		mybatis-config.xml 파일에서 alias를 test로 작성함  -->
-     <!-- 특수문자는 태그로 감싸야하므로 특수문자가 들어가는 경우 <! [CDATA[ SQL문 ]] >  -->
-        <!-- opId를 카트에 추가해야 할 듯? -->
-        <!-- 데이터 삽입 시 자꾸 2개씩 들어가서 INSERT IGNORE INTO 사용 -->
-        
+
+	<resultMap type="orderVO" id="addressVO">
+		<result property="addId" column="addId"/> 
+		<result property="addName" column="addName"/> 
+		<result property="addNum" column="addNum"/> 
+		<result property="addPostNum" column="addPostNum"/> 
+		<result property="address1" column="address1"/> 
+		<result property="address2" column="address2"/> 
+		<result property="addMemo" column="addMemo"/> 
+		<result property="addBase" column="addBase"/>
+	</resultMap>
 
 <!-- 사용자 주문 내역 조회 --> <!-- 상품이 여러 종류일 때, __ 외 _ 의 형식으로 / 1종류일 때, (상품명)으로 출력  -->
  	<select id="getOrderList" resultMap="orderVO" parameterType="orderVO">
-		
-		SELECT od.odid, od.cId, od.odStatus, od.odPrice,pay.payDate,pay.payStatus,pay.payMtd,pro.proId, pro.proName,count(*),
+		SELECT od.odid, od.cId, od.odStatus, od.odPrice,pay.payDate,pay.payStatus,pay.payMtd,pro.proId, pro.proName, im.imageName, im.imageDir,count(*),
 		CASE
-		WHEN count(*) = 1 THEN pro.proName
-		ELSE concat(pro.proName,' 외 ',count(*)-1,'개')
-		END AS 'addColumn'
+			WHEN count(*) = 1 THEN pro.proName
+			ELSE concat(pro.proName,' 외 ',count(*)-1,'개')
+			END AS 'addColumn'
 		FROM orders od
 		JOIN product pro ON od.opIdList LIKE CONCAT('%', pro.proId, '%')
         JOIN payment_info pay ON pay.odid = od.odid
+		JOIN product_image im ON (pro.proId = im.imageBy AND im.imageStatus='대표')
 		WHERE od.cId=#{clientId}
 		GROUP BY od.odid;
 	</select>
-	
-<!-- 사용자 주문 상세 조회 -->
-	<!-- <select id="getOrderDetail" resultMap="orderVO" parameterType="orderVO">
-		SELECT cl.cId, cl.grId, gr.grPoint, op.opId, pro.proId, pro.proName,od_i.odProCnt, od.odStatus,od.odid, od.odPrice,od_i.odTotal,
-		deliPrice, ROUND(od.odPrice*0.01,0) AS plusPoint,  cl_a.addid, cl_a.addName, cl_a.addNum, cl_a.addPostNum, 
-		cl_a.address1, cl_a.address2, cl_a.addMemo, cl_a.addBase, od_i.cpId, cp_i.cpName, cp_i.cpPrice
-		FROM option_info op
-		LEFT JOIN product pro ON op.proId = pro.proId
-		LEFT JOIN orders_info od_i ON od_i.opid=op.opId
-		LEFT JOIN orders od ON od.odid = od_i.odid
-		LEFT JOIN deliver_info deli_i ON deli_i.odid = od.odid
-		LEFT JOIN client_address cl_a ON cl_a.addid = od.addid
-		LEFT JOIN client cl ON cl.cId  = od.cId
-		LEFT JOIN grade gr ON gr.grID = cl.grId 
-		LEFT JOIN coupon_info cp_i ON cp_i.cpId = od_i.cpId
-		WHERE op.opId IN (
-		SELECT od_i.opId
-		FROM orders od
-		JOIN orders_info od_i ON od.opIdList LIKE CONCAT('%', od_i.opId, '%')
-		WHERE od.odid = #{odid}); 	
-	
-	</select> -->
 	
 	<!-- 조회 - 주문 상태 -->
 	<select id="getOdStatus" resultMap="orderVO" parameterType="orderVO">
@@ -154,19 +104,22 @@
 		LEFT JOIN payment_info pay ON pay.odid = od.odid
 		WHERE od.odid =#{odid};
 	</select>
+	
 	<!-- 조회 - 상품정보 -->
 	<select id="getOdInfo" resultMap="orderVO" parameterType="orderVO">
-SELECT DISTINCT cl.cId, pro.proName,op.opColor, op.opSize,od_i.odProCnt
+		SELECT DISTINCT cl.cId, pro.proName, pro.proId, op.opId, op.opColor, op.opSize,od_i.odProCnt, im.imageName, im.imageDir, re.reId
 		FROM option_info op
 		LEFT JOIN product pro ON op.proId = pro.proId
 		LEFT JOIN orders_info od_i ON od_i.opid=op.opId
 		LEFT JOIN orders od ON od.odid = od_i.odid
-		LEFT JOIN client cl ON cl.cId  = od.cId
+		LEFT JOIN product_image im ON (op.proId = im.imageBy AND im.imageStatus='대표')
+		LEFT JOIN client cl ON cl.cId  = od.cId 
+		LEFT JOIN review re ON (re.opId = op.opId AND od.odId=re.odId)
 		WHERE op.opId IN (
-		SELECT od_i.opId
-		FROM orders od
-		JOIN orders_info od_i ON od.opIdList LIKE CONCAT('%', od_i.opId, '%') 
-		WHERE od.odid =#{odid}); 
+			SELECT od_i.opId
+			FROM orders od
+			JOIN orders_info od_i ON od.opIdList LIKE CONCAT('%', od_i.opId, '%')  
+			WHERE od.odid =#{odid});
 	</select>
 	
 	<!-- 조회 - 배송지정보 -->
@@ -181,7 +134,7 @@ SELECT DISTINCT cl.cId, pro.proName,op.opColor, op.opSize,od_i.odProCnt
 	
 	<!-- 조회 - 금액정보 -->
 	<select id="getPrice" resultMap="orderVO" parameterType="orderVO">
-SELECT DISTINCT od.odid, od.odPrice,od_i.odTotal, deli_i.deliPrice, od.cpId, cp_i.cpName, cp_i.cpPrice
+		SELECT DISTINCT od.odid, od.odPrice,od_i.odTotal, deli_i.deliPrice, od.cpId, cp_i.cpName, cp_i.cpPrice
 		FROM orders od
 		LEFT JOIN deliver_info deli_i ON deli_i.odid = od.odid
 		LEFT JOIN orders_info od_i ON od_i.odid = od.odid
@@ -190,171 +143,155 @@ SELECT DISTINCT od.odid, od.odPrice,od_i.odTotal, deli_i.deliPrice, od.cpId, cp_
 		GROUP BY odid;
 	</select>
 	<!-- 조회 - 포인트정보 -->
+
+	<!-- 		주문하기 페이지		 -->
+	<!-- 배송지 - 목록 조회 -->
+	<select id="toOrder_get_AddList" resultMap="orderVO" parameterType="orderVO">
+		SELECT c.cName, c.cNum,c_a.* 
+		FROM client c JOIN client_address c_a 
+		ON c.cId = c_a.cId 
+		WHERE c.cId = #{clientId};
+	</select>
 	
+	<!-- 기본 배송지 조회 -->
+	<select id="toOrder_get_AddBase" resultMap="orderVO" parameterType="orderVO">
+		SELECT c.cName, c.cNum,c_a.* 
+		FROM client c JOIN client_address c_a 
+		ON c.cId = c_a.cId 
+		WHERE c_a.addBase = 'Y' 
+		AND c.cId = #{clientId};
+	</select>
 
-
-<!-- 		주문하기 페이지		 -->
-<!-- 배송지 - 목록 조회 -->
-<select id="toOrder_get_AddList" resultMap="orderVO" parameterType="orderVO">
-SELECT c.cName, c.cNum,c_a.* 
-FROM client c JOIN client_address c_a 
-ON c.cId = c_a.cId 
-WHERE c.cId = #{clientId};
-</select>
-
-<!-- 기본 배송지 조회 -->
-<select id="toOrder_get_AddBase" resultMap="orderVO" parameterType="orderVO">
-SELECT c.cName, c.cNum,c_a.* 
-FROM client c JOIN client_address c_a 
-ON c.cId = c_a.cId 
-WHERE c_a.addBase = 'Y' 
-AND c.cId = #{clientId};
-</select>
-
-<!--  배송지 추가 (기본배송지로 선택할지 결정 포함)   if 태그로 Y 일 경우에는 추가시키고 N일 경우에는 삽입문만 입력 -->
-<update id="toOrder_add_address_update" parameterType="orderVO">
-UPDATE client_address
-SET addBase = CASE WHEN cId = #{clientId} AND #{addBase}='Y' THEN 'N' END 
-WHERE cId = #{clientId} AND #{addBase}='Y' ;
-</update>
-<!--  배송지 추가 (기본배송지로 선택할지 결정 포함)  -->
-<insert id="toOrder_add_address_insert" parameterType="orderVO">
-INSERT INTO client_address
-VALUES(#{addId},#{clientId},#{addName},#{addNum},#{addPostNum},#{address1},#{address2},#{addMemo},#{addBase});
-</insert>
+	<!--  배송지 추가 (기본배송지로 선택할지 결정 포함)   if 태그로 Y 일 경우에는 추가시키고 N일 경우에는 삽입문만 입력 -->
+	<update id="toOrder_add_address_update" parameterType="orderVO">
+		UPDATE client_address
+		SET addBase = CASE WHEN cId = #{clientId} AND #{addBase}='Y' THEN 'N' END 
+		WHERE cId = #{clientId} AND #{addBase}='Y' ;
+	</update>
 	
-<!-- 주문자 정보 - 변경버튼 클릭하면 회원 정보 수정 팝업 -->
-<select id="toOrder_get_client" resultMap="orderVO" parameterType="orderVO">
-	SELECT cId, cName, cNum, cEmail,cPoint FROM client WHERE cId=#{clientId}; 
-</select>
+	<!--  배송지 추가 (기본배송지로 선택할지 결정 포함)  -->
+	<insert id="toOrder_add_address_insert" parameterType="orderVO">
+		INSERT INTO client_address
+		VALUES(#{addId},#{clientId},#{addName},#{addNum},#{addPostNum},#{address1},#{address2},#{addMemo},#{addBase});
+	</insert>
+		
+	<!-- 주문자 정보 - 변경버튼 클릭하면 회원 정보 수정 팝업 -->
+	<select id="toOrder_get_client" resultMap="orderVO" parameterType="orderVO">
+		SELECT cId, cName, cNum, cEmail,cPoint FROM client WHERE cId=#{clientId}; 
+	</select>
 
-<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 --><!-- 장바구니로부터 -->
-<select id="toOrder_get_cart" resultMap="orderVO" parameterType="orderVO">
-SELECT p.proName,op.opColor,op.opSize,op.opId,ca.caCnt,ca.caId
-FROM cart ca
-LEFT JOIN product p ON ca.opId LIKE CONCAT('%', p.proId, '%')
-LEFT JOIN option_info op ON ca.opId= op.opId
-WHERE ca.caId = #{caId};
-</select>
-
-<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<select id="toOrder_get_product" resultMap="orderVO" parameterType="orderVO">
-	SELECT p.proName, p.proId
-	FROM product
-	WHERE p.proId = #{proId};
-</select>
-
-
-<!-- 처음에 나올 총 금액(실결제 아님) --><!-- java에서 for문으로 반복 --><!-- 장바구니로부터 -->
-<select id="toOrder_get_Price" resultMap="orderVO" parameterType="orderVO">
-	SELECT c.caCnt*p_p.proPrice AS odTotal FROM cart c 
-	LEFT JOIN product_price p_p ON p_p.proId = c.proId 
-	WHERE c.caId = #{caId}; 	
-</select> 
-
-<!-- 처음에 나올 총 금액 계산을 위한 상품 금액 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  -->
-<select id="toOrder_get_Price_product" resultMap="orderVO" parameterType="orderVO">
-	SELECT p_p.proPrice, p.proId
-	FROM product_price p_p
-	LEFT JOIN product p ON p.proId = p_p.proId;
-</select>
-
-<!-- 회원의 등급에 해당하는 포인트% -->
-<select id="toOrder_get_Point" resultMap="orderVO" parameterType="orderVO">
-SELECT cl.cId, gr.grPoint 
-FROM client cl
-LEFT JOIN grade gr ON gr.grId = cl.grId
-WHERE cl.cId = #{clientId};
-</select> 
-
-<!-- 처음에 나올 배송비 --><!-- 삭제
-<select id="toOrder_get_deliPrice" resultMap="orderVO" parameterType="orderVO">
-	SELECT CASE WHEN (SELECT SUM(c.caCnt*p_p.proPrice) FROM cart c 
-						LEFT JOIN product_price p_p ON p_p.proId = c.proId 
-						WHERE c.caId = #{caId}) > 50000 THEN 0
-	ELSE 2500 END AS deliPrice FROM DUAL;					
-</select>  -->
-
-<!-- 처음에 나올 해당 회원의 쿠폰 목록 -->
-<select id="toOrder_get_couponList" resultMap="orderVO" parameterType="orderVO">
-SELECT cp_i.cpName,cp_l.cpStatus,cp_i.cpPrice,cp_i.minPrice, cp_i.cpId FROM coupon_list cp_l 
-LEFT JOIN coupon_info cp_i ON cp_l.cpId = cp_i.cpId 
-WHERE cp_l.cId=#{clientId}  AND cp_l.cpStatus='사용가능';				
-</select> 
-<!-- 선택된 쿠폰 -->
-<select id="toOrder_get_coupon_choose" resultMap="orderVO" parameterType="orderVO">
-SELECT cp_i.cpName,cp_l.cpStatus,cp_i.cpPrice,cp_i.minPrice, cp_i.cpId FROM coupon_list cp_l 
-LEFT JOIN coupon_info cp_i ON cp_l.cpId = cp_i.cpId 
-WHERE cId=#{clientId} AND cp_i.cpId=#{cpId_choose};				
-</select> 
-
-
-
-
-
-
-<!-- 주문 상품 정보(장바구니로부터)  자바에서 처리 -->
-<insert id="toOrder_insert_into_orders" parameterType="orderVO">
-INSERT IGNORE INTO orders (odid,cid, addId, opIdList,deliId,odDate,odPrice,usedPoint,odStatus,cpId)
-VALUES (
-		#{odid},
-		#{clientId},
-        #{addId},
-        #{opIdList}, 
-		(SELECT substring(#{odid},2) FROM DUAL),
-        (SELECT current_timestamp() FROM DUAL),
-        #{odPrice},
-        #{usedPoint},
-        #{odStatus},
-        #{cpId}
-        );
-</insert>
+	<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 --><!-- 장바구니로부터 -->
+	<select id="toOrder_get_cart" resultMap="orderVO" parameterType="orderVO">
+		SELECT p.proName,op.opColor,op.opSize,op.opId,ca.caCnt,ca.caId
+		FROM cart ca
+		LEFT JOIN product p ON ca.opId LIKE CONCAT('%', p.proId, '%')
+		LEFT JOIN option_info op ON ca.opId= op.opId
+		WHERE ca.caId = #{caId};
+	</select>
 	
-<!-- 주문 상품 정보(장바구니로부터)  -->
-<insert id="toOrder_insert_into_orders_info" parameterType="orderVO">
-INSERT IGNORE INTO orders_info (odid,opId,odProCnt,odTotal)
-VALUES (
-		#{odid}, 
-		(SELECT opId FROM cart WHERE cId=#{clientId} AND caId=#{caId}),
-        (SELECT caCnt FROM cart WHERE cId=#{clientId} AND caId=#{caId}),
-         (SELECT c.caCnt*p_p.proPrice FROM cart c LEFT JOIN product_price p_p ON p_p.proId = c.proId  WHERE caId=#{caId})
-	);
-</insert>	
-
-<!-- 주문 상품 정보  --><!-- 상품상세로부터!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
-<insert id="toOrder_insert_into_orders_info_product" parameterType="orderVO">
-	INSERT IGNORE iNTO orders_info  (odid,opId,odProCnt,odTotal)
-	VALUES (
-			#{odid}, 
-			#{opid},
-			#{odProCnt},
-			#{odTotal}
-	);
-</insert>
+	<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 -->
+	<select id="toOrder_get_product" resultMap="orderVO" parameterType="orderVO">
+		SELECT p.proName, p.proId
+		FROM product
+		WHERE p.proId = #{proId};
+	</select>
 
 
-<!-- 주문한 cart 삭제 --><!-- 장바구니로부터만 사용 -->
-<delete id="toOrder_delete_usedcaId"><!-- java에서 for문으로 반복 -->
-	DELETE FROM cart WHERE caId=#{caId};	
-</delete>	
+	<!-- 처음에 나올 총 금액(실결제 아님) --><!-- java에서 for문으로 반복 --><!-- 장바구니로부터 -->
+	<select id="toOrder_get_Price" resultMap="orderVO" parameterType="orderVO">
+		SELECT c.caCnt*p_p.proPrice AS odTotal FROM cart c 
+		LEFT JOIN product_price p_p ON p_p.proId = c.proId 
+		WHERE c.caId = #{caId}; 	
+	</select> 
 
-<!-- 총 포인트 및 사용할 포인트 감액 -->
-<update id="toOrder_minus_cPoint" parameterType="orderVO">
-UPDATE client SET  cPoint = cPoint - #{usedPoint} WHERE cId=#{clientId};
-</update>
-<!-- 총 포인트 및 사용할 포인트 감액 -->
-<update id="toOrder_usedPoint" parameterType="orderVO">
-UPDATE orders SET usedPoint = #{usedPoint} WHERE odid=#{odid};
-</update>
+	<!-- 처음에 나올 총 금액 계산을 위한 상품 금액 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 -->
+	<select id="toOrder_get_Price_product" resultMap="orderVO" parameterType="orderVO">
+		SELECT p_p.proPrice, p.proId
+		FROM product_price p_p
+		LEFT JOIN product p ON p.proId = p_p.proId;
+	</select>
 
-<!-- 적립될 포인트 정보-->
-<update id="toOrder_plusPoint" parameterType="orderVO">
-UPDATE client cl
-SET cPoint = cPoint + #{plusPoint}
-WHERE cId=#{clientId};
-</update>
+	<!-- 회원의 등급에 해당하는 포인트% -->
+	<select id="toOrder_get_Point" resultMap="orderVO" parameterType="orderVO">
+		SELECT cl.cId, gr.grPoint 
+		FROM client cl
+		LEFT JOIN grade gr ON gr.grId = cl.grId
+		WHERE cl.cId = #{clientId};
+	</select> 
 
-<!-- 사용자는 주문에서 수정,삭제 불가능  -  원할 시, 환불,교환 등으로 이동  -->
+	<!-- 처음에 나올 해당 회원의 쿠폰 목록 -->
+	<select id="toOrder_get_couponList" resultMap="orderVO" parameterType="orderVO">
+		SELECT cp_i.cpName,cp_l.cpStatus,cp_i.cpPrice,cp_i.minPrice, cp_i.cpId FROM coupon_list cp_l 
+		LEFT JOIN coupon_info cp_i ON cp_l.cpId = cp_i.cpId 
+		WHERE cp_l.cId=#{clientId}  AND cp_l.cpStatus='사용가능';				
+	</select> 
 
- 
+	<!-- 선택된 쿠폰 -->
+	<select id="toOrder_get_coupon_choose" resultMap="orderVO" parameterType="orderVO">
+		SELECT cp_i.cpName,cp_l.cpStatus,cp_i.cpPrice,cp_i.minPrice, cp_i.cpId FROM coupon_list cp_l 
+		LEFT JOIN coupon_info cp_i ON cp_l.cpId = cp_i.cpId 
+		WHERE cId=#{clientId} AND cp_i.cpId=#{cpId_choose};				
+	</select> 
+
+	<!-- 주문 상품 정보(장바구니로부터)  자바에서 처리 -->
+	<insert id="toOrder_insert_into_orders" parameterType="orderVO">
+		INSERT IGNORE INTO orders (odid,cid, addId, opIdList,deliId,odDate,odPrice,usedPoint,odStatus,cpId)
+		VALUES (#{odid}, #{clientId}, #{addId}, #{opIdList}, (SELECT substring(#{odid},2) FROM DUAL), (SELECT current_timestamp() FROM DUAL),
+		        #{odPrice}, #{usedPoint}, #{odStatus}, #{cpId});
+	</insert>
+	
+	<!-- 주문 상품 정보(장바구니로부터)  -->
+	<insert id="toOrder_insert_into_orders_info" parameterType="orderVO">
+		INSERT IGNORE INTO orders_info (odid,opId,odProCnt,odTotal)
+		VALUES (#{odid}, (SELECT opId FROM cart WHERE cId=#{clientId} AND caId=#{caId}),
+		        (SELECT caCnt FROM cart WHERE cId=#{clientId} AND caId=#{caId}),
+		        (SELECT c.caCnt*p_p.proPrice FROM cart c LEFT JOIN product_price p_p ON p_p.proId = c.proId  WHERE caId=#{caId}));
+	</insert>	
+
+	<!-- 주문 상품 정보  --><!-- 상품상세로부터!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+	<insert id="toOrder_insert_into_orders_info_product" parameterType="orderVO">
+		INSERT IGNORE iNTO orders_info  (odid,opId,odProCnt,odTotal)
+		VALUES (#{odid}, #{opid}, #{odProCnt}, #{odTotal} );
+	</insert>
+
+	
+	<!-- 주문한 cart 삭제 --><!-- 장바구니로부터만 사용 -->
+	<delete id="toOrder_delete_usedcaId"><!-- java에서 for문으로 반복 -->
+		DELETE FROM cart WHERE caId=#{caId};	
+	</delete>	
+	
+	<!-- 총 포인트 및 사용할 포인트 감액 -->
+	<update id="toOrder_minus_cPoint" parameterType="orderVO">
+		UPDATE client SET  cPoint = cPoint - #{usedPoint} WHERE cId=#{clientId};
+	</update>
+	
+	<!-- 총 포인트 및 사용할 포인트 감액 -->
+	<update id="toOrder_usedPoint" parameterType="orderVO">
+		UPDATE orders SET usedPoint = #{usedPoint} WHERE odid=#{odid};
+	</update>
+	
+	<!-- 적립될 포인트 정보-->
+	<update id="toOrder_plusPoint" parameterType="orderVO">
+		UPDATE client cl
+		SET cPoint = cPoint + #{plusPoint}
+		WHERE cId=#{clientId};
+	</update>
+
+	<!-- 사용자는 주문에서 수정,삭제 불가능  -  원할 시, 환불,교환 등으로 이동  -->
+	
+	
+	
+<!-- 사용자 주문 내역 조회 --> <!-- 상품이 여러 종류일 때, __ 외 _ 의 형식으로 / 1종류일 때, (상품명)으로 출력  -->
+ 	<select id="OrderList" resultMap="orderVO" parameterType="orderVO">
+		SELECT *,count(*),
+		CASE
+		WHEN count(*) = 1 THEN pro.proName
+		ELSE concat(pro.proName,' 외 ',count(*)-1,'개')
+		END AS 'addColumn'
+		FROM orders od
+		JOIN product pro ON od.opIdList LIKE CONCAT('%', pro.proId, '%')
+        JOIN payment_info pay ON pay.odid = od.odid
+		WHERE od.cId=#{clientId}
+		GROUP BY od.odid;
+	</select>
 </mapper>

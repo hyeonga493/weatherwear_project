@@ -18,41 +18,40 @@
 }
 
 #background_img {
-background-repeat: no-repeat;
-background-position: center;
-background-size: 97%;
-height : 400px;
-
-display: flex; /* 자식 요소 가운데 정렬 */
-flex-direction: column;
-justify-content : center; /* 가로 정렬 */
-align-items: center; /* 세로 정렬 */
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 97%;
+	height : 400px;
+	display: flex; /* 자식 요소 가운데 정렬 */
+	flex-direction: column;
+	justify-content : center; /* 가로 정렬 */
+	align-items: center; /* 세로 정렬 */
 }
 
 #today{
-text-align:right;
+	text-align:right;
 }
 
 #today_day {
-font-weight: bold;
-font-size: 130%;
-text-align: center;
-color: white;
+	font-weight: bold;
+	font-size: 130%;
+	text-align: center;
+	color: white;
 }
 
 #today_date {
-margin-top:0;
-font-weight: bold;
-font-size: 150%;
-text-align: center;
-color: white;
+	margin-top:0;
+	font-weight: bold;
+	font-size: 150%;
+	text-align: center;
+	color: white;
 }
 
 #today_temp {
-font-size: 300%;
-font-weight: bold;
-text-align: center;
-color: white;
+	font-size: 300%;
+	font-weight: bold;
+	text-align: center;
+	color: white;
 }
 
 #week {
@@ -97,6 +96,14 @@ div.clearfixed::after {
 	clear: both;
 	opacity: 0.7;
 }
+
+.product .name {
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 </style>
 
 <script>
@@ -196,75 +203,86 @@ function setProvince(province){
 	</c:if>
 		<div class="clearfixed"></div>
 	<div id="weather">
-			<article id="province">
-				<a id="prov" onClick="setProvince('seoul')">서울</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a id="prov" onClick="setProvince('chuncheon')">춘천</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a id="prov" onClick="setProvince('suwon')">수원</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a id="prov" onClick="setProvince('incheon')">인천</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a id="prov" onClick="setProvince('daegu')">대구</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a id="prov" onClick="setProvince('busan')">부산</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-				<a id="prov" onClick="setProvince('jeju')">제주</a><br><br><br><br>
-			</article>
-			<article id="today">
-				<span> </span><span> </span>
-				<span id="today_day">
-					<span id="provSelect">
-						<c:if test="${ param.province == 'seoul' }">서울</c:if> 
-						<c:if test="${ param.province == null }">서울</c:if> 
-						<c:if test="${ param.province == 'chuncheon' }">춘천</c:if> 
-						<c:if test="${ param.province == 'suwon' }">수원</c:if> 
-						<c:if test="${ param.province == 'incheon' }">인천</c:if> 
-						<c:if test="${ param.province == 'daegu' }">대구</c:if> 
-						<c:if test="${ param.province == 'busan' }">부산</c:if> 
-						<c:if test="${ param.province == 'jeju' }">제주</c:if> 
-						&nbsp;&nbsp;&nbsp;
-					</span>
-					${ today.weatherday }요일
-				</span><br>
-				<span id="today_date"> ${ today.wdate } </span>
-			</article>
-			<span id="today_temp"><strong> ${ today.temp_min } °C / ${ today.temp_max } °C</strong></span>
-			<article id="week">
-				<table id="weekTable">
-					<tr>
-				 		<th>${ weather1.weatherday }</th>
-				 		<th>${ weather2.weatherday }</th>
-				 		<th>${ today.weatherday }</th>
-				 		<th>${ weather4.weatherday }</th>
-				 		<th>${ weather5.weatherday }</th>
-					</tr>
-					<tr>
-						<td> ${ weather1.temp_min } / ${ weather1.temp_max }</td>
-						<td> ${ weather2.temp_min } / ${ weather2.temp_max }</td>
-						<td> ${ today.temp_min } / ${ today.temp_max }</td>
-						<td> ${ weather4.temp_min } / ${ weather4.temp_max }</td>
-						<td> ${ weather5.temp_min } / ${ weather5.temp_max }</td>
-					</tr>
-				</table>
-			</article>
-		</section>
+		<article id="province">
+			<a id="prov" onClick="setProvince('seoul')">서울</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a id="prov" onClick="setProvince('chuncheon')">춘천</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a id="prov" onClick="setProvince('suwon')">수원</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a id="prov" onClick="setProvince('incheon')">인천</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a id="prov" onClick="setProvince('daegu')">대구</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a id="prov" onClick="setProvince('busan')">부산</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+			<a id="prov" onClick="setProvince('jeju')">제주</a><br><br><br><br>
+		</article>
+		<article id="today">
+			<span> </span><span> </span>
+			<span id="today_day">
+				<span id="provSelect">
+					<c:if test="${ param.province == 'seoul' }">서울</c:if> 
+					<c:if test="${ param.province == null }">서울</c:if> 
+					<c:if test="${ param.province == 'chuncheon' }">춘천</c:if> 
+					<c:if test="${ param.province == 'suwon' }">수원</c:if> 
+					<c:if test="${ param.province == 'incheon' }">인천</c:if> 
+					<c:if test="${ param.province == 'daegu' }">대구</c:if> 
+					<c:if test="${ param.province == 'busan' }">부산</c:if> 
+					<c:if test="${ param.province == 'jeju' }">제주</c:if> 
+					&nbsp;&nbsp;&nbsp;
+				</span>
+				${ today.weatherday }요일
+			</span><br>
+			<span id="today_date"> ${ today.wdate } </span>
+		</article>
+		<span id="today_temp"><strong> ${ today.temp_min } °C / ${ today.temp_max } °C</strong></span>
+		<article id="week">
+			<table id="weekTable">
+				<tr>
+			 		<th>${ weather1.weatherday }</th>
+			 		<th>${ weather2.weatherday }</th>
+			 		<th>${ today.weatherday }</th>
+			 		<th>${ weather4.weatherday }</th>
+			 		<th>${ weather5.weatherday }</th>
+				</tr>
+				<tr>
+					<td> ${ weather1.temp_min } / ${ weather1.temp_max }</td>
+					<td> ${ weather2.temp_min } / ${ weather2.temp_max }</td>
+					<td> ${ today.temp_min } / ${ today.temp_max }</td>
+					<td> ${ weather4.temp_min } / ${ weather4.temp_max }</td>
+					<td> ${ weather5.temp_min } / ${ weather5.temp_max }</td>
+				</tr>
+			</table>
+		</article>
 	</div>
 	
-	 
-		<div class="clearfixed"></div>
+	<div class="clearfixed"></div>
 	<section id="best">
-		<article>
-			<h2>BestView</h2>
-			<c:forEach var="product" items="${ proList }" varStatus="int">
-				<ul class="product">
-					<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:150px; height:150px;"></a></li>
-					<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
-				</ul>
-			</c:forEach>           	
-		</article>
+        <section id="contents">
+			<article>
+				<h2>Best View</h2>
+				<c:forEach var="product" items="${ proBestView }" varStatus="int">
+					<ul class="product">
+						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:190px; height:190px;"></a></li>
+						<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
+					</ul>
+				</c:forEach>           	
+			</article>
+        </section>
+        <section id="contents">
+			<article>
+				<h2>Best Sell</h2>
+				<c:forEach var="product" items="${ proBestSell }" varStatus="int">
+					<ul class="product">
+						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:190px; height:190px;"></a></li>
+						<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
+					</ul>
+				</c:forEach>           	
+			</article>
+        </section>
 	</section>
     <section id="middle">
         <section id="contents">
 			<article>
-				<h2>BestView</h2>
-				<c:forEach var="product" items="${ proList }" varStatus="int">
+				<h2>New Items</h2>
+				<c:forEach var="product" items="${ proNew }" varStatus="int">
 					<ul class="product">
-						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:150px; height:150px;"></a></li>
+						<li><a href="productInfo.do?proId=${product.proId}"><img src="${ product.imageDir }${ product.imageName }" style="width:190px; height:190px;"></a></li>
 						<li class="name"><a href="productInfo.do?proId=${product.proId}">${product.proName}</a></li>
 					</ul>
 				</c:forEach>           	

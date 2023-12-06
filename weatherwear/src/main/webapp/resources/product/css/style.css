@@ -1,6 +1,7 @@
 div.product_list{
 	display : inline-block;
 	margin : 0 auto;
+    max-width:100%;
 }
 
 div.clearfixed::after {
@@ -16,10 +17,10 @@ a {
 }
 
 .product {
- 	width:19%;
+ 	width:17%;
  	float:left; 
  	list-style:none;	
- 	margin-left:20px;
+ 	margin-left:-13px;
 }
 
 .product .name {
@@ -27,7 +28,7 @@ a {
 	font-weight:bold;
 	white-space: nowrap;
 	overflow: hidden;
-	text-overflow: ellipsis;
+/* 	text-overflow: ellipsis; */
 }
 
 .menu {
@@ -38,10 +39,24 @@ a {
 	margin: 0 auto 0 auto;
 	flex-wrap: nowrap;
 	justify-content: space-evenly;
+	max-width: 100%;
+}
+
+nav#menubar{
+	display:flex;
+    width: 98%;
+    max-width:100%;
+    background-color: #b8b8b8;
+    padding: 1%;
+    margin: 0 0 10px 0;
+    
+    /* 아래 요소와의 간격 */
+    margin-bottom: 5px;
 }
 
 .menu ul {
-  justify-content: space-between;
+  	justify-content: space-between;
+	max-width: 100%;
 }
 
 .menu li {
@@ -49,6 +64,7 @@ a {
 	width: 100%;
 	padding: 0 5%;
 	letter-spacing: 2px;
+	max-width: 100%;
 }
 
 .menu li a:hover {
@@ -56,14 +72,6 @@ a {
     text-shadow: 2px 1px 1px silver;
 }
 
-.menu li div {
-	width:500px;
-	display:none;
-	position:absolute;
-}
-.menu li:hover div {
-	display:block;
-}
 .category a {
 	margin:0 30px 0 0;
 }

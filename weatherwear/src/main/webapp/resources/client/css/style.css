@@ -1,5 +1,4 @@
-/* div#container{ */
-    border : 3px solid green;
+div#container{
     padding : 1%;
 
     /* 화면 중앙 배치 */
@@ -9,6 +8,7 @@
 div#product_content{
 	margin: 0 auto;
 	text-align: center;
+	padding-left: 1%;
 }
 
 img#main_logo{
@@ -20,11 +20,9 @@ h5#top_menu{
     float : right;
     margin : 0 35px 0 0;
 }
+
 div#container > h5#top_menu > a{
     text-decoration: none;
-}
-div#container > h5#top_menu > a:hover{
-    text-decoration-line: underline;
 }
 
 header#header{
@@ -42,50 +40,11 @@ header#header > a > img#banner_logo{
     width: 250px;
     margin: 0 15px;
 }
-nav#menubar{
-	display:flex;
-    width: 95%;
-    background-color: #b8b8b8;
-    padding: 1%;
-    margin: 0 0 10px 0;
-    
-    /* 아래 요소와의 간격 */
-    margin-bottom: 5px;
-}
-
-/* 메인메뉴 효과 설정 */
-nav#menubar > ul {
-    padding-left: 0;
-    margin: 0 0 0 auto;
-}
-
-nav#menubar > ul > li > a {
-    color : white;
-    text-decoration: none;
-}
-
-nav#menubar > ul > li > a:hover {
-    color : blueviolet;
-    font-size: large;
-    text-decoration: none;
-    text-shadow: 2px 1px 1px white;
-}
-
-section#weather{
-    width : 95%;
-    height : 200px;
-    display: flex;
-    padding: 1%;
-    background-color: ivory;
-    margin: 0 0 10px 0;
-}
 
 section#weather > article#main {
-    border: 2px dotted green;
     width: 80%;
 }
 section#weather > article#keyword {
-    border: 2px dotted green;
     width: 20%;
 }
 
@@ -95,19 +54,10 @@ section#weather > article#keyword {
 	text-align: center;
 }
 
-section#middle{
-    width: 95%;
-    display: flex;
-    padding: 0 1%;
-    border: 3px solid purple;
-    height: 450px;
-}
-
 aside#side {
     width: 25%;
     height: 400px;
     margin: 0.1% 0.1%;
-    border: 3px solid green;
     background-color: ivory;
 
     /* 화면 오른쪽 정렬 */
@@ -121,11 +71,10 @@ aside#side > h5 {
 
 section#contents {
     width: 95%;
-    height: 400px;
+    height: auto;
     margin: auto;
-    border: 3px solid green;
-    background-color: ivory;
-
+    padding-bottom: 20px;
+	padding-left: 40px;
     /* 화면 왼쪽 정렬 */
     float: left;
 }

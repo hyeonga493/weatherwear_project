@@ -20,7 +20,7 @@
 	</resultMap>
 
 	<insert id="insertProduct">
-		INSERT INTO product(proId, proCate, proName, proContent, proSell, proRegDate)  VALUES(#{proId}, #{proCate}, #{proName}, #{proContent}, #{proSell}, #{ proRegDate });
+		INSERT INTO product(proId, proCate, proName, proContent, proSell)  VALUES(#{proId}, #{proCate}, #{proName}, #{proContent}, #{proSell});
 	</insert>
 	
 	<insert id="insertProductPrice">
@@ -108,67 +108,6 @@
 			<when test = "gubun == 'dress'">
 				AND product.proCate LIKE CONCAT('15', '%')
 			</when>
-		</choose>
-	</select>
-	
-	<select id="getMainList" resultType="com.w2.file.ImageVO" parameterType="com.w2.product.ProductVO">
-		SELECT * 
-		FROM product_image
-		JOIN product ON product.proId = product_image.imageBy
-		WHERE  imageStatus='대표'
-		<choose>
-			<when test = "gubun == 'outer'">
-				AND product.proCate LIKE CONCAT('11', '%')
-			</when>
-			<when test = "gubun == 'top'">
-				AND product.proCate LIKE CONCAT('12', '%')
-			</when>
-			<when test = "gubun == 'pants'">
-				AND product.proCate LIKE CONCAT('13', '%')
-			</when>
-			<when test = "gubun == 'skirts'">
-				AND product.proCate LIKE CONCAT('14', '%')
-			</when>
-			<when test = "gubun == 'dress'">
-				AND product.proCate LIKE CONCAT('15', '%')
-			</when>
-			<otherwise>
-				<if test="searchtype == 'proId'">
-					AND product.proId LIKE CONCAT('%', #{ keyword }, '%')
-				</if>
-				<if test="searchtype == 'proName'">
-					AND product.proName LIKE CONCAT('%', #{ keyword }, '%')
-				</if>
-				ORDER BY
-				<choose>
-				<when test="ordertype == 'proRegDate'">
-					product.proRegDate DESC
-				</when>
-				<when test="ordertype == 'proCnt'">
-					product.proCnt DESC
-				</when>
-				<when test="ordertype == 'proPriceH'">
-					product_price.proPrice DESC
-				</when>
-				<when test="ordertype == 'proPriceL'">
-					product_price.proPrice ASC
-				</when>
-				<when test="ordertype == 'proSell'">
-					product.proSell ASC
-				</when>
-				<otherwise>
-					product.proName ASC
-				</otherwise>
-				</choose>
-			</otherwise>
-		</choose>
-		<choose>
-			<when test="postStart == 1">
-				LIMIT 0,20
-			</when>
-			<otherwise>
-				LIMIT #{ postStart }, 20
-			</otherwise>
 		</choose>
 	</select>
 	
@@ -296,8 +235,8 @@
 		WHERE c1.cateId =  #{ proCate };
 	</select>
 	
-	<!-- BestCollection -->
-	<select id="getBestProduct" resultType="product">
+	<!-- BestViewCollection -->
+	<select id="getBestViewProduct" resultType="product">
 		SELECT p.proId, p.proName, i.imagedir, i.imageName, p.proView
 		FROM product p 
 		JOIN product_image i ON (p.proId = i.imageBy)
@@ -306,4 +245,23 @@
 		LIMIT 5;
 	</select>
 	
+	<!-- BestSellCollection -->
+	<select id="getBestSellProduct" resultType="product">
+		SELECT p.proId, p.proName, i.imagedir, i.imageName, p.proView
+		FROM product p 
+		JOIN product_image i ON (p.proId = i.imageBy)
+		WHERE i.imageStatus = '대표'
+		ORDER BY p.proCnt DESC
+		LIMIT 5;
+	</select>
+	
+	<!-- NewCollection -->
+	<select id="getNewProductList" resultType="product">
+		SELECT p.proId, p.proName, i.imagedir, i.imageName, p.proView
+		FROM product p 
+		JOIN product_image i ON (p.proId = i.imageBy)
+		WHERE i.imageStatus = '대표'
+		ORDER BY p.proRegDate DESC
+		LIMIT 10;
+	</select>
 </mapper>
