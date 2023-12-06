@@ -7,7 +7,6 @@
 <head>
 <meta charset='utf-8'>
 <link rel="stylesheet" type="text/css" href="resources/admin/css/style.css">
-<link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 </head>
 <div id="container">
 <body>
@@ -18,7 +17,7 @@
 				<div style="float:right;">
 					<span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자 계정</span>
 				<img class="img-profile rounded-circle" src="resources/image/admin/person_icon.png" width="20px">
-				&emsp;&emsp;<a href="#" >정보수정</a> | <a href="adminLogout.mdo">로그아웃</a>
+				&emsp;&emsp;<a href="adminLogout.mdo">로그아웃</a>
 				</div>
 				
 			<!-- gnb -->

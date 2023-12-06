@@ -12,7 +12,7 @@
 
 /******************************** 헤더 영역 *********************************/
 /* header */
-div#container{ border : 3px solid gray; padding : 1%;}
+div#container{ border-bottom : 3px solid gray; padding : 1%;}
 
 #header{width: 95%; padding: 1%; margin-bottom: 5px; clear: both;}
 
@@ -23,7 +23,7 @@ div#container{ border : 3px solid gray; padding : 1%;}
 #gnb >ul >li a.dp1{font-size:18px; color:#292929; font-weight:bold; letter-spacing:-0.04em; position:relative; z-index:3; padding-top:20px; display:block;}
 #gnb .dp2{overflow:hidden; position:absolute; left:0; top:-20px; width:100%; padding-top:87px; z-index:2; opacity:0}
 #gnb .dp2 ul li a{font-size:15px; color:#666666; padding:8px 0 9px; display:block; letter-spacing:-0.05em}
-#gnb .dp2 ul li a:hover,
+#gnb .dp2 ul li,
 #gnb .dp2 ul li a.active{color:#009223; text-decoration:underline}
 
 #gnb >ul >li:hover a.dp1:after,
@@ -33,24 +33,6 @@ div#container{ border : 3px solid gray; padding : 1%;}
 
 #gnb >ul >li a.dp1,
 #gnb .dp2 ul li a{ transition-duration:0.2s}
-
-#header .util_menu {position:absolute; right:200px; top:40px;}
-#header .util_menu ul li {float:left; position:relative;}
-#header .util_menu ul li ~ li {margin-left:30px;}
-#header .util_menu ul li a {display:block; color:#666666; font-size:13px; font-weight:normal; line-height:30px; height:30px;}
-
-#header .util_menu .before_sign ~ .before_sign::before {background-color:#ddd; content:''; display:block; border-radius:50px; position:absolute; left:-16px; top:50%; margin-top:-2px; height:3px; width:3px;}
-#header .util_menu.before .after_sign {display:none;}
-#header .util_menu.after .before_sign {display:none;}
-#header .util_menu.after .after_sign {display:block;}
-#header .util_menu .after_sign ~ .after_sign::before {background-color:#ddd; content:''; display:block; border-radius:50px; position:absolute; left:-16px; top:50%; margin-top:-2px; height:3px; width:3px;}
-
-#header .util_menu .icon_menu {position:relative;}
-#header .util_menu .icon_menu a {background-repeat:no-repeat; background-position:0 0; line-height:0; width:30px;}
-#header .util_menu .icon_menu.cart a {background-image:url(../images/common/icon_utill_cart.png);}
-#header .util_menu .icon_menu.cart a strong {background-color:#ff8300; display:none; border-radius:20px; box-sizing:border-box; color:#fff; font-family:'font_sw'; font-size:12px; font-weight:normal; line-height:1em; text-align:center; position:absolute; left:0; bottom:0; padding-right:5px; padding-left:5px; height:14px; min-width:18px;}
-#header .util_menu .icon_menu.cart.on a strong {display:block;}
-#header .util_menu .icon_menu.global_subway {margin-left:15px;}
 
 /* quick menu */
 .quick_menu {
@@ -460,22 +442,7 @@ sup {
 }
 
 a {
-  color: #007bff;
-  text-decoration: none;
-  background-color: transparent;
-}
-a:hover {
-  color: #0056b3;
-  text-decoration: underline;
-}
-
-a:not([href]) {
-  color: inherit;
-  text-decoration: none;
-}
-a:not([href]):hover {
-  color: inherit;
-  text-decoration: none;
+  color : black;
 }
 
 pre,
@@ -2755,6 +2722,7 @@ textarea.form-control {
 	font-size: 1.0em;
 	background-color:  rgb(222, 218, 218);
 	border: 1;
+	border-radius: 0.25rem;
 }
 
 .btn:hover {
@@ -4627,7 +4595,7 @@ input[type=button].btn-block {
 .navbar-light .navbar-text a {
   color: rgba(0, 0, 0, 0.9);
 }
-.navbar-light .navbar-text a:hover, .navbar-light .navbar-text a:focus {
+.navbar-light .navbar-text, .navbar-light .navbar-text a:focus {
   color: rgba(0, 0, 0, 0.9);
 }
 
@@ -4665,7 +4633,7 @@ input[type=button].btn-block {
 .navbar-dark .navbar-text a {
   color: #fff;
 }
-.navbar-dark .navbar-text a:hover, .navbar-dark .navbar-text a:focus {
+.navbar-dark .navbar-text, .navbar-dark .navbar-text a:focus {
   color: #fff;
 }
 

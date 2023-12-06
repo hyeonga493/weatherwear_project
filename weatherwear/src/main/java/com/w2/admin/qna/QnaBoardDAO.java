@@ -12,10 +12,6 @@ public class QnaBoardDAO {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSessionTemplate;
-	
-	public List<QnaBoardVO> getQnaList(QnaBoardVO qna){
-		return sqlSessionTemplate.selectList("QnaBoardDAO.getQnaList", qna);
-	}
 
 	public void updateQnaBoard(QnaBoardVO qna) {
 		sqlSessionTemplate.update("QnaBoardDAO.updateQnaBoard", qna);
@@ -31,12 +27,8 @@ public class QnaBoardDAO {
 	}
 
 	public int searchCount(QnaBoardVO qna) {
-		System.out.println("[ NoticeBoardDAO ] : searchCount");
+		System.out.println("[ QnaBoardDAO ] : searchCount");
 		return sqlSessionTemplate.selectOne("QnaBoardDAO.getQnaBoardCount", qna);
 	}
 
-//	public List<QnaBoardVO> getQnaList(QnaBoardVO qna) {
-//		return null;
-//	}
-	
 }

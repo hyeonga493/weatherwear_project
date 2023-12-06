@@ -11,6 +11,10 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 
+<!-- 스마트에디터 적용 -->
+<script type="text/javascript" src="resources/static/smarteditor/js/HuskyEZCreator.js" charset="UTF-8"></script>
+<script type="text/javascript" src="resources/admin/js/notice/usingEditor.js" charset="UTF-8"></script>
+
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
@@ -35,11 +39,16 @@
 							</tr>
 							<tr>
 								<th>내용</th>
-								<td><textarea type="text" name="noContent" cols="80" rows="10" >${ notice.noContent }</textarea></td>
+								<%-- <td><textarea type="text" name="noContent" cols="80" rows="10" >${ notice.noContent }</textarea></td> --%>
+								<td>
+									<div id="smarteditor">
+										<textarea name="noContent" id="noContent" rows="20" cols="10" placeholder="내용 입력해주세요" style="width:500px; border: 2px solid black">${ notice.noContent}</textarea>
+									</div>
+								</td>
 							</tr>
 							<tr>
 								<td colspan="2" class="center-group">
-									<input type="submit" class="btn-write" value="공지글 수정">
+									<input type="submit" class="btn-write" value="공지글 수정" onClick="submitPost()">
 									<input type="button" class="btn-write" value="삭제" onclick="location.href='deleteNoticeBoard.mdo?noId=${ notice.noId }'"/>
 									<input type="button" class="btn-write" value="취소" onclick="location.href='noticeList.mdo?gubun=notice'"/>
 								</td>

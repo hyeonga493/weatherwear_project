@@ -52,11 +52,9 @@
 		<choose>
 			<when test="postStart == 1">
 				LIMIT 0,20
-				<!-- LIMIT 0,10 -->
 			</when>
 			<otherwise>
 				LIMIT #{ postStart }, 20 
-				<!-- LIMIT #{ postStart }, 10 -->
 			</otherwise>
 		</choose>
     </select>

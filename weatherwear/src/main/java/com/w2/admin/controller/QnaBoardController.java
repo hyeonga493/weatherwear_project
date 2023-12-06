@@ -26,14 +26,13 @@ public class QnaBoardController {
 	
 	@RequestMapping("/qnaList.mdo")
 	@Description("문의사항 목록 페이지로 이동")
-	public String getQnaList(@RequestParam(value="page", required=false)Integer page, QnaBoardVO qna, Model model) {
+	public String qnaBoardList(@RequestParam(value="page", required=false)Integer page, QnaBoardVO qna, Model model) {
 		
 		if(qna.getQnaSelectType() == null) qna.setQnaSelectType("subject");
 		if(qna.getQnaKeyword() == null) qna.setQnaKeyword("");
 		
 		List<QnaBoardVO> qnaBoardList = pagingService.qnaBoardList(page, qna, model);
 		model.addAttribute("qnaBoardList", qnaBoardList);
-		System.err.println("qnaList model : " + model.toString());
 		return "/admin/qna/qna_list";
 	}
 	

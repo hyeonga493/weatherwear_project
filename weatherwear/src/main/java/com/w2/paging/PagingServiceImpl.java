@@ -162,7 +162,7 @@ public class PagingServiceImpl implements PagingService{
 		
 		Paging paging = new Paging(totalCount, currentPage, notice);
 		
-		int postStart = ((paging.getCurrentPage() -1) * 10);
+		int postStart = ((paging.getCurrentPage() -1) * 20);
 		/* 현재 페이지가 5라면 ((5-1)*10)+1 = 41번부터 게시글 번호가 시작됩니다.*/
 		
 		int postEnd = paging.getCurrentPage() * 10;
@@ -193,7 +193,7 @@ public class PagingServiceImpl implements PagingService{
 		
 		Paging paging = new Paging(totalCount, currentPage, qna);
 		
-		int postStart = ((paging.getCurrentPage() -1) * 10);
+		int postStart = ((paging.getCurrentPage() -1) * 20);
 		/* 현재 페이지가 5라면 ((5-1)*10)+1 = 41번부터 게시글 번호가 시작됩니다.*/
 		
 		int postEnd = paging.getCurrentPage() * 10;

@@ -11,8 +11,6 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
-<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css"> 
-<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css"> 
 
 </head>
 <body>
@@ -78,9 +76,9 @@
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="board" items="${noticeBoardList }">
+												<c:forEach var="board" items="${noticeBoardList }" varStatus="num">
 													<tr>
-														<td>${board.noId }</td>
+														<td>${num.index + 1 }</td>
 														<th><strong><a href="noticeDetail.mdo?noId=${ board.noId }">${board.noTitle}</a></strong></th>
  														<td>${board.noWriter}</td>
  														<td><fmt:formatDate value="${board.noDate }" pattern="yyyy-MM-dd" /></td>
@@ -108,7 +106,6 @@
 									</div>
 									<div class="table-type3" style = "position: relative; margin-top: 28px; padding-bottom: 15px; border-bottom: 2px solid #111;">
 										<table>
-											<caption>news</caption>
 											<colgroup>
 												<col style="width: 220px">
 												<col>

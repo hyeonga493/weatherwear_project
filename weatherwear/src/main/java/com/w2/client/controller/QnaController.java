@@ -87,7 +87,7 @@ public class QnaController {
 		clientQna.setQnaId(QnaIdName);
 		
 		qnaService.writeQna(clientQna);
-		return "redirect: clientQnaList.do";
+		return "redirect: clientQnaMyPageList.do";
 	}
 	
 	@RequestMapping("/qnaDetail.do")

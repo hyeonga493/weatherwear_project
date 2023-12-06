@@ -14,11 +14,6 @@ public class QnaBoardServiceImpl implements QnaBoardService {
 
 	@Autowired
 	private QnaBoardDAO dao;
-	
-	@Override
-	public List<QnaBoardVO> getQnaList(QnaBoardVO qna) {
-		return dao.getQnaList(qna);
-	}
 
 	@Override
 	public void updateQnaBoard(QnaBoardVO qna) {

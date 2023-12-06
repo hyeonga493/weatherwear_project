@@ -33,15 +33,15 @@
 										<c:choose>
 											<c:when test="${param.gubun == 'notice' }">
 												<li class="active"><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-												<li><a href="noticeList.mdo?gubun=news">문의사항</a></li>
+												<li><a href="qnaList.mdo">문의사항</a></li> 
 											</c:when>
 											<c:when test="${param.gubun == 'news' }">
 												<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-												<li class="active"><a href="noticeList.mdo?gubun=news">문의사항</a></li>
+												<li class="active"><a href="qnaList.mdo">문의사항</a></li>
 											</c:when>
 											<c:otherwise>
 												<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-												<li><a href="noticeList.mdo?gubun=news">문의사항</a></li>
+												<li><a href="qnaList.mdo">문의사항</a></li>
 											</c:otherwise>
 											</c:choose>
 										</ul>
@@ -77,9 +77,9 @@
 												</tr>
 											</thead>
 											<tbody>
-												<c:forEach var="qna" items="${qnaBoardList }">
+												<c:forEach var="qna" items="${qnaBoardList }" varStatus="num">
 													<tr>
-														<td>${qna.qnaId }</td>
+														<td>${num.index + 1 }</td>
 														<th><strong><a href="qnaDetail.mdo?qnaId=${ qna.qnaId }">${qna.qnaTitle}</a></strong></th>
  														<td>${qna.clientId}</td>
  														<td><fmt:formatDate value="${qna.qnaDate }" pattern="yyyy-MM-dd" /></td>
