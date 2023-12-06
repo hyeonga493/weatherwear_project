@@ -53,7 +53,7 @@ public class CartController {
 		System.err.println("[CartController] : deleteCart");
 		cartService.deleteCart(cartVO); // cartVO.getProId로 인수를 주어야 하는가? 포함되어 있으니 상관이 없는가?
 
-		return "redirect:/clientCart.do"; // 페이지는 해당 사용자의 장바구니 전체 목록을 불러올 것이므로 caId가 아닌 clientId를 받아옴 
+		return "redirect:/clientCart.do?clientId="+cartVO.getClientId(); // 페이지는 해당 사용자의 장바구니 전체 목록을 불러올 것이므로 caId가 아닌 clientId를 받아옴 
 		//진짜로 삭제할 것인가? - Y / N 선택 추가
 	}
 	
@@ -72,40 +72,43 @@ public class CartController {
 			cartService.deleteCart(cartVO);
 			System.err.println("주문한 카트 삭제");
 		}
-		return "redirect:/clientCart.do"; // 페이지는 해당 사용자의 장바구니 전체 목록을 불러올 것이므로 caId가 아닌 clientId를 받아옴 
+		return "redirect:/clientCart.do?clientId="+cartVO.getClientId(); // 페이지는 해당 사용자의 장바구니 전체 목록을 불러올 것이므로 caId가 아닌 clientId를 받아옴 
 	}
 
 	//장바구니에 상품 추가
 	@RequestMapping("/clientCart/insert.do")
-	public String insertCart (@RequestParam("sellList") List<String> sellList, CartVO cartVO) {
+	public String insertCart (@RequestParam("sellList") List<String> sellList,HttpServletRequest request, CartVO cartVO) {
 		System.err.println("[CartController] : insertCart");
+		
+		System.err.println("cart.cId : "+cartVO.getClientId());
+		System.err.println("req.cId : "+request.getParameter("clientId"));
+		System.err.println("proId : "+request.getParameter("proId"));
+		System.err.println("sellList : "+sellList);
 		//상품 상세로부터 여러 옵션 받아오는 것 for문 내에서 삽입//실행해보기
-		
-		System.err.println("CartVO : " + cartVO.toString());
-		
 		for (String item : sellList) {
 	        String[] parts = item.split("_");
-
+	        
 	        // parts 배열에는 "상품명_색상_사이즈_수량" 형태의 정보가 들어있음
-	        String proId = parts[0];
-	        String color = parts[1];
-	        String size = parts[2];
-	        int cnt = Integer.parseInt(parts[3]);
+	        String opId = parts[0];
+	        int cnt = Integer.parseInt(parts[1]);
 
 	        // CartVO에 정보 설정
-	        cartVO.setProId(proId);
-	        cartVO.setOpColor(color);
-	        cartVO.setOpSize(size);
-	        cartVO.setOpId(color+size);
+	        cartVO.setProId(request.getParameter("proId"));
+	        cartVO.setOpId(cartVO.getProId()+opId);
 	        cartVO.setCaCnt(cnt);
+	        System.err.println("opId : "+cartVO.getOpId());
+	        System.err.println("caCnt : "+cartVO.getCaCnt());
 
 	        System.err.println("[CartController][insertCart][cartVO] : "+cartVO.getCaId());//카트번호 확인
 	        System.err.println("[CartController][insertCart][cartVO] : "+cartVO.toString());
-
+	        
 	        cartService.insertCart(cartVO);
 	    }
+		
+		
 		//장바구니로 이동하시겠습니까 - Y / N 선택가능하도록 추가
-		return "redirect:/clientCart.do"; // 페이지는 해당 사용자의 장바구니 전체 목록을 불러올 것이므로 caId가 아닌 clientId를 받아옴
+		
+		return "redirect:/clientCart.do?clientId="+cartVO.getClientId(); // 페이지는 해당 사용자의 장바구니 전체 목록을 불러올 것이므로 caId가 아닌 clientId를 받아옴
 	}
 	
 	//상품 수량 수정
@@ -116,7 +119,7 @@ public class CartController {
 		cartService.updateCaCnt(cartVO);
 		
 		
-		return "redirect:/clientCart.do";
+		return "redirect:/clientCart.do?clientId="+cartVO.getClientId();
 	}
 	
 

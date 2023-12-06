@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import com.w2.client.order.OrderDAO;
 import com.w2.client.order.OrderService;
 import com.w2.client.order.OrderVO;
+import com.w2.client.order.PaymentVO;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -96,6 +97,52 @@ public class OrderServiceImpl implements OrderService {
 		    System.err.println("model.toString" + model.toString());
 		    return model;
 	}
+	
+	@Override
+	public Model toOrder_get_product(OrderVO orderVO, Model model) {
+		
+		List<OrderVO> orderItemList = new ArrayList<>();
+		
+	    System.err.println("[OrderServiceImpl] : toOrder_get_product");
+	    System.err.println("[ orderVO ] : " + orderVO.toString());
+	    
+	    for(int i=0; i< orderVO.getSellList().size(); i++) {
+	    	System.err.println("sell "+(i+1)+" : "+orderVO.getSellList().get(i));
+	    	OrderVO orderItem = orderDAO.toOrder_get_product(orderVO);
+	    	
+	    	orderItemList.add(orderItem);
+	    }
+	    model.addAttribute("toOrder_get_cart", orderItemList);
+		
+	    System.err.println("model.toString" + model.toString());
+	    return model;
+	}
+
+	@Override
+	public OrderVO toOrder_get_Price_product(OrderVO orderVO) {
+		System.err.println("[OrderServiceImpl] : toOrder_get_Price_product");
+		System.err.println("^^^^^^^^^^^orderVO.toString"+orderVO.toString());
+		int sum = 0;
+		
+		 for(int i=0; i< orderVO.getSellList().size(); i++) {
+			 
+			 String[] parts = orderVO.getSellList().get(i).split("_");
+//			 String op = parts[0];
+			 int cnt = Integer.parseInt(parts[1]);
+			 
+//			 orderVO.setOpId(orderVO.getProId()+ op);
+			 orderVO.setOdProCnt(cnt);
+			 
+			 orderVO.setOdTotal(cnt*orderDAO.toOrder_get_Price_product(orderVO).getProPrice());
+			 
+			 sum += orderVO.getOdTotal();
+			 
+		 }
+		 orderVO.setOdTotal(sum);
+		 System.err.println("@@@@@sum : "+sum);
+		return orderVO;
+	}
+	
 
 	@Override
 	public List<OrderVO> toOrder_get_couponList(OrderVO orderVO) {
@@ -121,16 +168,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderVO;
 	}
 	
-	@Override
-	public OrderVO toOrder_get_product(OrderVO orderVO, Model model) {
-		return orderDAO.toOrder_get_product(orderVO);
-	}
 
-	@Override
-	public OrderVO toOrder_get_Price_product(OrderVO orderVO) {
-		return orderDAO.toOrder_get_Price_product(orderVO);
-	}
-	
 	public OrderVO toOrder_get_coupon_choose(OrderVO orderVO) {
 		return orderDAO.toOrder_get_coupon_choose(orderVO);
 		
@@ -140,7 +178,7 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.toOrder_get_Point(orderVO);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+//	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
 	@Override //주문하기 - 장바구니로부터
 	public void orderFromCart(OrderVO orderVO) {
 		System.err.println("[OrderServiceImpl] : orderFromCart");
@@ -165,4 +203,35 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.toOrder_usedPoint(orderVO);
 		orderDAO.toOrder_plusPoint(orderVO);
 	}
+	
+	/*
+	@Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Override //주문하기 - 상세로부터
+	public void orderFromProduct(OrderVO orderVO) {
+		System.err.println("[OrderServiceImpl] : orderFromProduct");
+//		orderDAO.toOrder_add_address_update(orderVO); //- 추가 배송지 관련이므로 일단 제외
+//		orderDAO.toOrder_add_address_insert(orderVO); //- 추가 배송지 관련이므로 일단 제외
+		orderDAO.toOrder_insert_into_orders(orderVO);
+		System.err.println("##########orderVO.toString"+orderVO.toString());
+		for(int i=0; i< orderVO.getSellList().size(); i++) {
+			 
+			 String[] parts = orderVO.getSellList().get(i).split("_");
+			 String op = parts[0];
+			 int cnt = Integer.parseInt(parts[1]);
+			 orderVO.setOpId(orderVO.getProId()+op);
+			System.err.println("$$$$$$$$$$$orderVO.toString"+orderVO.toString());
+			orderDAO.toOrder_insert_into_orders_info_product(orderVO);
+		}
+		
+		
+		orderDAO.toOrder_minus_cPoint(orderVO);
+		orderDAO.toOrder_usedPoint(orderVO);
+		orderDAO.toOrder_plusPoint(orderVO);
+	}*/
+	
+	
+	public void insertPaymentInfo(PaymentVO vo) {
+	      System.out.println("[ OrderService ] : insertPaymentInfo() ");
+	      orderDAO.insertPaymentInfo(vo);
+	   }
 }

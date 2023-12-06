@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.ui.Model;
 
-import com.w2.admin.blackList.BlackListVO;
+//import com.w2.admin.blackList.BlackListVO;
 import com.w2.paging.SearchVO;
 
 public interface ClientService {

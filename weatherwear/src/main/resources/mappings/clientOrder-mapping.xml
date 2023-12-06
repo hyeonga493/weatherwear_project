@@ -191,9 +191,10 @@
 	
 	<!-- 처음에 상품목록불러오기 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 -->
 	<select id="toOrder_get_product" resultMap="orderVO" parameterType="orderVO">
-		SELECT p.proName, p.proId
-		FROM product
-		WHERE p.proId = #{proId};
+		SELECT p.proId,p.proName,op.opColor,op.opSize,op.opId
+		FROM option_info op
+		LEFT JOIN  product p ON op.opId LIKE CONCAT('%', p.proId, '%')
+		WHERE op.opId = #{opId};    <!-- 수량은 자바에서 받아서 바로 화면으로 처리 -->
 	</select>
 
 
@@ -206,9 +207,10 @@
 
 	<!-- 처음에 나올 총 금액 계산을 위한 상품 금액 --><!-- java에서 for문으로 반복 --><!-- 상품상세로부터 -->
 	<select id="toOrder_get_Price_product" resultMap="orderVO" parameterType="orderVO">
-		SELECT p_p.proPrice, p.proId
+		SELECT p.proId,p_p.proPrice
 		FROM product_price p_p
-		LEFT JOIN product p ON p.proId = p_p.proId;
+		LEFT JOIN  product p ON p.proId = p_p.proId
+		WHERE p.proId = #{proId}; <!-- proPrice * 자바의 cnt -->  
 	</select>
 
 	<!-- 회원의 등급에 해당하는 포인트% -->
@@ -279,6 +281,11 @@
 
 	<!-- 사용자는 주문에서 수정,삭제 불가능  -  원할 시, 환불,교환 등으로 이동  -->
 	
+	<!-- 결제 정보 저장 -->
+     <insert id="insertPaymentInfo" parameterType="com.w2.client.order.PaymentVO">
+       INSERT INTO payment_info (payId, odId, payMtd, payStatus, cId)
+       VALUES ( #{ payId }, #{ odId }, #{ payMtd }, #{ payStatus }, #{ clientId });
+    </insert> 
 	
 	
 <!-- 사용자 주문 내역 조회 --> <!-- 상품이 여러 종류일 때, __ 외 _ 의 형식으로 / 1종류일 때, (상품명)으로 출력  -->

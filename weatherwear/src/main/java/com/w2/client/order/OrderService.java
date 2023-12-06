@@ -24,6 +24,8 @@ public interface OrderService {
 	////
 
 	public void orderFromCart(OrderVO orderVO);
+	
+//	public void orderFromProduct(OrderVO orderVO);
 
 	public List<OrderVO> toOrder_get_AddList(OrderVO orderVO);
 	
@@ -38,8 +40,8 @@ public interface OrderService {
 	public OrderVO toOrder_get_client(OrderVO orderVO);
 
 	public Model toOrder_get_cart(OrderVO orderVO,Model model);
-
-	public OrderVO toOrder_get_product(OrderVO orderVO,Model model);
+	
+	public Model toOrder_get_product(OrderVO orderVO,Model model);
 	
 	public OrderVO toOrder_get_Price(OrderVO orderVO);
 	
@@ -60,5 +62,9 @@ public interface OrderService {
 //	public void toOrder_usedPoint(OrderVO orderVO);
 //
 //	public void toOrder_plusPoint(OrderVO orderVO); 
+	
+	public void insertPaymentInfo(PaymentVO vo) ;
+	
+	
 
 }

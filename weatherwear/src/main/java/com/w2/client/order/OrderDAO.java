@@ -189,5 +189,10 @@ public class OrderDAO {
 
 	}
 	
+	public void insertPaymentInfo(PaymentVO vo) {
+	      sqlSessionTemplate.insert("OrderDAO.insertPaymentInfo", vo);
+	   }
+	
+	
 	
 }

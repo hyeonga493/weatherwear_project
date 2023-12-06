@@ -23,6 +23,7 @@ public class CartVO {
 	private int caCnt; //상품 수량
 	private long totalPrice; // MySQL에서 getCartView 의 컬럼으로 totalPrice를 생성했더니
 							// BigInt로 자동 지정되어서 BigInt에 해당하는 java 데이터 타입 long 사용 
-
 	private List<Integer> caIdList; // DB에 없는 값. 선택한 카트 받으려고 만든 변수
+	
+
 }

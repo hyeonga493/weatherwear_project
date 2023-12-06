@@ -69,13 +69,13 @@
 <!-- 데이터 목록 조회 --> 
     <select id="getCartList" resultMap="cartVO" parameterType="cartVO">
 		<!-- SELECT * FROM getCartView WHERE cId=#{ clientId }; 뷰 생성하였다가 insert문에서 막혀서 삭제-->
-		SELECT DISTINCT ca.caId,ca.caDate, ca.proId, ca.CId,ca.opId, pro.proName,op.opSize,op.opColor, p_p.proPrice, ca.caCnt, ca.caCnt*p_p.proPrice AS totalPrice
-		FROM product AS pro, product_price AS p_p, cart AS ca, option_info AS op
-		WHERE ca.cId = #{clientId} 
-		AND ca.proId = p_p.proId
-		AND ca.proId = pro.proId
-		AND op.opId = ca.opId
-		ORDER BY ca.caId DESC;          
+		SELECT DISTINCT ca.opId, ca.caId, ca.proId, ca.cId,ca.opId, pro.proName,op.opSize,op.opColor, p_p.proPrice, ca.caCnt, ca.caCnt*p_p.proPrice AS totalPrice
+		FROM product AS pro
+        LEFT JOIN product_price AS p_p ON p_p.proId = pro.proId
+        LEFT JOIN cart AS ca ON ca.proId = p_p.proId
+        LEFT JOIN option_info AS op ON op.opId = ca.opId
+		WHERE ca.cId = #{clientId} 		
+		ORDER BY ca.caId DESC;            
     </select>
 
  

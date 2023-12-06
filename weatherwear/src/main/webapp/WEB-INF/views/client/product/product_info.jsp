@@ -275,10 +275,17 @@ $(document).ready(function(){
 				</div>
 				<div>
 					<div style="padding:50px 0 50px 20px;">
-						<form action="/clientCart/insert.do" method="POST">
+						<form action="clientCart/insert.do" method="POST">
 							<input type="hidden" name="sellList">
+							<input type="hidden" name="clientId" value="${ client.clientId }">
+							<input type="hidden" name="proId" value="${product.proId }">
 						<input type="submit" class="cart" value="장바구니" onclick="addCart()">
-						<a href="clientOrder.do"><input type="button" class="order" value="구매하기"></a>
+						</form>
+						<form action="clientOrderProduct.do" method="POST">
+							<input type="hidden" name="sellList">
+							<input type="hidden" name="clientId" value="${ client.clientId }">
+							<input type="hidden" name="proId" value="${product.proId }">
+						<input type="submit" class="order" value="구매하기" onclick="addCart()">
 						</form>
 					</div>
 				</div>

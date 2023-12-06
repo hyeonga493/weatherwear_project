@@ -33,6 +33,8 @@ public class CartDAO {
 	
 	public List<CartVO> getCartList(CartVO cartVO){//장바구니 조회
 		System.err.println("[ CartDAO ] : 탄다");
+		System.err.println("[dao][ cartVO ] : " + cartVO.toString());
+		System.err.println("[ tem ] : " + sqlsessionTemplate.selectList("CartDAO.getCartList", cartVO));
 		return sqlsessionTemplate.selectList("CartDAO.getCartList", cartVO);
 	}
 	
@@ -41,6 +43,8 @@ public class CartDAO {
 		cart.setClientId(cartVO.getClientId());
 		cart.setCaId(cartVO.getCaId());
 		cart.setCaCnt(cartVO.getCaCnt());
+		System.err.println("[dao][ updateCaCnt ] [cartVO.getCaCnt] : " + cartVO.getCaCnt());
+		System.err.println("[ tem ] : " + sqlsessionTemplate.update("CartDAO.updateCaCnt", cartVO));
 		sqlsessionTemplate.update("CartDAO.updateCaCnt", cartVO);
 	}
 	

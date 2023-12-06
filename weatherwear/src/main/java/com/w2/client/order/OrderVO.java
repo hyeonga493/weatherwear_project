@@ -76,6 +76,8 @@ public class OrderVO {
 	private int caId; //cart로부터 caId를 가져오기 위하여
 	private int caCnt; //cart로부터 caCnt를 가져오기 위하여
 	
+	private List<String> sellList; //db에 없고 자바에만 존재하는 변수,주문하기 페이지에서 사용, 상세페이지에서 넘어온 옵션값을 리스트로 저장
+	
 	private String imageName;
 	private String imageDir;
 	// 쿠폰, 결제 카드 관련, 포인트
