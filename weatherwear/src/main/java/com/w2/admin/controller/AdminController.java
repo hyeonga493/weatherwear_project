@@ -43,12 +43,13 @@ public class AdminController {
 		return "/admin/login";
 	}
 	
-	@RequestMapping(value = "/adminOrder.mdo")
-	public String getAdminOrderList(Locale locale, Model model,AdminOrderVO adminOrderVO) throws Exception {
-		System.err.println("시작,종료 지정 없이 첫 화면");
-		List<AdminOrderVO> getAdminOrderListAll = adminOrderService.getAdminOrderListAll(adminOrderVO);
 
-		model.addAttribute("getAdminOrderList",getAdminOrderListAll);
+	@RequestMapping(value = "/adminOrder.mdo")
+	public String getAdminOrderList(Locale locale,@RequestParam(value="page", required=false)Integer page, Model model,AdminOrderVO adminOrderVO)throws Exception {
+		System.err.println("시작,종료 지정 없이 첫 화면");
+		List<AdminOrderVO>	getAdminOrderList = pagingService.getAdminOrderListAll(page, adminOrderVO, model);
+
+		model.addAttribute("getAdminOrderList",getAdminOrderList);
 
 		return "/admin/order";
 	}
