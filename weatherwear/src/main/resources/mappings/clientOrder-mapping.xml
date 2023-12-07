@@ -134,7 +134,7 @@
 	
 	<!-- 조회 - 금액정보 -->
 	<select id="getPrice" resultMap="orderVO" parameterType="orderVO">
-		SELECT DISTINCT od.odid, od.odPrice,od_i.odTotal, deli_i.deliPrice, od.cpId, cp_i.cpName, cp_i.cpPrice
+		SELECT DISTINCT od.odid, od.odPrice,od_i.odTotal, deli_i.deliPrice, od.cpId, cp_i.cpName, cp_i.cpPrice,od.usedPoint
 		FROM orders od
 		LEFT JOIN deliver_info deli_i ON deli_i.odid = od.odid
 		LEFT JOIN orders_info od_i ON od_i.odid = od.odid
@@ -200,7 +200,7 @@
 
 	<!-- 처음에 나올 총 금액(실결제 아님) --><!-- java에서 for문으로 반복 --><!-- 장바구니로부터 -->
 	<select id="toOrder_get_Price" resultMap="orderVO" parameterType="orderVO">
-		SELECT c.caCnt*p_p.proPrice AS odTotal FROM cart c 
+		SELECT c.caCnt*p_p.proPrice AS odTotal,p_p.proPrice FROM cart c 
 		LEFT JOIN product_price p_p ON p_p.proId = c.proId 
 		WHERE c.caId = #{caId}; 	
 	</select> 
@@ -262,6 +262,13 @@
 		DELETE FROM cart WHERE caId=#{caId};	
 	</delete>	
 	
+	<!-- 사용한 쿠폰 만료처리 -->
+	<update id="toOrder_update_cpStatus" parameterType="orderVO">
+		UPDATE coupon_list SET cpStatus = '사용완료' 
+        WHERE cpId = #{cpId}
+        AND cId = #{clientId};
+	</update>
+	
 	<!-- 총 포인트 및 사용할 포인트 감액 -->
 	<update id="toOrder_minus_cPoint" parameterType="orderVO">
 		UPDATE client SET  cPoint = cPoint - #{usedPoint} WHERE cId=#{clientId};
@@ -289,8 +296,8 @@
 	
 	
 <!-- 사용자 주문 내역 조회 --> <!-- 상품이 여러 종류일 때, __ 외 _ 의 형식으로 / 1종류일 때, (상품명)으로 출력  -->
- 	<select id="OrderList" resultMap="orderVO" parameterType="orderVO">
-		SELECT *,count(*),
+ 	<!--  <select id="OrderList" resultMap="orderVO" parameterType="orderVO">
+		SELECT *,count(*)
 		CASE
 		WHEN count(*) = 1 THEN pro.proName
 		ELSE concat(pro.proName,' 외 ',count(*)-1,'개')
@@ -300,5 +307,5 @@
         JOIN payment_info pay ON pay.odid = od.odid
 		WHERE od.cId=#{clientId}
 		GROUP BY od.odid;
-	</select>
+	</select>-->
 </mapper>

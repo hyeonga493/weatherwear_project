@@ -50,9 +50,11 @@ public class OrderController {
 		System.err.println("orderVO.선택한 카트: "+ orderVO.getCaIdList()); // 값 존재
 		System.err.println("request.선택한 카트: "+ request.getParameter("caIdList")); // 값 존재
 		
+		int usedPoint = 0;
 		if(orderVO.getUsePoint()!=null&& !orderVO.getUsePoint().isEmpty()) {
 			orderVO.setUsedPoint(Integer.parseInt(orderVO.getUsePoint()));
 			model.addAttribute("usedPoint",Integer.parseInt(orderVO.getUsePoint()));
+			usedPoint = Integer.parseInt(orderVO.getUsePoint());
 		}
 				
 		if(request.getParameter("CaIdList")!=null && !request.getParameter("CaIdList").isEmpty()) {
@@ -98,25 +100,30 @@ public class OrderController {
 		System.err.println("*******orderVO.getGrPoint : "+orderVO.getGrPoint());
 		System.err.println("*******orderVO.getOdTotal : "+orderVO.getOdTotal());
 		
-		orderVO.setPlusPoint((int)Math.round(orderVO.getGrPoint()*orderVO.getOdTotal()));
+		orderVO.setPlusPoint((int)Math.round(orderService.toOrder_get_Point(orderVO).getGrPoint()*orderVO.getOdTotal()));
 		model.addAttribute("getPlusPoint",orderVO.getPlusPoint());
 		
 		//결제 금액에 따른 배송비
+		int delliPrice = 0;
 		if(orderService.toOrder_get_Price(orderVO).getOdTotal()>=50000) {
 			orderVO.setDeliPrice(0);
+			delliPrice=0;
 		} else {
 			orderVO.setDeliPrice(2500);
+			delliPrice = 5000;
 		}
 		
-		model.addAttribute("deliPrice",orderVO.getDeliPrice());
-		
+		model.addAttribute("deliPrice",delliPrice);
+		int cpPrice = 0;
 		if(orderVO.getCpId_choose()!=null && !orderVO.getCpId_choose().isEmpty()) {
 			model.addAttribute("toOrder_get_coupon_choose",orderService.toOrder_get_coupon_choose(orderVO));
+			cpPrice = orderService.toOrder_get_coupon_choose(orderVO).getCpPrice();
 		}
 		
 
+		int odTotal = orderService.toOrder_get_Price(orderVO).getOdTotal();
 		
-		int odPrice = orderVO.getOdTotal() + orderVO.getDeliPrice() - orderVO.getUsedPoint()-orderVO.getCpPrice() ;
+		int odPrice = odTotal + delliPrice - usedPoint - cpPrice ;
 		orderVO.setOdPrice(odPrice);
 		
 		model.addAttribute("odPrice",odPrice);
@@ -296,9 +303,9 @@ public class OrderController {
 
 		System.err.println("[OrderController] : getOrderDetail");
 		System.err.println("clientId : "+ session.getAttribute("clientId"));
+		orderVO.setClientId((String) session.getAttribute("clientId"));
 		System.err.println("odId : "+ orderVO.getOdid());
 		orderVO.setPlusPoint((int)Math.round(orderVO.getGrPoint()*orderVO.getOdTotal()));
-		System.err.println("plusPoint : "+orderVO.getPlusPoint());
 
 		OrderVO result = orderService.getOdStatus(orderVO);
 		System.err.println("1. odStatus : " + result);
@@ -306,7 +313,23 @@ public class OrderController {
 		System.err.println("3. getAdress : " + orderService.getAdress(orderVO));
 		System.err.println("4. getPrice : " + orderService.getPrice(orderVO));
 		
-		model.addAttribute("plusPoint", orderVO.getPlusPoint());
+		Double grPoint = 0.0;
+		if( orderService.toOrder_get_Point(orderVO)!=null) {
+		grPoint = orderService.toOrder_get_Point(orderVO).getGrPoint();
+		}
+		int odTotal = orderService.getPrice(orderVO).getOdTotal();
+		int plusPoint = (int)Math.round(grPoint*odTotal);
+		int deliPrice = orderService.getPrice(orderVO).getDeliPrice();
+		int usedPoint = orderService.getPrice(orderVO).getUsedPoint();
+		int cpPrice = orderService.getPrice(orderVO).getCpPrice();
+		
+		int odPrice = odTotal + deliPrice - usedPoint - cpPrice;
+		
+		
+		model.addAttribute("plusPoint", plusPoint);
+		model.addAttribute("odPrice", odPrice);
+		model.addAttribute("deliPrice", deliPrice);
+		model.addAttribute("usedPoint", usedPoint);
 		model.addAttribute("getOdStatus", orderService.getOdStatus(orderVO));
 		model.addAttribute("getOdInfo", orderService.getOdInfo(orderVO));
 		model.addAttribute("getAdress", orderService.getAdress(orderVO));

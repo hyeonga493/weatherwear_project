@@ -139,14 +139,14 @@ public class OrderDAO {
 	public void toOrder_insert_into_orders(OrderVO orderVO) { //체크된 caId를 받아온다.
 
 		System.err.println("[OrderDAO] [toOrder_insert_into_orders] : "+orderVO.toString());
-		System.err.println("[tem] : "+sqlSessionTemplate.insert("toOrder_insert_into_orders", orderVO));
+//		System.err.println("[tem] : "+sqlSessionTemplate.insert("toOrder_insert_into_orders", orderVO));
 		sqlSessionTemplate.insert("toOrder_insert_into_orders", orderVO);
 		
 	}
 
 	public void toOrder_insert_into_orders_info(OrderVO orderVO) {
 		System.err.println("[OrderDAO] [toOrder_insert_into_orders_info] : "+orderVO.toString());
-		System.err.println("[tem] : "+sqlSessionTemplate.insert("toOrder_insert_into_orders_info", orderVO));
+//		System.err.println("[tem] : "+sqlSessionTemplate.insert("toOrder_insert_into_orders_info", orderVO));
 		sqlSessionTemplate.insert("toOrder_insert_into_orders_info", orderVO);
 		
 	}
@@ -189,10 +189,16 @@ public class OrderDAO {
 
 	}
 	
-	public void insertPaymentInfo(PaymentVO vo) {
-	      sqlSessionTemplate.insert("OrderDAO.insertPaymentInfo", vo);
-	   }
+	public void toOrder_update_cpStatus(OrderVO orderVO) {
+		sqlSessionTemplate.update("toOrder_update_cpStatus", orderVO);
+		
+	}
 	
+	
+	public void insertPaymentInfo(PaymentVO vo) {
+	     sqlSessionTemplate.insert("OrderDAO.insertPaymentInfo", vo);
+	   }
+
 	
 	
 }
