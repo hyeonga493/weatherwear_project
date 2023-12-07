@@ -9,9 +9,9 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 label, select, input, textarea { vertical-align: middle; }
 
-input, select, textarea { font-size: 1em; vertical-align: middle; }
+input, select, textarea { font-size: 1em; vertical-align: middle; } 
 
-input[type="text"], input[type="submit"], input[type="password"], input[type="search"], input[type="number"], input[type="reset"], input[type="email"], input[type="tel"], input[type="search"], input[type="file"], input[type="email"], input[type="tel"], textarea { width: 100%; border-radius: 0; box-shadow: none; -webkit-appearance: none; border: 1px solid #ddd; height: 42px; box-sizing: border-box; padding: 0 20px; font-size: 15px; color: #111; letter-spacing: -0.2px; font-weight: 500; font-family: "Roboto","Noto",sans-serif; }
+input[type="text"], input[type="submit"], input[type="password"], input[type="search"], input[type="number"], input[type="reset"], input[type="email"], input[type="tel"], input[type="search"], input[type="file"], input[type="email"], input[type="tel"],input[type="datetime-local"], textarea { width: 100%; border-radius: 0; box-shadow: none; -webkit-appearance: none; border: 1px solid #ddd; height: 42px; box-sizing: border-box; padding: 0 20px; font-size: 15px; color: #111; letter-spacing: -0.2px; font-weight: 500; font-family: "Roboto","Noto",sans-serif; }
 
 input[type="submit"] { cursor: pointer; }
 

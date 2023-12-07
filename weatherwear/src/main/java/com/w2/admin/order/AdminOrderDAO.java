@@ -1,8 +1,6 @@
 package com.w2.admin.order;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +23,9 @@ public class AdminOrderDAO {
 		
 		System.err.println("_________________be : " + adminOrderVO.getBeginDateU());
 		System.err.println("_________________en : " + adminOrderVO.getEndDateU());
+		System.err.println("_______________________________"+adminOrderVO);
 		
-		
-		
-		
-//		System.err.println("[dao][ orderVO ] : " + adminOrderVO.toString());
 		System.err.println("[ tem ] : " + sqlsessionTemplate.selectList("AdminOrderDAO.getAdminOrderList", adminOrderVO));
-//		ArrayList<AdminOrderVO> AdminOrderList = (ArrayList)sqlsessionTemplate.selectList("AdminOrderDAO.getAdminOrderList", map);
-//		return AdminOrderList;
-//		return sqlsessionTemplate.selectList("AdminOrderDAO.get", adminOrderVO);
 		return sqlsessionTemplate.selectList("AdminOrderDAO.getAdminOrderList", adminOrderVO);
 	}
 	
@@ -41,6 +33,13 @@ public class AdminOrderDAO {
 		System.err.println("[dao][ updateAdminOrderStatus ] : " + adminOrderVO.toString());
 		System.err.println("[ tem ] : " + sqlsessionTemplate.selectList("AdminOrderDAO.updateAdminOrderStatus",adminOrderVO));
 		sqlsessionTemplate.update("AdminOrderDAO.updateAdminOrderStatus",adminOrderVO);
+	}
+	
+	// 주문 수 조회 (사용)
+	public int searchCount(AdminOrderVO adminOrderVO) {
+	System.out.println("[ OrderDAO ] : searchCount");
+	
+	return	sqlsessionTemplate.selectOne("AdminOrderDAO.getAdminOrderCount", adminOrderVO);
 	}
 	
 }

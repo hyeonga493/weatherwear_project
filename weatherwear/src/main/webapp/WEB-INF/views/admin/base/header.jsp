@@ -13,7 +13,7 @@
 	<div id="header" style="overflow: hidden; height: 165px;">
 	
 		<div class="headercontent">
-			<a href="/w2/dashboard.mdo"><img src="resources/image/admin/logo2.png" width="300px"></a>
+			<a href="/w2/adminOrder.mdo"><img src="resources/image/admin/logo2.png" width="300px"></a>
 				<div style="float:right;">
 					<span class="mr-2 d-none d-lg-inline text-gray-600 small">관리자 계정</span>
 				<img class="img-profile rounded-circle" src="resources/image/admin/person_icon.png" width="20px">
@@ -21,21 +21,16 @@
 				</div>
 				
 			<!-- gnb -->
-			<nav id="gnb">
+			<nav id="gnb" style="display: block; border-collapse: separate; box-sizing: border-box; text-indent: initial; border-spacing: 2px;">
 				<ul>
-					<!-- <li><a class="dp1" href="/w2/stoke.mdo">물류관리</a></li> -->
 					<li><a class="dp1" href="/w2/productList.mdo">상품관리</a></li>
 					<li><a class="dp1" href="/w2/adminOrder.mdo">주문관리</a></li>
-					<!-- <li><a class="dp1" href="/w2/swap.mdo">교환/환불</a></li> -->
-					<!-- <li><a class="dp1" href="/w2/balance.mdo">정산관리</a></li> -->
-					<li><a class="dp1" href="/w2/reviewOrderList.do">결제내역(리뷰)</a></li>
 					<li><a class="dp1" href="/w2/couponAdminList.mdo">쿠폰관리</a></li>
 					<li><a class="dp1" href="/w2/client.mdo">회원관리</a></li>
 					<li><a class="dp1" href="/w2/noticeList.mdo?gubun=notice">공지/문의사항</a></li>
-					<!-- <li><a class="dp1" href="/w2/product.mdo">상품관리</a></li> -->
-					<!-- <li><a class="dp1" href="/w2/total.mdo">통계</a></li> -->
 				</ul>
 			</nav>
+			
 			<!-- gnb 끝 -->
 		</div>
 	</div>

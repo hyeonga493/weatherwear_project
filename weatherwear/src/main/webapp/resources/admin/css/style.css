@@ -20,7 +20,7 @@ div#container{ border-bottom : 3px solid gray; padding : 1%;}
 #gnb{text-align:center; position:absolute; left:0; width:100%; top:130px; text-align:center;}
 #gnb >ul{display:inline-block;}
 #gnb >ul >li{float:left; width:165px; position:relative;}
-#gnb >ul >li a.dp1{font-size:18px; color:#292929; font-weight:bold; letter-spacing:-0.04em; position:relative; z-index:3; padding-top:20px; display:block;}
+#gnb >ul >li a.dp1{font-size:27px; color:#292929; font-weight:bold; letter-spacing:-0.10em; position:relative; z-index:3; padding-top:20px; display:block;}
 #gnb .dp2{overflow:hidden; position:absolute; left:0; top:-20px; width:100%; padding-top:87px; z-index:2; opacity:0}
 #gnb .dp2 ul li a{font-size:15px; color:#666666; padding:8px 0 9px; display:block; letter-spacing:-0.05em}
 #gnb .dp2 ul li,

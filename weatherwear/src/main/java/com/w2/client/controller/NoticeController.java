@@ -14,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.w2.admin.notice.NoticeBoardVO;
 import com.w2.client.notice.NoticeDAO;
 import com.w2.client.notice.NoticeService;
 import com.w2.client.notice.NoticeVO;
+import com.w2.paging.PagingService;
 
 import jdk.jfr.Description;
 
@@ -26,16 +29,17 @@ public class NoticeController {
 	
 	@Autowired
 	private NoticeService noticeService;
+	@Autowired
+	private PagingService pagingService;
 	
 	// 공지사항 게시판 요청
 	@RequestMapping("/clientNotice.do")
 	@Description("사용자페이지 공지사항 목록 페이지로 이동")
-	public String clientNotice(NoticeVO clientNotice, NoticeDAO dao, Model model) {
-		if(clientNotice.getNoType() == null) clientNotice.setNoType("subject");
-		if(clientNotice.getNoKeyword() == null) clientNotice.setNoKeyword("");
-		
-		model.addAttribute("noticeBoardList", noticeService.getNoticeList(clientNotice));
-		System.err.println("model : " + model.toString());
+	public String clientNotice(@RequestParam(value="page", required=false)Integer page, NoticeBoardVO notice, Model model) {
+		if(notice.getNoType() == null) notice.setNoType("subject");
+		if(notice.getNoKeyword() == null) notice.setNoKeyword("");
+		List<NoticeBoardVO> NoticeBoardList = pagingService.NoticeBoardList(page, notice, model);
+		model.addAttribute("noticeBoardList", NoticeBoardList);
 		return "client/notice/notice_list";
 	}
 	

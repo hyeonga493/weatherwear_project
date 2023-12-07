@@ -23,20 +23,28 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.w2.admin.order.AdminOrderService;
 import com.w2.admin.order.AdminOrderVO;
+import com.w2.paging.PagingService;
+
+import jdk.jfr.Description;
 
 @Controller
 public class AdminOrderController {
 
 	@Autowired
-	private AdminOrderService adminOrderService; // CartService 와 매핑
+	private AdminOrderService adminOrderService; 
+	
+	@Autowired
+	private PagingService pagingService;
 	
 	//관리자- 주문목록 조회
 	@PostMapping("/adminOrder.mdo")
-	public String getAdminOrderList(Model model,AdminOrderVO adminOrderVO)  throws Exception {
+	@Description("주문 관리 페이지")
+	public String getAdminOrderList(@RequestParam(value="page", required=false)Integer page, Model model,AdminOrderVO adminOrderVO)  throws Exception {
 		System.err.println("post");
 		
 		System.err.println(adminOrderVO.getBeginDate());
 		System.err.println(adminOrderVO.getEndDate());
+		
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		adminOrderVO.setBeginDateU(sdf.parse(adminOrderVO.getBeginDate())) ;
@@ -45,9 +53,10 @@ public class AdminOrderController {
 		
 		System.err.println("변환된 시작 날짜"+adminOrderVO.getBeginDateU());
 		System.err.println("변환된 마지막 날짜"+adminOrderVO.getEndDateU());
+		model.addAttribute("adminOrderVO.getBeginDateU", adminOrderVO.getBeginDateU());
+		model.addAttribute("adminOrderVO.getEndDateU", adminOrderVO.getEndDateU());
 		
-		List<AdminOrderVO> getAdminOrderList = adminOrderService.getAdminOrderList(adminOrderVO);
-		
+		List<AdminOrderVO>	getAdminOrderList = pagingService.getAdminOrderList(page, adminOrderVO, model);
 		model.addAttribute("getAdminOrderList",getAdminOrderList);
 		return "/admin/order";
 	}	
@@ -78,7 +87,4 @@ public class AdminOrderController {
 	    return "redirect:/adminOrder.mdo";
 	}
 	
-	
-	
-
 }

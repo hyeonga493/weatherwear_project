@@ -16,11 +16,6 @@ public class QnaServiceImpl implements QnaService {
 	private QnaDAO dao;
 	
 	@Override
-	public List<QnaVO> getQnaList(QnaVO clientQna) {
-		return dao.getQnaList(clientQna);
-	}
-
-	@Override
 	public List<QnaVO> getQnaMyPageList(QnaVO clientQna) {
 		return dao.getQnaMyPageList(clientQna);
 	}

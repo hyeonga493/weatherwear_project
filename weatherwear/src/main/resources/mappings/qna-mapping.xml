@@ -18,7 +18,7 @@
 		<result property="qnaSecPwd" column="qSecPwd"/>
 		<result property="qnaStatus" column="qStatus"/> 
 		<result property="qnaAnswer" column="qAnswer"/> 
-		<result property="qnaDate" column="qaDate"/> 
+		<result property="qnaAnswerDate" column="qaDate"/> 
 		<result property="qnaType" column="qnaType"/> 
 		<result property="qnaSelectType" column="qnaSelectType"/> 
 		<result property="qnaKeyword" column="qnaKeyword"/> 
@@ -49,6 +49,7 @@
 			AND qContent LIKE CONCAT('%', #{qnaKeyword}, '%')
 		</if> 
 		</where>
+		ORDER BY qDate DESC
 		<choose>
 			<when test="postStart == 1">
 				LIMIT 0,20

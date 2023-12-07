@@ -18,7 +18,7 @@
 		<result property="qnaSecPwd" column="qSecPwd"/>
 		<result property="qnaStatus" column="qStatus"/> 
 		<result property="qnaAnswer" column="qAnswer"/> 
-		<result property="qnaDate" column="qaDate"/> 
+		<result property="qnaAnswerDate" column="qaDate"/> 
 		<result property="qnaType" column="qnaType"/> 
 		<result property="qnaSelectType" column="qnaSelectType"/> 
 		<result property="qnaKeyword" column="qnaKeyword"/> 
@@ -47,26 +47,55 @@
     <select id="qnaDetail" resultMap="clientQnaResult" parameterType="clientQna">
         SELECT * FROM qna
         WHERE qId=#{ qnaId }
+        ORDER BY qDate DESC
     </select> 
     
     <!-- 마이페이지 문의사항 상세보기 조회  -->
     <select id="qnaMyPageDetail" resultMap="clientQnaResult" parameterType="clientQna">
         SELECT * FROM qna
         WHERE qId=#{ qnaId }
+        ORDER BY qDate DESC
     </select>
 
  	<!-- 문의사항 목록 조회 -->
     <select id="getQnaList" resultMap="clientQnaResult" parameterType="clientQna">
         SELECT * FROM qna
-        WHERE 1=1
-        <if test="qnaSelectType=='subject'">
-			AND qTitle LIKE CONCAT('%', #{qnaKeyword}, '%')
-		</if>
-		<if test="qnaSelectType=='content'">
-			AND qContent LIKE CONCAT('%', #{qnaKeyword}, '%')
-		</if> 
+        <where>
+	        <if test="qnaSelectType=='subject'">
+				AND qTitle LIKE CONCAT('%', #{qnaKeyword}, '%')
+			</if>
+			<if test="qnaSelectType=='content'">
+				AND qContent LIKE CONCAT('%', #{qnaKeyword}, '%')
+			</if> 
+		</where>
+		ORDER BY qDate DESC
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20 
+			</otherwise>
+		</choose>
     </select>
     
+     <!-- 사용자 qna용  -->
+     <select id="getClientQnaCount" resultType="int">
+   		<choose>
+			<when test="qnaSelectType== 'subject'">
+				SELECT COUNT(*) FROM qna
+				WHERE qTitle LIKE CONCAT('%', #{qnaKeyword}, '%') 
+			</when>
+			<when test="qnaSelectType=='content'">
+				SELECT COUNT(*) FROM qna
+				WHERE qContent LIKE CONCAT('%', #{qnaKeyword}, '%') 
+			</when>
+			<otherwise>
+				SELECT COUNT(*) FROM qna 
+			</otherwise>
+		</choose>
+	</select>
+	
     <!-- 마이페이지 내가 쓴 문의사항 목록 조회 -->
     <select id="getQnaMyPageList" resultMap="clientQnaResult" parameterType="clientQna">
         SELECT * FROM qna
@@ -76,6 +105,32 @@
 		</if>
 		<if test="qnaSelectType=='content'">
 			AND qContent LIKE CONCAT('%', #{qnaKeyword}, '%')
-		</if> 
+		</if>
+		ORDER BY qDate DESC
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20 
+			</otherwise>
+		</choose> 
     </select>
+    
+    <!-- 마이페이지용  -->
+     <select id="getQnaCount" resultType="int">
+   		<choose>
+			<when test="qnaSelectType== 'subject'">
+				SELECT COUNT(*) FROM qna
+				WHERE qTitle LIKE CONCAT('%', #{qnaKeyword}, '%') AND cId = #{ clientId }
+			</when>
+			<when test="qnaSelectType=='content'">
+				SELECT COUNT(*) FROM qna
+				WHERE qContent LIKE CONCAT('%', #{qnaKeyword}, '%') cId = #{ clientId }
+			</when>
+			<otherwise>
+				SELECT COUNT(*) FROM qna WHERE cId = #{ clientId }
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

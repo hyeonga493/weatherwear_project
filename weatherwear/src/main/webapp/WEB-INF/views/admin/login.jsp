@@ -14,7 +14,11 @@
    body {
      height: 100%;
    }
-   
+   .mb-4{
+	   	display: block;
+	  	margin-left: auto;
+	  	margin-right: auto;
+   }
    body {
      display: flex;
      align-items: center;
@@ -52,29 +56,23 @@
 
 </style>
 
-<script>
-$(document).ready(function(){
-	
-	
-});
-</script>
 </head>
-<body class="text-center">
-   <main class="form-signin">
-      <form action="adminLogin.mdo" method="post">
-     	 <img class="mb-4" src="resources/image/admin/login_logo.png" alt="" width="300" height="300">
-     	 
-         <div class="form-floating">
-            <input type="text" class="form-control" id="clientId" name="clientId" onkeyup='print1()' placeholder="Id" value="admin">
-            <input type="password" class="form-control" id="clientPwd" name="clientPwd" placeholder="Password" value="admin123">
-         </div>
-         
-         <div class="checkbox mb-3">
-         </div>
-         <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
-         <div id='result'></div>
-      </form>
-   </main>
+<body>
+    <form action="adminLogin.mdo" method="post" style="margin-left:33%">
+   	<!--  <img class="mb-4" src="resources/image/admin/login_logo.png" alt="" width="300" height="300"> -->
+   	 <img class="mb-4" src="resources/image/admin/logo2.png" alt="" width="350" height="150" style="margin-left:30%">
+       <div class="form-floating" style="margin-left:25%">
+          <input type="text" class="form-control" id="clientId" name="clientId" onkeyup='print1()' placeholder="Id" value="admin" style="width:380px;">
+          <input type="password" class="form-control" id="clientPwd" name="clientPwd" placeholder="Password" value="admin123" style="width:380px;">
+         <!--  <input type="text" class="form-control" id="clientId" name="clientId" onkeyup='print1()' placeholder="Id">
+          <input type="password" class="form-control" id="clientPwd" name="clientPwd" placeholder="Password"> -->
+       </div>
+       
+       <div class="checkbox mb-3">
+       </div>
+       <button class="w-100 btn btn-lg btn-primary" type="submit" style="margin-left:25%">로그인</button>
+       <div id='result'></div>
+    </form>
    
 </body>
 </html>

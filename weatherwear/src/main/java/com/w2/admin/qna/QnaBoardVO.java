@@ -22,6 +22,7 @@ public class QnaBoardVO {
 	private String qnaStatus;
 	private String qnaAnswer;
 	private String qnaType;
+	private Date qnaAnswerDate;
 	
 	//선택
 	private String qnaSelectType;
@@ -136,13 +137,21 @@ public class QnaBoardVO {
 	public void setEndPage(int endPage) {
 		this.endPage = endPage;
 	}
+	
+	public Date getQnaAnswerDate() {
+		return qnaAnswerDate;
+	}
+	public void setQnaAnswerDate(Date qnaAnswerDate) {
+		this.qnaAnswerDate = qnaAnswerDate;
+	}
 	@Override
 	public String toString() {
 		return "QnaBoardVO [qnaId=" + qnaId + ", clientId=" + clientId + ", qnaTitle=" + qnaTitle + ", qnaContent="
 				+ qnaContent + ", qnaImage=" + qnaImage + ", qnaDate=" + qnaDate + ", qnaSecCheck=" + qnaSecCheck
 				+ ", qnaSecPwd=" + qnaSecPwd + ", qnaStatus=" + qnaStatus + ", qnaAnswer=" + qnaAnswer + ", qnaType="
-				+ qnaType + ", qnaSelectType=" + qnaSelectType + ", qnaKeyword=" + qnaKeyword + ", postStart="
-				+ postStart + ", postEnd=" + postEnd + ", startPage=" + startPage + ", endPage=" + endPage + "]";
+				+ qnaType + ", qnaAnswerDate=" + qnaAnswerDate + ", qnaSelectType=" + qnaSelectType + ", qnaKeyword="
+				+ qnaKeyword + ", postStart=" + postStart + ", postEnd=" + postEnd + ", startPage=" + startPage
+				+ ", endPage=" + endPage + "]";
 	}
 	
 }

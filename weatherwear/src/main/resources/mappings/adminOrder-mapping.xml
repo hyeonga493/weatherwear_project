@@ -62,52 +62,51 @@
 		SET odStatus=#{ odStatus } WHERE odid=#{ odid };
 	</update>
 
-
 	<!-- 날짜 지정하여 데이터 목록 조회 -->
 	<select id="getAdminOrderList" resultMap="adminOrderResult"
 		parameterType="adminOrderVO">
-
-		SELECT od.*, cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus
-	FROM orders AS od
-    LEFT JOIN client AS cl ON cl.cId=od.cId
-    LEFT JOIN coupon_info AS cp_i ON cp_i.cpId = od.cpId
-    LEFT JOIN orders_info AS od_i ON od.odid = od_i.odid
-    LEFT JOIN payment_info AS pay ON pay.odid = od.odid
-    WHERE od.odDate BETWEEN #{beginDateU} AND #{endDateU}
-	ORDER BY pay.payDate DESC;
+		SELECT
+		od.*,cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus
+		FROM orders AS od LEFT JOIN client AS cl ON cl.cId=od.cId LEFT JOIN
+		coupon_info AS cp_i ON cp_i.cpId = od.cpId LEFT JOIN orders_info AS
+		od_i ON od.odid = od_i.odid LEFT JOIN payment_info AS pay ON pay.odid
+		=
+		od.odid WHERE od.odDate BETWEEN #{beginDateU} AND #{endDateU} ORDER BY
+		pay.payDate DESC
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+				<!-- LIMIT 0,10 -->
+			</when>
+			<otherwise>
+				LIMIT #{ postStart }, 20
+				<!-- LIMIT #{ postStart }, 10 -->
+			</otherwise>
+		</choose>
 	</select>
 
 	<!-- 날짜 지정없이 데이터 목록 조회 -->
-	<select id="getAdminOrderListAll" resultMap="adminOrderResult"
-		parameterType="adminOrderVO">
-
-			SELECT DISTINCT od.*, cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus,
-				group_concat(od_i.opId) AS '상품'
-	FROM orders AS od
-    LEFT JOIN client AS cl ON cl.cId=od.cId
-    LEFT JOIN coupon_info AS cp_i ON cp_i.cpId = od.cpId
-    LEFT JOIN orders_info AS od_i ON od.odid = od_i.odid
-    LEFT JOIN payment_info AS pay ON pay.odid = od.odid
-    GROUP BY od.odid
-	ORDER BY pay.payDate DESC;
-
-
-		<!--  SELECT od.*, cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus,opId,odProCnt
-	FROM orders AS od
-    LEFT JOIN client AS cl ON cl.cId=od.cId
-    LEFT JOIN coupon_info AS cp_i ON cp_i.cpId = od.cpId
-    LEFT JOIN orders_info AS od_i ON od.odid = od_i.odid
-    LEFT JOIN payment_info AS pay ON pay.odid = od.odid
-	ORDER BY pay.payDate DESC; -->
+	<select id="getAdminOrderListAll" resultMap="adminOrderResult" parameterType="adminOrderVO">
+		SELECT DISTINCT
+		od.*,cl.cNum,od_i.odTotal,cp_i.cpName,cp_i.cpPrice,pay.payMtd,pay.payDate,payStatus,
+		group_concat(od_i.opId) AS '상품' FROM orders AS od LEFT JOIN client AS
+		cl ON cl.cId=od.cId LEFT JOIN coupon_info AS cp_i ON cp_i.cpId =
+		od.cpId LEFT JOIN orders_info AS od_i ON od.odid = od_i.odid LEFT JOIN
+		payment_info AS pay ON pay.odid = od.odid GROUP BY od.odid ORDER BY
+		pay.payDate DESC
+		<choose>
+			<when test="postStart == 1">
+				LIMIT 0,20
+			</when>
+			<otherwise>
+				LIMIT #{postStart}, 20
+			</otherwise>
+		</choose>
 	</select>
 	
-	<!-- 상품 정보
-	<select id="getAdminOrderInfo" resultMap="adminOrderResult"
-		parameterType="adminOrderVO">
-	SELECT opId,odProCnt
-	FROM orders_info
-	WHERE odId = #{odid};
-	</select>  -->
+	<!-- 주문내역 수 조회 -->
+	<select id="getAdminOrderCount" resultType="int"> 
+		SELECT COUNT(*) FROM orders; 
+	</select>
 	
-
 </mapper>

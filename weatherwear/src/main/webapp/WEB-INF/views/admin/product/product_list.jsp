@@ -31,39 +31,29 @@
 		}
 	}
 </script>
-<!-- <style>
-#productList {
-	text-align:center;
-}
 
-#productList th {
-	width:150px;
-	padding:10px;
-	white-space:nowrap;  
-	overflow:hidden;
- 	text-overflow:ellipsis;
-}
-
-/* display:inline >> display:inline-block / block */
-
-#productList td {
-	width:150px;
-	padding:10px;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
-}
-</style> -->
 </head>
 <body class="sb-nav-fixed">
+	<c:if test="${client == null}">  
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/clientMain.do";
+		</script>
+	</c:if>
+	<c:if test="${client.clientId != 'admin'}">
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/clientMain.do";
+		</script>
+	</c:if>	 
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-	<div id="wrap">
+	<div id="wrap" style="height:height:2300px;">
 		<div id="container">
 			<section id="content">
 				<div class="sub-type notice">
 					<div class="inner-box">
-						<article class="notice-area">
+						<article class="notice-area" style="max-width: 100%; max-height: 100%;">
 							 <div class="menu-nav-wrap">
 							 	<h2>등록상품목록</h2> 
 							 </div>
@@ -79,7 +69,7 @@
 											<option ${ param.ordertype == 'proSell' ? 'selected' : '' } value="proSell">판매상태</option>
 										</select>
 										<select id="searchtype" name="searchtype" style="width: 130px;">
-											<option ${ param.searchtype == null ? 'selected' : '' } value="proId">상품번호</option>
+											<option ${ param.ordertype == null || param.ordertype == 'proRegDate' ? 'selected' : '' } value="proRegDate">등록일</option>
 											<option ${ param.searchtype == 'proId' ? 'selected' : '' } value="proId">상품번호</option>
 											<option ${ param.searchtype == 'proName' ? 'selected' : '' } value="proName">상품명</option>
 										</select>

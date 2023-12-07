@@ -11,12 +11,34 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
- 
+<script>
+//체크박스 전체 선택,해제 위해
+$(document).ready(function () {
+	 $("#checkAll").click(function () {
+	 	$(".checkClass").prop("checked", this.checked);
+	 });
+
+    $(".checkClass").click(function () {
+        if ($(".checkClass:checked").length === $(".checkClass").length) {
+            $("#checkAll").prop("checked", true);
+        } else {
+            $("#checkAll").prop("checked", false);
+        }
+    });
+});
+
+</script>
 </head>
 <body class="sb-nav-fixed">
+	<c:if test="${client == null}">  
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/clientMain.do";
+		</script>
+	</c:if>
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-<div id="wrap">
+<div id="wrap" style="height:height:2300px;">
 	<div id="container">
 		<section id="content">
 			<div class="sub-type notice">
@@ -42,7 +64,7 @@
 									<table>
 										<thead>
 											<tr>
-												<th><input type="checkbox" name="checkProduct" value="checkAll"></th>
+												<th><input type="checkbox" name="checkProduct" id="checkAll"></th>
 												<th>아이디</th>
 												<th>닉네임</th>
 												<th>이름</th>
@@ -59,7 +81,7 @@
 											<c:forEach var="client" items="${ clientList }">
 												<tr>
 													<td>
-														<input type="checkbox" name="checkProduct" value="check">
+														<input type="checkbox" name="checkProduct" class="checkClass">
 													</td>
 													<td>${ client.clientId }</td>
 													<td>${ client.clientNickName }</td>

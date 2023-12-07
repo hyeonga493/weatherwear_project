@@ -63,8 +63,8 @@ td {
 											<tbody>
 												<c:forEach var="qna" items="${qnaBoardMyPageList }" varStatus="num">
 													<tr>
-														<td>${ num.index+1 }</td>
-														<th><strong><a href="qnaMyPageDetail.do?qnaId=${ qna.qnaId }">${qna.qnaTitle}</a></strong></th>
+														<td>${ (paging.currentPage -1) * 20 + 1 + num.index}</td>
+														<td><strong><a href="qnaMyPageDetail.do?qnaId=${ qna.qnaId }">${qna.qnaTitle}</a></strong></td>
  														<td>${qna.clientId}</td>
  														<td><fmt:formatDate value="${qna.qnaDate }" pattern="yyyy-MM-dd" /></td>
  														<td>${qna.qnaStatus}</td>
@@ -77,6 +77,33 @@ td {
 									</div>
 								</form>
 							</div> 
+							
+							<div class="paging"> 
+								<!-- 페이징 처리 -->
+								<!-- 이전 버튼 -->
+								<c:if test="${ paging.prev }">
+									<a href="clientQnaMyPageList.do?page=${ startPage -1 }">처음페이지로</a> 
+								</c:if>&nbsp; &nbsp;     
+								<c:if test="${ paging.currentPage>1 }">
+									<a href="clientQnaMyPageList.do?page=${ paging.currentPage -1 }">이전</a> 
+								</c:if>&nbsp;&nbsp;
+								
+								<!-- 페이지 버튼 -->
+								<c:forEach var="pageNum" begin="${ paging.startPage }" end="${ paging.endPage }">
+								<a href="clientQnaMyPageList.do?page=${     pageNum     }"
+								style="${ (pageNum == paging.currentPage) ? 'color:red; font-style:italic;' : 'color:blue;'}">
+								${ pageNum }
+								</a>&nbsp;&nbsp;      
+								</c:forEach>
+								
+								<c:if test="${ paging.currentPage < paging.endPage }">
+									<a href="clientQnaMyPageList.do?page=${ paging.currentPage + 1 }">다음</a>&nbsp;&nbsp; 
+								</c:if>
+								<!-- 다음 버튼 -->
+								<c:if test="${ paging.next }">
+								<a href="clientQnaMyPageList.do?page=${ paging.endPage +1 }">마지막페이지로</a> 
+								</c:if>
+							</div>
 						</article> 
 					</div>
 				 </div> 

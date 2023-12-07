@@ -43,12 +43,6 @@ public class AdminController {
 		return "/admin/login";
 	}
 	
-	@RequestMapping(value = "/dashboard.mdo")
-	@Description("DashBoard 페이지")
-	public String index(Locale locale, Model model) {
-		return "/admin/main";
-	}
-
 	@RequestMapping(value = "/adminOrder.mdo")
 	public String getAdminOrderList(Locale locale, Model model,AdminOrderVO adminOrderVO) throws Exception {
 		System.err.println("시작,종료 지정 없이 첫 화면");
@@ -147,7 +141,7 @@ public class AdminController {
 					System.err.println("session : " + session.getValue("client"));
 					System.err.println("session : " + session.getAttributeNames());
 					
-					return "redirect:/dashboard.mdo";
+					return "redirect:/adminOrder.mdo";
 				}
 				System.err.println(">>>> [ Controller ] : 비밀번호 불일치");
 			}

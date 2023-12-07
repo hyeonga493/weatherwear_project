@@ -14,15 +14,22 @@
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css"> 
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
 
-<script>
-
-</script>
-
 </head>
 <body>
+	<c:if test="${client == null}">  
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/clientMain.do";
+		</script>
+	</c:if>
+	<c:if test="${client.clientId != 'admin'}">
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/clientMain.do";
+		</script>
+	</c:if>	
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
-
-		<div id="wrap">
+		<div id="wrap" style="height:height:2300px;">
 			<section id="content">
 				<div class="sub-type notice">
 					 <div class="inner-box"> 
@@ -50,8 +57,6 @@
 								
 							<div class="notice-wrap">
 								<form id="searchForm" name="searchForm" action="qnaList.mdo" method="post">
-									<input type="hidden" id="type" name="type" value="N" /> 
-									<input type="hidden" id="pageNo" name="pageNo" value="1" />
 									<div class="select-type2" style="margin-top:20px; margin-left:250px;">
 										<select id="search_noticeSelect" name="qnaSelectType" style="width:130px;">
 											<option value="subject">제목</option>
@@ -79,7 +84,7 @@
 											<tbody>
 												<c:forEach var="qna" items="${qnaBoardList }" varStatus="num">
 													<tr>
-														<td>${num.index + 1 }</td>
+														<td>${ (paging.currentPage -1) * 20 + 1 + num.index}</td>
 														<th><strong><a href="qnaDetail.mdo?qnaId=${ qna.qnaId }">${qna.qnaTitle}</a></strong></th>
  														<td>${qna.clientId}</td>
  														<td><fmt:formatDate value="${qna.qnaDate }" pattern="yyyy-MM-dd" /></td>
@@ -103,7 +108,7 @@
 								
 								<!-- 페이지 버튼 -->
 								<c:forEach var="pageNum" begin="${ paging.startPage }" end="${ paging.endPage }">
-								<a href="qnaList.mdo?page=${     pageNum     }"
+								<a href="qnaList.mdo?page=${ pageNum }"
 								style="${ (pageNum == paging.currentPage) ? 'color:red; font-style:italic;' : 'color:blue;'}">
 								${ pageNum }
 								</a>&nbsp;&nbsp;      

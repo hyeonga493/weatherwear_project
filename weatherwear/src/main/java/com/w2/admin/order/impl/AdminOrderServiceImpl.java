@@ -29,11 +29,6 @@ public class AdminOrderServiceImpl implements AdminOrderService{
 	public List<AdminOrderVO> getAdminOrderList(AdminOrderVO adminOrderVO) throws Exception {
 		System.err.println("[OrderServiceImpl] : getAdminOrderList");
 		System.err.println("---------------[ adminOrderVO ] : " + adminOrderVO.toString());
-//		System.err.println("adminOrderDAO.getAdminOrderList(map) : "+adminOrderDAO.getAdminOrderList(map));
-		
-//		List<AdminOrderVO> order = adminOrderDAO.getAdminOrderList(adminOrderVO);//cartDAO 내에서 sqltemplate 통해서 데이터 가져오기
-		
-//		System.err.println("[impl][ order ] : " + order.toString()); //sql에서 값 넘어옴을 확인
 		
 		return adminOrderDAO.getAdminOrderList(adminOrderVO);
 	}
@@ -59,6 +54,4 @@ public class AdminOrderServiceImpl implements AdminOrderService{
 		}
 	}
 	
-	
-
 }

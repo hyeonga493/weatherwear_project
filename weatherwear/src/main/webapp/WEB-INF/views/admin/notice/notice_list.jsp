@@ -11,12 +11,26 @@
 <script src="resources/admin/js/jquery/jquery.min.js"></script>
 <link rel="stylesheet" href="resources/admin/css/bootstrap/bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="resources/admin/css/notice/common.css">
+<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/card_add.css"> 
+<link rel="stylesheet" type="text/css" href="resources/admin/css/notice/sub.css">
 
 </head>
 <body>
+	<c:if test="${client == null}">  
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/clientMain.do";
+		</script>
+	</c:if>
+	<c:if test="${client.clientId != 'admin'}">
+		<script>
+			alert("잘못된 접근입니다. 다시 시도해주세요");
+			location.href="/w2/clientMain.do";
+		</script>
+	</c:if>	
 	<%@ include file="/WEB-INF/views/admin/base/header.jsp"%>
 
-		<div id="wrap">
+		<div id="wrap" style="height:height:2300px;">
 			<section id="content">
 				<div class="sub-type notice">
 					 <div class="inner-box"> 
@@ -27,17 +41,14 @@
 										<c:choose>
 											<c:when test="${param.gubun == 'notice' }">
 												<li class="active"><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-												<!-- <li><a href="noticeList.mdo?gubun=news">문의사항</a></li>  -->
 												<li><a href="qnaList.mdo">문의사항</a></li> 
 											</c:when>
 											<c:when test="${param.gubun == 'news' }">
 												<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-												<!-- <li class="active"><a href="noticeList.mdo?gubun=news">문의사항</a></li>  -->
 												<li class="active"><a href="qnaList.mdo">문의사항</a></li> 
 											</c:when>
 											<c:otherwise>
 												<li><a href="noticeList.mdo?gubun=notice">공지사항</a></li>
-												<!-- <li><a href="noticeList.mdo?gubun=news">문의사항</a></li> -->
 												<li><a href="qnaList.mdo">문의사항</a></li> 
 											</c:otherwise>
 											</c:choose>
@@ -49,8 +60,6 @@
 							<c:choose>
 							<c:when test="${param.gubun == 'notice' }">
 								<form id="searchForm" name="searchForm" action="noticeList.mdo?gubun=notice" method="post">
-									<input type="hidden" id="type" name="type" value="N" /> 
-									<input type="hidden" id="pageNo" name="pageNo" value="1" />
 									<div class="select-type2" style="margin-top:20px; margin-left:250px;">
 										<select id="search_noticeSelect" name="noType" style="width:130px;">
 											<option value="subject">제목</option>
@@ -78,8 +87,8 @@
 											<tbody>
 												<c:forEach var="board" items="${noticeBoardList }" varStatus="num">
 													<tr>
-														<td>${num.index + 1 }</td>
-														<th><strong><a href="noticeDetail.mdo?noId=${ board.noId }">${board.noTitle}</a></strong></th>
+														<td>${ (paging.currentPage -1) * 20 + 1 + num.index}</td>
+														<td><strong><a href="noticeDetail.mdo?noId=${ board.noId }">${board.noTitle}</a></strong></td>
  														<td>${board.noWriter}</td>
  														<td><fmt:formatDate value="${board.noDate }" pattern="yyyy-MM-dd" /></td>
 													</tr>
@@ -94,8 +103,6 @@
 							<c:choose>
 							<c:when test="${param.gubun == 'news' }">
 								<form id="searchForm" name="searchForm" action="qnaList.mdo" method="post">
-									<input type="hidden" id="type" name="type" value="N" /> 
-									<input type="hidden" id="pageNo" name="pageNo" value="1" />
 									<div class="select-type2" style="margin-top:20px; margin-left:250px;">
 										<select id="search_noticeSelect" name="qnaSelectType" style="width:130px;">
 											<option value="subject">제목</option>

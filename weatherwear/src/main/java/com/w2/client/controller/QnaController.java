@@ -3,6 +3,7 @@ package com.w2.client.controller;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.w2.admin.qna.QnaBoardVO;
 import com.w2.client.qna.QnaDAO;
 import com.w2.client.qna.QnaService;
 import com.w2.client.qna.QnaVO;
+import com.w2.paging.PagingService;
 
 import jdk.jfr.Description;
 
@@ -27,24 +30,26 @@ public class QnaController {
 	
 	@Autowired
 	private QnaService qnaService;
+	@Autowired
+	private PagingService pagingService;
 	
 	@RequestMapping("/clientQnaList.do")
 	@Description("문의사항 목록 페이지로 이동")
-	public String getQnaList(QnaVO clientQna, QnaDAO dao, Model model) {
+	public String getQnaList(@RequestParam(value="page", required=false)Integer page, QnaVO clientQna, Model model) {
 		
 		if(clientQna.getQnaSelectType() == null) clientQna.setQnaSelectType("subject");
 		if(clientQna.getQnaKeyword() == null) clientQna.setQnaKeyword("");
 		
-		model.addAttribute("qnaBoardList", qnaService.getQnaList(clientQna));
-		System.err.println("qnaList model : " + model.toString());
+		List<QnaVO> qnaList = pagingService.qnaList(page, clientQna, model);
+		model.addAttribute("qnaList", qnaList);
+		
 		return "/client/qna/qna_list";
 	}
 	
 	@RequestMapping("/clientQnaMyPageList.do")
 	@Description("마이페이지 문의사항 목록 페이지로 이동")
-	public String getQnaMyPageList(QnaVO clientQna, Model model, HttpSession session) {
+	public String getQnaMyPageList(@RequestParam(value="page", required=false)Integer page, QnaVO clientQna, Model model, HttpSession session) {
 		clientQna.setClientId((String)session.getAttribute("clientId"));
-		System.err.println("clientQna : " + clientQna.toString());
 		
 		if(clientQna.getQnaSelectType() == null) {
 			clientQna.setQnaSelectType("subject");
@@ -54,9 +59,9 @@ public class QnaController {
 			clientQna.setQnaKeyword("");
 		}
 		
-		model.addAttribute("qnaBoardMyPageList", qnaService.getQnaMyPageList(clientQna));
-		System.err.println("qnaBoardMyPageList model : " + model.toString());
-
+		List<QnaVO> qnaBoardMyPageList = pagingService.getQnaMyPageList(page, clientQna, model);
+		model.addAttribute("qnaBoardMyPageList", qnaBoardMyPageList);
+		
 		return "/client/qna/qna_myPageList";
 	}
 	
@@ -87,7 +92,7 @@ public class QnaController {
 		clientQna.setQnaId(QnaIdName);
 		
 		qnaService.writeQna(clientQna);
-		return "redirect: clientQnaMyPageList.do";
+		return "redirect: clientQnaList.do";
 	}
 	
 	@RequestMapping("/qnaDetail.do")

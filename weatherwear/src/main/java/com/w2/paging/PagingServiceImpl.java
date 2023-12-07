@@ -8,10 +8,14 @@ import org.springframework.ui.Model;
 
 import com.w2.admin.notice.NoticeBoardDAO;
 import com.w2.admin.notice.NoticeBoardVO;
+import com.w2.admin.order.AdminOrderDAO;
+import com.w2.admin.order.AdminOrderVO;
 import com.w2.admin.qna.QnaBoardDAO;
 import com.w2.admin.qna.QnaBoardVO;
 import com.w2.client.ClientDAO;
 import com.w2.client.ClientVO;
+import com.w2.client.qna.QnaDAO;
+import com.w2.client.qna.QnaVO;
 import com.w2.file.ImageVO;
 import com.w2.product.ProductDAO;
 import com.w2.product.ProductVO;
@@ -27,6 +31,10 @@ public class PagingServiceImpl implements PagingService{
    private NoticeBoardDAO noticeBoardDAO;
    @Autowired
    private QnaBoardDAO qnaBoardDAO;
+   @Autowired
+   private QnaDAO qnaDAO;
+   @Autowired
+   private AdminOrderDAO adminOrderDAO;
    
    // 회원 조회(관리자)
    @Override
@@ -208,5 +216,124 @@ public class PagingServiceImpl implements PagingService{
 		List<QnaBoardVO> qnaBoardList = qnaBoardDAO.qnaBoardList(qna);
 
 		return qnaBoardList;
+	}
+
+	@Override
+	public List<QnaVO> getQnaMyPageList(Integer page, QnaVO clientQna, Model model) {
+		int currentPage;
+		
+		if( page == null || page == 0) {
+			currentPage = 1;
+		} else { 
+			currentPage = page;
+		}
+		
+		int totalCount = qnaDAO.searchCount(clientQna);
+		
+		Paging paging = new Paging(totalCount, currentPage, clientQna);
+		
+		int postStart = ((paging.getCurrentPage() -1) * 20);
+		/* 현재 페이지가 5라면 ((5-1)*10)+1 = 41번부터 게시글 번호가 시작됩니다.*/
+		
+		int postEnd = paging.getCurrentPage() * 10;
+		
+		clientQna.setStartPage(paging.getStartPage());
+		clientQna.setEndPage(paging.getEndPage());
+		clientQna.setPostStart(postStart);
+		clientQna.setPostEnd(postEnd);
+
+		model.addAttribute("paging", paging);	// 바인딩
+		
+		List<QnaVO> getQnaMyPageList = qnaDAO.getQnaMyPageList(clientQna);
+
+		return getQnaMyPageList;
+	}
+
+	@Override
+	public List<QnaVO> qnaList(Integer page, QnaVO clientQna, Model model) {
+		int currentPage;
+		
+		if( page == null || page == 0) {
+			currentPage = 1;
+		} else { 
+			currentPage = page;
+		}
+		
+		int totalCount = qnaDAO.clientSearchCount(clientQna);
+		
+		Paging paging = new Paging(totalCount, currentPage, clientQna);
+		
+		int postStart = ((paging.getCurrentPage() -1) * 20);
+		/* 현재 페이지가 5라면 ((5-1)*10)+1 = 41번부터 게시글 번호가 시작됩니다.*/
+		
+		int postEnd = paging.getCurrentPage() * 10;
+		
+		clientQna.setStartPage(paging.getStartPage());
+		clientQna.setEndPage(paging.getEndPage());
+		clientQna.setPostStart(postStart);
+		clientQna.setPostEnd(postEnd);
+
+		model.addAttribute("paging", paging);	// 바인딩
+		
+		List<QnaVO> qnaList = qnaDAO.qnaList(clientQna);
+
+		return qnaList;
+	}
+	
+	@Override
+	public List<AdminOrderVO> getAdminOrderListAll(Integer page, AdminOrderVO adminOrderVO,Model model) throws Exception {
+
+		int currentPage;
+		if( page ==null || page ==0) {
+		currentPage =1;
+		} else { 
+		currentPage = page;
+		}
+		int totalCount = adminOrderDAO.searchCount(adminOrderVO);
+		System.err.println("count : " + totalCount);
+		
+		Paging paging =new Paging(totalCount, currentPage, adminOrderVO);
+		int postStart = ((paging.getCurrentPage() -1) *20);
+		/* 현재 페이지가 5라면 ((5-1)*10)+1 = 41번부터 게시글 번호가 시작됩니다.*/
+		int postEnd = paging.getCurrentPage() *20;
+		
+		adminOrderVO.setStartPage(paging.getStartPage());
+		adminOrderVO.setEndPage(paging.getEndPage());
+		adminOrderVO.setPostStart(postStart);
+		adminOrderVO.setPostEnd(postEnd);
+		
+		model.addAttribute("paging", paging); // 바인딩
+		List<AdminOrderVO> adminOrderList = adminOrderDAO.getAdminOrderListAll(adminOrderVO);
+		
+		System.err.println("[OrderServiceImpl] : getAdminOrderListAll");
+		System.err.println("---------------[ adminOrderVO ] : " + adminOrderVO.toString());
+		return adminOrderList;
+	}
+
+	
+	@Override
+	public List<AdminOrderVO> getAdminOrderList(Integer page, AdminOrderVO adminOrderVO,Model model) throws Exception {
+
+		int currentPage;
+		if (page == null || page == 0) {
+			currentPage = 1;
+		} else {
+			currentPage = page;
+		}
+		int totalCount = adminOrderDAO.searchCount(adminOrderVO);
+		Paging paging = new Paging(totalCount, currentPage, adminOrderVO);
+		int postStart = ((paging.getCurrentPage() - 1) * 20);
+		/* 현재 페이지가 5라면 ((5-1)*10)+1 = 41번부터 게시글 번호가 시작됩니다. */
+		int postEnd = paging.getCurrentPage() * 20;
+
+		adminOrderVO.setStartPage(paging.getStartPage());
+		adminOrderVO.setEndPage(paging.getEndPage());
+		adminOrderVO.setPostStart(postStart);
+		adminOrderVO.setPostEnd(postEnd);
+
+		model.addAttribute("paging", paging); // 바인딩
+		List<AdminOrderVO> adminOrderList = adminOrderDAO.getAdminOrderList(adminOrderVO);
+
+		return adminOrderList;
 	}
 }
