@@ -99,5 +99,5 @@
 		</div> 
 		
 		<%@ include file="/WEB-INF/views/admin/base/footer.jsp"%>
-</body>
+</body> 
 </html>
