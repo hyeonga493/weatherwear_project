@@ -94,7 +94,8 @@
         JOIN payment_info pay ON pay.odid = od.odid
 		JOIN product_image im ON (pro.proId = im.imageBy AND im.imageStatus='대표')
 		WHERE od.cId=#{clientId}
-		GROUP BY od.odid;
+		GROUP BY od.odid
+		ORDER BY pay.payDate;
 	</select>
 	
 	<!-- 조회 - 주문 상태 -->
