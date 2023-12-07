@@ -21,6 +21,7 @@
         <typeAlias type="com.w2.product.OptionVO" alias="option"/>
         <typeAlias type="com.w2.client.cart.CartVO" alias="cartVO" />
         <typeAlias type="com.w2.client.order.OrderVO" alias="orderVO" />
+        <typeAlias type="com.w2.admin.payment.PaymentVO" alias="paymentVO" />
         <typeAlias type="com.w2.admin.order.AdminOrderVO" alias="adminOrderVO" />
         <typeAlias type="com.w2.client.coupon.CouponVO" alias="coupon" />
         <typeAlias type="com.w2.admin.coupon.CouponAdminVO" alias="couponAdmin" />
@@ -43,5 +44,6 @@
         <mapper resource="mappings/clientCoupon-mapping.xml"/> 
         <mapper resource="mappings/coupon-mapping.xml"/> 
         <mapper resource="mappings/review-mapping.xml"/> 
+        <mapper resource="mappings/payment-mapping.xml"/> 
     </mappers>
 </configuration>

@@ -9,10 +9,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import com.w2.admin.payment.PaymentVO;
 import com.w2.client.order.OrderDAO;
 import com.w2.client.order.OrderService;
 import com.w2.client.order.OrderVO;
-import com.w2.client.order.PaymentVO;
 
 @Service
 public class OrderServiceImpl implements OrderService {

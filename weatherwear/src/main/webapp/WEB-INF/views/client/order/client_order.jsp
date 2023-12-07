@@ -581,7 +581,7 @@ function submitFunction(){
         function requestPay(pgName) {
             // 중복 클릭 방지를 위해 버튼 비활성화
             $("input[type='submit']").prop("disabled", true);
-
+	
             var IMP = window.IMP;
             IMP.init("imp51016864");
             var clientId = "${param.clientId}";
@@ -621,7 +621,7 @@ function submitFunction(){
                 merchant_uid: 'merchant_' + new Date().getTime(),
                 pay_method: payMtd,
                 name: '주문명:결제테스트',
-                amount: odPrice, //odPrice
+                amount: 1, //odPrice
                 buyer_email: clientEmail,
                 buyer_name: clientName,
                 buyer_tel: clientNum,

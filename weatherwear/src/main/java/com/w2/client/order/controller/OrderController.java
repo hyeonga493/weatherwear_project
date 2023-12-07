@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.w2.admin.payment.PaymentVO;
 import com.w2.client.order.OrderService;
 import com.w2.client.order.OrderVO;
-import com.w2.client.order.PaymentVO;
 import com.w2.client.review.ReviewService;
 import com.w2.client.review.ReviewVO;
 

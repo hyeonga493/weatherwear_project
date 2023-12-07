@@ -290,7 +290,7 @@
 	<!-- 사용자는 주문에서 수정,삭제 불가능  -  원할 시, 환불,교환 등으로 이동  -->
 	
 	<!-- 결제 정보 저장 -->
-     <insert id="insertPaymentInfo" parameterType="com.w2.client.order.PaymentVO">
+     <insert id="insertPaymentInfo" parameterType="com.w2.admin.payment.PaymentVO">
        INSERT INTO payment_info (payId, odId, payMtd, payStatus, cId)
        VALUES ( #{ payId }, #{ odId }, #{ payMtd }, #{ payStatus }, #{ clientId });
     </insert> 
